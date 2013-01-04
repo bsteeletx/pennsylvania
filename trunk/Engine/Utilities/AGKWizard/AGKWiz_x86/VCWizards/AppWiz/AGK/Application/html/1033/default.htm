@@ -1,0 +1,209 @@
+<html dir="LTR">
+
+<head>
+  <title>'App Game Kit Wizard'</title>
+  <meta name="vs_targetschema" content="http://schemas.microsoft.com/intellisense/ie5">
+  <link id="LINKURL" rel="stylesheet" href="../../../../../1033/NewStyles.css">
+	<symbol name="AGK_SCREEN_WIDTH" type="text" value="640"></symbol>
+	<symbol name="AGK_SCREEN_HEIGHT" type="text" value="480"></symbol>
+	<symbol name="AGK_SCREEN_POS_X" type="text" value="32"></symbol>
+	<symbol name="AGK_SCREEN_POS_Y" type="text" value="32"></symbol>
+</head>
+
+<body bgcolor="buttonface" topmargin="0" leftmargin="0" rightmargin="0" bottommargin="0" onload="InitDocument(document);" onkeydown="OnKey();" onkeypress="OnPress();">
+
+<table class="one" height="100%" width="100%" border="0" cellpadding="0" cellspacing="0">
+
+	<col class="LinkPane" />
+	
+	<!--OPEN INTRODUCTORY INFORMATION TABLE//-->
+	<tr valign="top">
+	  <td height="79" width="100%" colspan="2">
+	    <table class="two" border="0" cellpadding="0" cellspacing="0">
+	    <col width="12" />
+	      <tr>
+	        <td valign="top" height="12" width="12">&nbsp;</td>
+	        <td valign="top" height="12">&nbsp;</td>
+	        <td valign="top" height="12" width="12">&nbsp;</td>
+	        <td class="image" valign="center" width="110" rowspan="2">
+	          <div class="smallA" id="layer0">
+	            <img src="../../Images/Made-With-AGK-White-64px.png" width="64" height="64" alt="" border="0">
+	          </div>
+	        </td>
+	        <td valign="top" height="12" width="6" rowspan="2">&nbsp;</td>
+	      </tr>
+	 
+	      <tr>
+	      	<td valign="top" height="65" width="12">&nbsp;</td>
+	      	<td valign="top" height="65">
+	        	<h4 class="head" id="head">
+	        		Welcome to the 'AGK Wizard'<br />
+	        		This wizard will help to create an AGK project.<br />
+	        		(c) Orac, 2011
+	        	</h4>
+	        </td>
+	    	</tr>
+	 
+	      <tr>
+	      	<td valign="top" class="rule" colspan="5" style="height: 2px">
+	      		<table border="0" width="100%" height="1" cellpadding="0" cellspacing="0">
+	         		<tr valign="top">
+	          		<td height="1" width="100%" bgcolor="buttonshadow">&nbsp;</td>
+	          		<td height="1" width="1" bgcolor="window">&nbsp;</td>
+	         		</tr>
+	      		</table>
+	       	</td>
+	      </tr>
+		</table>
+		</td>
+	</tr>
+	<!--CLOSE INTRODUCTORY INFORMATION TABLE//-->
+
+  <!--OPEN NAVIGATION, CONTENT AND BUTTON TABLES//-->
+  <tr valign="top">
+  	<td class="three" valign="top" height="100%" width="100%">
+	    <!--OPEN NAVIGATION TABLE//-->
+      <table class="three" border="0" cellpadding="0" cellspacing="0" style="background-image: url(../../Images/AGK Wizard_Background.gif)">
+  		  <col width="12"><col><col width="1">
+     		<tr>
+        	<td valign="top" colspan="3" height="12">&nbsp;</td>
+     		</tr>
+     		<tr>
+        	<td valign="top" height="100%"></td>
+        	<td valign="top" height="100%"></td>
+      		<td width="1"></td>
+     		</tr>
+    	</table>
+		</td>
+    <!--CLOSE NAVIGATION TABLE-->
+  	
+		<!--OPEN BUTTON TABLE-->
+  	<td valign="top" height="100%">
+			<table class="one" border="0" cellpadding="0" cellspacing="0">
+    		<col width="100%">
+     		<tr valign="top">
+					<td height="48">
+     		</tr>
+     		<tr valign="top">
+					<td height="100%">
+						<table height="48" border="0" cellpadding="0" cellspacing="0">
+							<col width="12"><col width="160"><col>
+							<tr>
+								<td>&nbsp;</td>
+								<td><h5>Enter Screen Width</h5></td>
+								<td valign="top"><input type="text" name="ScrWidth" id="AGK_SCREEN_WIDTH"></td>
+							</tr>
+							<tr>
+								<td>&nbsp;</td>
+								<td><h5>Enter Screen Height</h5></td>
+								<td valign="top"><input type="text" name="ScrHeight" id="AGK_SCREEN_HEIGHT"></td>
+							</tr>
+							<tr>
+								<td>&nbsp;</td>
+								<td><h5>Enter Screen X-Pos</h5></td>
+								<td valign="top"><input type="text" name="ScrPosX" id="AGK_SCREEN_POS_X"></td>
+							</tr>
+							<tr>
+								<td>&nbsp;</td>
+								<td><h5>Enter Screen Y-Pos</h5></td>
+								<td valign="top"><input type="text" name="ScrPosY" id="AGK_SCREEN_POS_Y"></td>
+							</tr>
+						</table>
+					</td>
+     		</tr>
+     		<tr valign="top">
+      		<td height="48">
+        		<!--OPEN BUTTON HTML//-->
+						<table height="48" border="0" cellpadding="0" cellspacing="0">
+      				<col width="12"><col><col width="75"><col width="4"><col width="75"><col width="4"><col width="75"><col width="12">
+       				<tr>
+          			<td valign="top" class="rule" colspan="8" height="2">
+        					<table border="0" width="100%" height="1" cellpadding="0" cellspacing="0">
+           					<tr valign="top">
+              				<td height="1" width="100%" bgcolor="buttonface">&nbsp;</td>
+           					</tr>
+        					</table>
+          			</td>
+        			</tr>
+				      <tr>
+          			<td valign="middle" height="23" width="12">&nbsp;</td>
+          			<td valign="top" height="23">&nbsp;</td>
+          			<td valign="middle" height="23" width="75">
+          				<button class="buttons" id="FinishBtn" accesskey="F" onClick="OnFinish(document);"><u>F</u>inish</button>
+          			</td>
+          			<td valign="middle" height="23" width="4">&nbsp;</td>
+          			<td valign="middle" height="23" width="75">
+          				<button class="buttons" id="CancelBtn" accesskey="C" onClick="window.external.Finish(document, 'cancel');"><u>C</u>ancel</button>
+          			</td>
+          			<td valign="middle" height="23" width="4">&nbsp;</td>
+          			<td valign="middle" height="23" width="75">
+          				<button class="buttons" id="HelpBtn" accesskey="H" onClick="window.external.OnHelp('vc.appwiz.custom.overview');"><u>H</u>elp</button>
+          			</td>
+          			<td valign="middle" height="23" width="12">&nbsp;</td>
+       				</tr>
+ 			        <tr>
+      			    <td valign="top" height="11" colspan="8">&nbsp;</td>
+       				</tr>
+              <tr>
+                <td valign="top" height="12" colspan="8">&nbsp;</td>
+              </tr>
+              <tr>
+                <td valign="top" height="12" colspan="8">&nbsp;</td>
+              </tr>
+            </table>
+        		<!--CLOSE BUTTON HTML-->
+      		</td>
+     		</tr>
+    	</table>
+  
+    <!--CLOSE NAVIGATION, CONTENT, AND BUTTON TABLES//-->
+  	</td>
+  </tr>
+</table>
+
+<script type="text/javascript">
+
+function InitDocument(document)
+{
+  setDirection();
+  
+  if (window.external.FindSymbol('DOCUMENT_FIRST_LOAD'))
+  {
+ 		var L_WizardDialogTitle_Text = "AGK Project Wizard";
+		window.external.AddSymbol("WIZARD_DIALOG_TITLE", L_WizardDialogTitle_Text);
+		
+    // This function sets the default symbols based on the values specified in the SYMBOL tags above
+    window.external.SetDefaults(document);
+  }
+
+  // Load the document and initialize the controls with the appropriate symbol values
+  window.external.Load(document);
+}
+
+// This function gets called when the user clicks on 'Finish'
+function OnFinish(document)
+{
+	OnWizFinish(document);
+}
+
+</script>
+
+<!-- Common.js and Script.js are script files which contain the helper functions used by the wizards. //-->
+<script type="text/javascript" id="INCLUDE_SCRIPT"></script>
+<script type="text/javascript" id="INCLUDE_COMMON"></script>
+<script type="text/javascript">
+
+  var strPath = window.external.FindSymbol("PRODUCT_INSTALLATION_DIR");
+  strPath += "VCWizards\\";
+  strPath += window.external.GetHostLocale();
+
+  var strScriptPath = strPath + "\\Script.js";
+  var strCommonPath = strPath + "\\Common.js";
+  document.scripts("INCLUDE_SCRIPT").src = strScriptPath;
+  document.scripts("INCLUDE_COMMON").src = strCommonPath;
+
+</script>
+
+</body>
+</html>
+
