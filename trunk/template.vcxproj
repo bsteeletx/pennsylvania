@@ -1,0 +1,200 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{DD70E2E6-C062-4A2D-82EA-6247DE822C9B}</ProjectGuid>
+    <RootNamespace>interpreter</RootNamespace>
+    <Keyword>Win32Proj</Keyword>
+    <ProjectName>System Infector</ProjectName>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <CharacterSet>NotSet</CharacterSet>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <PlatformToolset>v100</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <CharacterSet>NotSet</CharacterSet>
+    <PlatformToolset>v100</PlatformToolset>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <_ProjectFileVersion>10.0.30319.1</_ProjectFileVersion>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(SolutionDir)\Final</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(SolutionDir)\Final</IntDir>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</LinkIncremental>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(SolutionDir)\Final</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(SolutionDir)\Final</IntDir>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</LinkIncremental>
+    <IncludePath Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">C:\Program Files %28x86%29\The Game Creators\AGK\IDE\common\include;$(IncludePath)</IncludePath>
+    <LibraryPath Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">C:\Program Files %28x86%29\The Game Creators\AGK\IDE\platform\windows\Lib\VS2010\Debug;$(LibraryPath)</LibraryPath>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <Optimization>Disabled</Optimization>
+      <AdditionalIncludeDirectories>..\..\common\Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>AGKWINDOWS;IDE_VS2008;WIN32;_DEBUG;_WINDOWS;IDE_VS2008;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MinimalRebuild>true</MinimalRebuild>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
+      <DisableSpecificWarnings>4996;%(DisableSpecificWarnings)</DisableSpecificWarnings>
+    </ClCompile>
+    <Link>
+      <AdditionalDependencies>winmm.lib;AGKWindows.lib;Wininet.lib;OpenGL32.lib;Glu32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <OutputFile>$(SolutionDir)\Final\System Infector.exe</OutputFile>
+      <AdditionalLibraryDirectories>..\..\platform\windows\Lib\VS2010\Debug\</AdditionalLibraryDirectories>
+      <IgnoreSpecificDefaultLibraries>atlsd</IgnoreSpecificDefaultLibraries>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <SubSystem>Windows</SubSystem>
+      <TargetMachine>MachineX86</TargetMachine>
+      <GenerateMapFile>true</GenerateMapFile>
+      <AssemblyDebug>true</AssemblyDebug>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <Optimization>MaxSpeed</Optimization>
+      <InlineFunctionExpansion>Default</InlineFunctionExpansion>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <AdditionalIncludeDirectories>..\..\common\Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>AGKWINDOWS;IDE_VS2008;WIN32;NDEBUG;_WINDOWS;IDE_VS2008;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <BrowseInformation>
+      </BrowseInformation>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <DisableSpecificWarnings>4996;%(DisableSpecificWarnings)</DisableSpecificWarnings>
+    </ClCompile>
+    <Link>
+      <AdditionalDependencies>winmm.lib;AGKWindows.lib;Wininet.lib;OpenGL32.lib;Glu32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <OutputFile>$(SolutionDir)\Final\template.exe</OutputFile>
+      <AdditionalLibraryDirectories>..\..\platform\windows\Lib\VS2010\Release\</AdditionalLibraryDirectories>
+      <IgnoreSpecificDefaultLibraries>atls</IgnoreSpecificDefaultLibraries>
+      <GenerateDebugInformation>false</GenerateDebugInformation>
+      <GenerateMapFile>false</GenerateMapFile>
+      <SubSystem>Windows</SubSystem>
+      <OptimizeReferences>true</OptimizeReferences>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <TargetMachine>MachineX86</TargetMachine>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="AnimatedSprite.cpp" />
+    <ClCompile Include="BugVirus.cpp" />
+    <ClCompile Include="Character.cpp" />
+    <ClCompile Include="Core.cpp" />
+    <ClCompile Include="DBlocker.cpp" />
+    <ClCompile Include="EditBox.cpp" />
+    <ClCompile Include="File.cpp" />
+    <ClCompile Include="Fog.cpp" />
+    <ClCompile Include="HTTP.cpp" />
+    <ClCompile Include="Image.cpp" />
+    <ClCompile Include="InformationNode.cpp" />
+    <ClCompile Include="Joint.cpp" />
+    <ClCompile Include="Laser.cpp" />
+    <ClCompile Include="LaserHit.cpp" />
+    <ClCompile Include="Level.cpp" />
+    <ClCompile Include="Level00.cpp" />
+    <ClCompile Include="MinerVirus.cpp" />
+    <ClCompile Include="Music.cpp" />
+    <ClCompile Include="Timer.cpp" />
+    <ClCompile Include="Network.cpp" />
+    <ClCompile Include="NetworkMessage.cpp" />
+    <ClCompile Include="Nort.cpp" />
+    <ClCompile Include="Particles.cpp" />
+    <ClCompile Include="PhysicsForce.cpp" />
+    <ClCompile Include="PhysicsSprite.cpp" />
+    <ClCompile Include="Point.cpp" />
+    <ClCompile Include="RGBA.cpp" />
+    <ClCompile Include="Sound.cpp" />
+    <ClCompile Include="Spammer.cpp" />
+    <ClCompile Include="Sprite.cpp" />
+    <ClCompile Include="template.cpp" />
+    <ClCompile Include="Text.cpp" />
+    <ClCompile Include="ThiefVirus.cpp" />
+    <ClCompile Include="Vector.cpp" />
+    <ClCompile Include="VirtualButton.cpp" />
+    <ClCompile Include="VirtualJoystick.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="AnimatedSprite.h" />
+    <ClInclude Include="BugVirus.h" />
+    <ClInclude Include="Character.h" />
+    <ClInclude Include="CoreForApp.h" />
+    <ClInclude Include="CreatureList.h" />
+    <ClInclude Include="DBlocker.h" />
+    <ClInclude Include="Defines.h" />
+    <ClInclude Include="EditBox.h" />
+    <ClInclude Include="File.h" />
+    <ClInclude Include="Fog.h" />
+    <ClInclude Include="Globals.h" />
+    <ClInclude Include="HTTP.h" />
+    <ClInclude Include="Image.h" />
+    <ClInclude Include="InformationNode.h" />
+    <ClInclude Include="Joint.h" />
+    <ClInclude Include="Laser.h" />
+    <ClInclude Include="LaserHit.h" />
+    <ClInclude Include="Level.h" />
+    <ClInclude Include="Level00.h" />
+    <ClInclude Include="Levels.h" />
+    <ClInclude Include="MinerVirus.h" />
+    <ClInclude Include="Music.h" />
+    <ClInclude Include="Timer.h" />
+    <ClInclude Include="Network.h" />
+    <ClInclude Include="NetworkMessage.h" />
+    <ClInclude Include="Nort.h" />
+    <ClInclude Include="Particles.h" />
+    <ClInclude Include="PhysicsForce.h" />
+    <ClInclude Include="PhysicsSprite.h" />
+    <ClInclude Include="Point.h" />
+    <ClInclude Include="RGBA.h" />
+    <ClInclude Include="Sound.h" />
+    <ClInclude Include="Spammer.h" />
+    <ClInclude Include="Sprite.h" />
+    <ClInclude Include="template.h" />
+    <ClInclude Include="Text.h" />
+    <ClInclude Include="ThiefVirus.h" />
+    <ClInclude Include="Vector.h" />
+    <ClInclude Include="VirtualButton.h" />
+    <ClInclude Include="VirtualJoystick.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\..\AGK\SystemInfector\Creatures\Bug" />
+    <None Include="..\..\..\AGK\SystemInfector\Creatures\DBlocker" />
+    <None Include="..\..\..\AGK\SystemInfector\Creatures\InformationNode" />
+    <None Include="..\..\..\AGK\SystemInfector\Creatures\MinerVirus" />
+    <None Include="..\..\..\AGK\SystemInfector\Creatures\Nort" />
+    <None Include="..\..\..\AGK\SystemInfector\Creatures\Thief" />
+    <None Include="..\..\..\AGK\SystemInfector\LevelData\Level 0" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>
