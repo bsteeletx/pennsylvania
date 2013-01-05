@@ -10,272 +10,275 @@
     <Filter Include="Core Classes">
       <UniqueIdentifier>{706fc9aa-89b0-4ba8-9fd6-5339387ab191}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Project Classes">
-      <UniqueIdentifier>{2be557de-2356-482c-b333-eefc5090d065}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Creature Text Files">
-      <UniqueIdentifier>{190e48e1-a25a-4066-808b-3cb868170161}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Level Text Files">
       <UniqueIdentifier>{5cfcbbe2-2a93-4df1-a1f3-2d9fa77dbf85}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Project Classes\Level Specific">
+    <Filter Include="Level Specific">
       <UniqueIdentifier>{57a0fcfe-78d1-40b2-86fc-40bc5154ad01}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Default Project Classes">
+      <UniqueIdentifier>{2be557de-2356-482c-b333-eefc5090d065}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Creatures\Weapons">
+      <UniqueIdentifier>{5557e342-bef2-45a8-af91-b735f5103598}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Creatures\Creature Text Files">
+      <UniqueIdentifier>{190e48e1-a25a-4066-808b-3cb868170161}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Core.cpp">
       <Filter>AGK Core</Filter>
     </ClCompile>
-    <ClCompile Include="AnimatedSprite.cpp">
-      <Filter>Core Classes</Filter>
-    </ClCompile>
-    <ClCompile Include="EditBox.cpp">
-      <Filter>Core Classes</Filter>
-    </ClCompile>
-    <ClCompile Include="File.cpp">
-      <Filter>Core Classes</Filter>
-    </ClCompile>
-    <ClCompile Include="HTTP.cpp">
-      <Filter>Core Classes</Filter>
-    </ClCompile>
-    <ClCompile Include="Image.cpp">
-      <Filter>Core Classes</Filter>
-    </ClCompile>
-    <ClCompile Include="Joint.cpp">
-      <Filter>Core Classes</Filter>
-    </ClCompile>
-    <ClCompile Include="Music.cpp">
-      <Filter>Core Classes</Filter>
-    </ClCompile>
-    <ClCompile Include="Network.cpp">
-      <Filter>Core Classes</Filter>
-    </ClCompile>
-    <ClCompile Include="NetworkMessage.cpp">
-      <Filter>Core Classes</Filter>
-    </ClCompile>
-    <ClCompile Include="Particles.cpp">
-      <Filter>Core Classes</Filter>
-    </ClCompile>
-    <ClCompile Include="PhysicsForce.cpp">
-      <Filter>Core Classes</Filter>
-    </ClCompile>
-    <ClCompile Include="PhysicsSprite.cpp">
-      <Filter>Core Classes</Filter>
-    </ClCompile>
-    <ClCompile Include="Point.cpp">
-      <Filter>Core Classes</Filter>
-    </ClCompile>
-    <ClCompile Include="RGBA.cpp">
-      <Filter>Core Classes</Filter>
-    </ClCompile>
-    <ClCompile Include="Sound.cpp">
-      <Filter>Core Classes</Filter>
-    </ClCompile>
-    <ClCompile Include="Sprite.cpp">
-      <Filter>Core Classes</Filter>
-    </ClCompile>
-    <ClCompile Include="Text.cpp">
-      <Filter>Core Classes</Filter>
-    </ClCompile>
-    <ClCompile Include="Vector.cpp">
-      <Filter>Core Classes</Filter>
-    </ClCompile>
-    <ClCompile Include="VirtualButton.cpp">
-      <Filter>Core Classes</Filter>
-    </ClCompile>
-    <ClCompile Include="VirtualJoystick.cpp">
-      <Filter>Core Classes</Filter>
-    </ClCompile>
-    <ClCompile Include="BugVirus.cpp">
-      <Filter>Creatures</Filter>
-    </ClCompile>
-    <ClCompile Include="Character.cpp">
-      <Filter>Creatures</Filter>
-    </ClCompile>
-    <ClCompile Include="DBlocker.cpp">
-      <Filter>Creatures</Filter>
-    </ClCompile>
-    <ClCompile Include="InformationNode.cpp">
-      <Filter>Creatures</Filter>
-    </ClCompile>
-    <ClCompile Include="MinerVirus.cpp">
-      <Filter>Creatures</Filter>
-    </ClCompile>
-    <ClCompile Include="Nort.cpp">
-      <Filter>Creatures</Filter>
-    </ClCompile>
-    <ClCompile Include="Spammer.cpp">
-      <Filter>Creatures</Filter>
-    </ClCompile>
-    <ClCompile Include="ThiefVirus.cpp">
-      <Filter>Creatures</Filter>
-    </ClCompile>
-    <ClCompile Include="Level.cpp">
-      <Filter>Project Classes</Filter>
-    </ClCompile>
     <ClCompile Include="template.cpp">
-      <Filter>Project Classes</Filter>
+      <Filter>Default Project Classes</Filter>
     </ClCompile>
-    <ClCompile Include="Timer.cpp">
-      <Filter>Project Classes</Filter>
+    <ClCompile Include="Level\Fog.cpp">
+      <Filter>Level Specific</Filter>
     </ClCompile>
-    <ClCompile Include="Level00.cpp">
-      <Filter>Project Classes\Level Specific</Filter>
+    <ClCompile Include="Level\Level.cpp">
+      <Filter>Level Specific</Filter>
     </ClCompile>
-    <ClCompile Include="Fog.cpp">
-      <Filter>Project Classes</Filter>
+    <ClCompile Include="Level\Level00.cpp">
+      <Filter>Level Specific</Filter>
     </ClCompile>
-    <ClCompile Include="Laser.cpp">
-      <Filter>Project Classes</Filter>
+    <ClCompile Include="Characters\BugVirus.cpp">
+      <Filter>Creatures</Filter>
     </ClCompile>
-    <ClCompile Include="LaserHit.cpp">
-      <Filter>Project Classes</Filter>
+    <ClCompile Include="Characters\Character.cpp">
+      <Filter>Creatures</Filter>
+    </ClCompile>
+    <ClCompile Include="Characters\DBlocker.cpp">
+      <Filter>Creatures</Filter>
+    </ClCompile>
+    <ClCompile Include="Characters\InformationNode.cpp">
+      <Filter>Creatures</Filter>
+    </ClCompile>
+    <ClCompile Include="Characters\MinerVirus.cpp">
+      <Filter>Creatures</Filter>
+    </ClCompile>
+    <ClCompile Include="Characters\Nort.cpp">
+      <Filter>Creatures</Filter>
+    </ClCompile>
+    <ClCompile Include="Characters\Spammer.cpp">
+      <Filter>Creatures</Filter>
+    </ClCompile>
+    <ClCompile Include="Characters\ThiefVirus.cpp">
+      <Filter>Creatures</Filter>
+    </ClCompile>
+    <ClCompile Include="Characters\Weapons\Laser.cpp">
+      <Filter>Creatures\Weapons</Filter>
+    </ClCompile>
+    <ClCompile Include="Characters\Weapons\LaserHit.cpp">
+      <Filter>Creatures\Weapons</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\AnimatedSprite.cpp">
+      <Filter>Core Classes</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\EditBox.cpp">
+      <Filter>Core Classes</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\File.cpp">
+      <Filter>Core Classes</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\HTTP.cpp">
+      <Filter>Core Classes</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\Image.cpp">
+      <Filter>Core Classes</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\Joint.cpp">
+      <Filter>Core Classes</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\Music.cpp">
+      <Filter>Core Classes</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\Network.cpp">
+      <Filter>Core Classes</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\NetworkMessage.cpp">
+      <Filter>Core Classes</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\PhysicsForce.cpp">
+      <Filter>Core Classes</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\PhysicsSprite.cpp">
+      <Filter>Core Classes</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\Point.cpp">
+      <Filter>Core Classes</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\RGBA.cpp">
+      <Filter>Core Classes</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\Sound.cpp">
+      <Filter>Core Classes</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\Sprite.cpp">
+      <Filter>Core Classes</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\Text.cpp">
+      <Filter>Core Classes</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\Timer.cpp">
+      <Filter>Core Classes</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\Vector.cpp">
+      <Filter>Core Classes</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\VirtualButton.cpp">
+      <Filter>Core Classes</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\VirtualJoystick.cpp">
+      <Filter>Core Classes</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\MyParticles.cpp">
+      <Filter>Core Classes</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CoreForApp.h">
       <Filter>AGK Core</Filter>
     </ClInclude>
-    <ClInclude Include="AnimatedSprite.h">
-      <Filter>Core Classes</Filter>
-    </ClInclude>
-    <ClInclude Include="EditBox.h">
-      <Filter>Core Classes</Filter>
-    </ClInclude>
-    <ClInclude Include="File.h">
-      <Filter>Core Classes</Filter>
-    </ClInclude>
-    <ClInclude Include="HTTP.h">
-      <Filter>Core Classes</Filter>
-    </ClInclude>
-    <ClInclude Include="Image.h">
-      <Filter>Core Classes</Filter>
-    </ClInclude>
-    <ClInclude Include="Joint.h">
-      <Filter>Core Classes</Filter>
-    </ClInclude>
-    <ClInclude Include="Music.h">
-      <Filter>Core Classes</Filter>
-    </ClInclude>
-    <ClInclude Include="Network.h">
-      <Filter>Core Classes</Filter>
-    </ClInclude>
-    <ClInclude Include="NetworkMessage.h">
-      <Filter>Core Classes</Filter>
-    </ClInclude>
-    <ClInclude Include="Particles.h">
-      <Filter>Core Classes</Filter>
-    </ClInclude>
-    <ClInclude Include="PhysicsForce.h">
-      <Filter>Core Classes</Filter>
-    </ClInclude>
-    <ClInclude Include="PhysicsSprite.h">
-      <Filter>Core Classes</Filter>
-    </ClInclude>
-    <ClInclude Include="Point.h">
-      <Filter>Core Classes</Filter>
-    </ClInclude>
-    <ClInclude Include="RGBA.h">
-      <Filter>Core Classes</Filter>
-    </ClInclude>
-    <ClInclude Include="Sound.h">
-      <Filter>Core Classes</Filter>
-    </ClInclude>
-    <ClInclude Include="Sprite.h">
-      <Filter>Core Classes</Filter>
-    </ClInclude>
-    <ClInclude Include="Text.h">
-      <Filter>Core Classes</Filter>
-    </ClInclude>
-    <ClInclude Include="Vector.h">
-      <Filter>Core Classes</Filter>
-    </ClInclude>
-    <ClInclude Include="VirtualButton.h">
-      <Filter>Core Classes</Filter>
-    </ClInclude>
-    <ClInclude Include="VirtualJoystick.h">
-      <Filter>Core Classes</Filter>
-    </ClInclude>
-    <ClInclude Include="BugVirus.h">
-      <Filter>Creatures</Filter>
-    </ClInclude>
-    <ClInclude Include="Character.h">
-      <Filter>Creatures</Filter>
-    </ClInclude>
-    <ClInclude Include="CreatureList.h">
-      <Filter>Creatures</Filter>
-    </ClInclude>
-    <ClInclude Include="InformationNode.h">
-      <Filter>Creatures</Filter>
-    </ClInclude>
-    <ClInclude Include="MinerVirus.h">
-      <Filter>Creatures</Filter>
-    </ClInclude>
-    <ClInclude Include="Nort.h">
-      <Filter>Creatures</Filter>
-    </ClInclude>
-    <ClInclude Include="Spammer.h">
-      <Filter>Creatures</Filter>
-    </ClInclude>
-    <ClInclude Include="ThiefVirus.h">
-      <Filter>Creatures</Filter>
-    </ClInclude>
     <ClInclude Include="Defines.h">
-      <Filter>Project Classes</Filter>
+      <Filter>Default Project Classes</Filter>
     </ClInclude>
     <ClInclude Include="Globals.h">
-      <Filter>Project Classes</Filter>
-    </ClInclude>
-    <ClInclude Include="Level.h">
-      <Filter>Project Classes</Filter>
+      <Filter>Default Project Classes</Filter>
     </ClInclude>
     <ClInclude Include="template.h">
-      <Filter>Project Classes</Filter>
+      <Filter>Default Project Classes</Filter>
     </ClInclude>
-    <ClInclude Include="Timer.h">
-      <Filter>Project Classes</Filter>
+    <ClInclude Include="Level\Fog.h">
+      <Filter>Level Specific</Filter>
     </ClInclude>
-    <ClInclude Include="DBlocker.h">
+    <ClInclude Include="Level\Level.h">
+      <Filter>Level Specific</Filter>
+    </ClInclude>
+    <ClInclude Include="Level\Level00.h">
+      <Filter>Level Specific</Filter>
+    </ClInclude>
+    <ClInclude Include="Level\Levels.h">
+      <Filter>Level Specific</Filter>
+    </ClInclude>
+    <ClInclude Include="Characters\BugVirus.h">
       <Filter>Creatures</Filter>
     </ClInclude>
-    <ClInclude Include="Level00.h">
-      <Filter>Project Classes\Level Specific</Filter>
+    <ClInclude Include="Characters\Character.h">
+      <Filter>Creatures</Filter>
     </ClInclude>
-    <ClInclude Include="Levels.h">
-      <Filter>Project Classes\Level Specific</Filter>
+    <ClInclude Include="Characters\CreatureList.h">
+      <Filter>Creatures</Filter>
     </ClInclude>
-    <ClInclude Include="Fog.h">
-      <Filter>Project Classes</Filter>
+    <ClInclude Include="Characters\DBlocker.h">
+      <Filter>Creatures</Filter>
     </ClInclude>
-    <ClInclude Include="Laser.h">
-      <Filter>Project Classes</Filter>
+    <ClInclude Include="Characters\InformationNode.h">
+      <Filter>Creatures</Filter>
     </ClInclude>
-    <ClInclude Include="LaserHit.h">
-      <Filter>Project Classes</Filter>
+    <ClInclude Include="Characters\MinerVirus.h">
+      <Filter>Creatures</Filter>
+    </ClInclude>
+    <ClInclude Include="Characters\Nort.h">
+      <Filter>Creatures</Filter>
+    </ClInclude>
+    <ClInclude Include="Characters\Spammer.h">
+      <Filter>Creatures</Filter>
+    </ClInclude>
+    <ClInclude Include="Characters\ThiefVirus.h">
+      <Filter>Creatures</Filter>
+    </ClInclude>
+    <ClInclude Include="Characters\Weapons\Laser.h">
+      <Filter>Creatures\Weapons</Filter>
+    </ClInclude>
+    <ClInclude Include="Characters\Weapons\LaserHit.h">
+      <Filter>Creatures\Weapons</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\AnimatedSprite.h">
+      <Filter>Core Classes</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\EditBox.h">
+      <Filter>Core Classes</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\File.h">
+      <Filter>Core Classes</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\HTTP.h">
+      <Filter>Core Classes</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Image.h">
+      <Filter>Core Classes</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Joint.h">
+      <Filter>Core Classes</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Music.h">
+      <Filter>Core Classes</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Network.h">
+      <Filter>Core Classes</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\NetworkMessage.h">
+      <Filter>Core Classes</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\PhysicsForce.h">
+      <Filter>Core Classes</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\PhysicsSprite.h">
+      <Filter>Core Classes</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Point.h">
+      <Filter>Core Classes</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\RGBA.h">
+      <Filter>Core Classes</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Sound.h">
+      <Filter>Core Classes</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Sprite.h">
+      <Filter>Core Classes</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Text.h">
+      <Filter>Core Classes</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Timer.h">
+      <Filter>Core Classes</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Vector.h">
+      <Filter>Core Classes</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\VirtualButton.h">
+      <Filter>Core Classes</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\VirtualJoystick.h">
+      <Filter>Core Classes</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\MyParticles.h">
+      <Filter>Core Classes</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\..\..\AGK\SystemInfector\Creatures\Bug">
-      <Filter>Creature Text Files</Filter>
-    </None>
-    <None Include="..\..\..\AGK\SystemInfector\Creatures\Thief">
-      <Filter>Creature Text Files</Filter>
-    </None>
-    <None Include="..\..\..\AGK\SystemInfector\Creatures\DBlocker">
-      <Filter>Creature Text Files</Filter>
-    </None>
-    <None Include="..\..\..\AGK\SystemInfector\Creatures\InformationNode">
-      <Filter>Creature Text Files</Filter>
-    </None>
-    <None Include="..\..\..\AGK\SystemInfector\Creatures\MinerVirus">
-      <Filter>Creature Text Files</Filter>
-    </None>
-    <None Include="..\..\..\AGK\SystemInfector\Creatures\Nort">
-      <Filter>Creature Text Files</Filter>
-    </None>
-    <None Include="..\..\..\AGK\SystemInfector\LevelData\Level 0">
+    <None Include="..\Game\Win32Debug_2010\LevelData\Level 0">
       <Filter>Level Text Files</Filter>
+    </None>
+    <None Include="..\Game\Win32Debug_2010\CreatureData\InformationNode">
+      <Filter>Creatures\Creature Text Files</Filter>
+    </None>
+    <None Include="..\Game\Win32Debug_2010\CreatureData\MinerVirus">
+      <Filter>Creatures\Creature Text Files</Filter>
+    </None>
+    <None Include="..\Game\Win32Debug_2010\CreatureData\Nort">
+      <Filter>Creatures\Creature Text Files</Filter>
+    </None>
+    <None Include="..\Game\Win32Debug_2010\CreatureData\Thief">
+      <Filter>Creatures\Creature Text Files</Filter>
+    </None>
+    <None Include="..\Game\Win32Debug_2010\CreatureData\Bug">
+      <Filter>Creatures\Creature Text Files</Filter>
+    </None>
+    <None Include="..\Game\Win32Debug_2010\CreatureData\DBlocker">
+      <Filter>Creatures\Creature Text Files</Filter>
     </None>
   </ItemGroup>
 </Project>

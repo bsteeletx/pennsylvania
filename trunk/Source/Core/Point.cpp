@@ -1,6 +1,6 @@
 #include "Point.h"
 #include "agk.h"
-#include "Defines.h"
+#include "../Defines.h"
 
 Point::Point()
 {

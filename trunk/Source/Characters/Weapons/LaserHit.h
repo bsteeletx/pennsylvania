@@ -1,5 +1,5 @@
 #pragma once
-#include "particles.h"
+#include "MyParticles.h"
 
 class LaserHit :
 	public Particles

@@ -51,7 +51,7 @@ void Level00::init(void)
 	//Local Variables
 	Creature Type;
 	Point Location;
-	File LevelSource(true, "LevelData/Level 0");
+	File LevelSource(true, "LevelData/Level 00");
 
 	//Initialize base object
 	Level::init();

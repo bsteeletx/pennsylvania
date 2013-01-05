@@ -64,7 +64,10 @@ Sprite::Sprite(File FileToInit)
 		Line.splitAtDelimeter(&Start, &End, ':');
 
 		if (Start == Text("Size"))
+		{
 			setSize(atof(End.getString()));
+			break;
+		}
 	}
 
 	FileToInit.close();

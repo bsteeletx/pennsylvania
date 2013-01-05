@@ -1,6 +1,6 @@
 #pragma once
 #include "AnimatedSprite.h"
-#include "Defines.h"
+#include "../Defines.h"
 #include "File.h"
 
 class Character :

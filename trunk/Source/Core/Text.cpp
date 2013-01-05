@@ -59,6 +59,14 @@ Text& Text::operator= (const Text& newText)
 	return *this;
 }
 
+bool Text::operator!= (const Text otherText)
+{
+	if (strcmp(storedString, otherText.storedString) == 0) //same
+		return false;
+
+	return true;
+}
+
 Text& Text::operator+= (const Text& newText)
 {
 	char returnString[32];

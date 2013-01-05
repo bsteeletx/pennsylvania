@@ -1,0 +1,20 @@
+Height:79
+Width:79
+Count:48
+ParentImage:
+PathFile:Assets/Creatures/Thief.png
+Size:10.0
+HP:25
+Speed:10.0
+PlaySpeed:10.0
+Attack:0
+AttackSpeed:30.0
+Cost:35
+Idle:1, 8
+IdleSpeed:10.0
+Move:9, 16
+MoveSpeed:10.0
+AttackFrames:17, 24
+AttackFramesSpeed:10.0
+Death:25, 32
+DeathSpeed:10.0

@@ -19,6 +19,7 @@ public:
 	Text& operator= (const Text& newText);
 	Text& operator+= (const Text& addText);
 	bool operator== (const Text otherText);
+	bool operator!= (const Text otherText);
 	
 	void fixToScreen(bool toScreen);
 

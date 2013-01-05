@@ -22,7 +22,7 @@ MinerVirus::MinerVirus(void)
 // Note: We probably shouldn't do any initialization here, create a separete init function
 ///////////////////////////////////////////////
 MinerVirus::MinerVirus(Point GridLocation)
-	: Character(Text("Creatures/MinerVirus"))
+	: Character(Text("CreatureData/MinerVirus"))
 {
 	setPosition(GridLocation.getNormalCoords());
 	Type = MINER_VIRUS;
