@@ -203,7 +203,7 @@
     <None Include="..\Game\Win32Debug_2010\CreatureData\MinerVirus" />
     <None Include="..\Game\Win32Debug_2010\CreatureData\Nort" />
     <None Include="..\Game\Win32Debug_2010\CreatureData\Thief" />
-    <None Include="..\Game\Win32Debug_2010\LevelData\Level 0" />
+    <None Include="..\Game\Win32Debug_2010\LevelData\Level 00.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

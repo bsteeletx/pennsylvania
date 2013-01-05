@@ -259,9 +259,6 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\Game\Win32Debug_2010\LevelData\Level 0">
-      <Filter>Level Text Files</Filter>
-    </None>
     <None Include="..\Game\Win32Debug_2010\CreatureData\InformationNode">
       <Filter>Creatures\Creature Text Files</Filter>
     </None>
@@ -279,6 +276,9 @@
     </None>
     <None Include="..\Game\Win32Debug_2010\CreatureData\DBlocker">
       <Filter>Creatures\Creature Text Files</Filter>
+    </None>
+    <None Include="..\Game\Win32Debug_2010\LevelData\Level 00.txt">
+      <Filter>Level Text Files</Filter>
     </None>
   </ItemGroup>
 </Project>
