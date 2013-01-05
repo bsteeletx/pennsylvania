@@ -1,5 +1,5 @@
 #pragma once
-#include "animatedsprite.h"
+#include "AnimatedSprite.h"
 
 class Fog
 {

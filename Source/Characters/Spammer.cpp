@@ -12,7 +12,7 @@ Spammer::Spammer(void)
 }
 
 Spammer::Spammer(Point GridLocation)
-	: Character(Text("Creatures/Spammer"))
+	: Character(Text("Assets/Creatures/Spammer"))
 {
 	this->setPosition(GridLocation.getNormalCoords());
 	Type = SPAMMER;

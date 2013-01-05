@@ -9,7 +9,7 @@
 // Result: Information Node Object Created
 ////////////////////////////////////////////
 InformationNode::InformationNode(void)
-	: Character(Text("Creatures/InformationNode"))
+	: Character(Text("Assets/Creatures/InformationNode"))
 {
 
 
@@ -23,7 +23,7 @@ InformationNode::InformationNode(void)
 // Note: Probably shouldn't do any intialization here, have an init function
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 InformationNode::InformationNode(Point GridLocation, bool submerged, unsigned short bonusType, unsigned short bonusAmount)	
-	: Character(Text("Creatures/InformationNode"))
+	: Character(Text("CreatureData/InformationNode"))
 {
 	setPosition(GridLocation.getNormalCoords());
 	oldY = getY();

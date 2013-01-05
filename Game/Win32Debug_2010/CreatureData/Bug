@@ -1,0 +1,20 @@
+Height:45
+Width:46
+Count:20
+ParentImage:
+PathFile:Assets/Creatures/Bug.png
+Size:10.0
+HP:0
+Speed:0.0
+PlaySpeed:10.0
+Attack:3
+AttackSpeed:5.0
+Cost:100
+Idle:1, 5
+IdleSpeed:10.0
+Move:16, 20
+MoveSpeed:10.0
+AttackFrames:6, 10
+AttackFramesSpeed:10.0
+Death:11, 15
+DeathSpeed:10.0

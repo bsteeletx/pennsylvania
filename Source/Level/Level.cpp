@@ -84,6 +84,9 @@ void Level::init(void)
 
 	Text NumberText(agk::Str((float) levelID, 0));
 	
+	//if (levelID < 10)
+	//	LevelName += "0";
+
 	//...Add Number to end to have the script file
 	LevelName += NumberText;
 

@@ -1,6 +1,6 @@
 #pragma once
 #include "Sprite.h"
-#include "Character.h"
+#include "..\Character.h"
 #include "LaserHit.h"
 
 class Laser 

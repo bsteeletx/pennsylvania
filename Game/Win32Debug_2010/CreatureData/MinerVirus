@@ -2,7 +2,7 @@ Height:64
 Width:64
 Count:32
 ParentImage:
-PathFile:Creatures/MinerVirus.png
+PathFile:Assets/Creatures/MinerVirus.png
 Size:10.0
 HP:0
 Speed:0.0

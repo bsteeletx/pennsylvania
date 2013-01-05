@@ -21,7 +21,7 @@ Nort::Nort(void)
 //       Do all of the placement in an init funciton
 ////////////////////////////////
 Nort::Nort(Point GridLocation)
-	: Character(Text("Creatures/Nort"))
+	: Character(Text("CreatureData/Nort"))
 {
 	setPosition(GridLocation.getNormalCoords());
 	Type = NORT;

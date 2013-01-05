@@ -1,4 +1,4 @@
-#include "Particles.h"
+#include "MyParticles.h"
 #include "agk.h"
 
 Particles::Particles(void)

@@ -1,6 +1,6 @@
 #pragma once
 #include "Character.h"
-#include "Laser.h"
+#include "Weapons/Laser.h"
 
 class Nort :
 	public Character

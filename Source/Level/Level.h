@@ -1,6 +1,6 @@
 #pragma once
 //#include "Character.h"
-#include "CreatureList.h"
+#include "../Characters/CreatureList.h"
 #include <vector>
 
 class Level

@@ -9,7 +9,7 @@
 // Result: ThiefVirus Object Created
 ////////////////////////////////////////
 ThiefVirus::ThiefVirus(void)
-	: Character(Text("Creatures/Thief"))
+	: Character(Text("Assets/Creatures/Thief"))
 {
 	Type = THIEF_VIRUS;
 }
@@ -21,7 +21,7 @@ ThiefVirus::ThiefVirus(void)
 // Note: Probably should have an initialization that places the thief at a point, not during creation
 /////////////////////////////////////////////
 ThiefVirus::ThiefVirus(Point GridLocation)
-	: Character(Text("Creatures/Thief"))
+	: Character(Text("CreatureData/Thief"))
 {
 	this->setPosition(GridLocation.getNormalCoords());
 	Type = THIEF_VIRUS;

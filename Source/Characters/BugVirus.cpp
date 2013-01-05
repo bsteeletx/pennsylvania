@@ -12,7 +12,7 @@ BugVirus::BugVirus(void)
 }
 
 BugVirus::BugVirus(Point GridLocation)
-	: Character(Text("Creatures/Bug"))
+	: Character(Text("CreatureData/Bug"))
 {
 	this->setPosition(GridLocation.getNormalCoords());
 	Type = BUG_VIRUS;

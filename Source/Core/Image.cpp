@@ -91,6 +91,9 @@ Image::Image(File FileToInit)
 			Filename = End;
 		else if (Start == Text("ParentImage"))
 			ParentImage = End;
+
+		if ((Filename != Text("")) || (ParentImage != Text("")))
+			break;
 	}
 
 	//no parent image, bad doggy! no treat for you!

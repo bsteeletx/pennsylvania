@@ -1,4 +1,5 @@
 /////////////CLASS INCLUDES
+//#include "agk.h"
 #include "agk.h"
 #include "AnimatedSprite.h"
 #include "EditBox.h"
@@ -9,7 +10,7 @@
 #include "Music.h"
 #include "Network.h"
 #include "NetworkMessage.h"
-#include "Particles.h"
+#include "MyParticles.h"
 #include "PhysicsForce.h"
 #include "PhysicsSprite.h"
 #include "Point.h"
@@ -21,4 +22,4 @@
 #include "VirtualButton.h"
 #include "VirtualJoystick.h"
 #include "Defines.h"
-#include "Level.h"
+#include "Level/Level.h"
