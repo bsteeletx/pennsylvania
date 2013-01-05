@@ -84,11 +84,12 @@ void Level::init(void)
 
 	Text NumberText(agk::Str((float) levelID, 0));
 	
-	//if (levelID < 10)
-	//	LevelName += "0";
+	if (levelID < 10)
+		LevelName += "0";
 
 	//...Add Number to end to have the script file
 	LevelName += NumberText;
+	LevelName += Text(".txt");
 
 	//Open Script File for reading
 	File LevelSource(true, LevelName);
@@ -164,7 +165,7 @@ void Level::init(void)
 	//Load in the Selector
 	//NOTE (1/1/13): Needs to have a #if PC as you won't see the selector for other platforms
 	/////////////////Need to do a #if on the header file as well
-	Selector = Sprite("Assets/selector.png");
+	Selector = Sprite("Assets/Common/selector.png");
 	Selector.setDepth(1);
 	Selector.setSize(10.75f);
 	addSprite(Selector.getSpriteNumber());

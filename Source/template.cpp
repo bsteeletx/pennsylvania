@@ -124,7 +124,16 @@ void app::loadLevel(unsigned short level)
 {
 	//Local Variables needed for the function
 	Text LevelName("LevelData/Level ");
+	
+	//using 01, 02, 03...etc terminology
+	if (level < 10)
+		LevelName += Text("0");
+
 	Text NumberText(agk::Str((float) level, 0));
+
+	//Added .txt to the end too
+	NumberText += Text(".txt");
+
 	//Not sure why I need this yet, but I'm sure it's for relevant reasons
 	std::vector<Creature> attackerCount;
 	
