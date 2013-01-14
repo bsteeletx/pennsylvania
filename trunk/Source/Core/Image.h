@@ -22,7 +22,7 @@ public:
 	Image (unsigned int assignedImageNumber, Text Filename, bool blackIsAlpha = false);
 	Image (Text SubImageFilename, unsigned int parentImage);
 	Image (unsigned int assignedImageumber, unsigned int parentImage, Text SubImageFilename);
-	Image (File FileToInit);
+	Image (File FileToInit, Text PathToParent);
 	
 	//operators
 	Image& operator= (const Image& newImage);

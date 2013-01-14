@@ -1,4 +1,4 @@
-Background Image:LevelData/Level 00/level0background.png
+Background Image:Assets/Levels/Level 00/level0background.png
 Creature Type:0
 Creature Location:0 0
 Creature Location:0 1

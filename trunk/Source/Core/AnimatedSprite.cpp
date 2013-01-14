@@ -53,8 +53,8 @@ AnimatedSprite::AnimatedSprite(unsigned int width, unsigned int height, unsigned
 	set(spriteNumber, width, height, count);
 }
 
-AnimatedSprite::AnimatedSprite(File FileToInit)
-	: Sprite(FileToInit)
+AnimatedSprite::AnimatedSprite(File FileToInit, Text PathToParent)
+	: Sprite(FileToInit, PathToParent)
 {
 	
 	FileToInit.reOpen();
