@@ -73,9 +73,9 @@ Image::Image(Text codedText)
 	imageNumber = agk::EncodeQRCode(codedText.getString(), 2); 
 }
 
-Image::Image(File FileToInit)
+Image::Image(File FileToInit, Text PathToParent)
 {
-	Text ParentImage("");
+	Text ParentImage = PathToParent;
 	Text Filename("");
 	bool alreadyLoaded = false;
 
@@ -89,10 +89,8 @@ Image::Image(File FileToInit)
 
 		if (Start == Text("PathFile"))
 			Filename = End;
-		else if (Start == Text("ParentImage"))
-			ParentImage = End;
-
-		if ((Filename != Text("")) || (ParentImage != Text("")))
+		
+		if (Filename != Text(""))
 			break;
 	}
 
@@ -115,13 +113,15 @@ Image::Image(File FileToInit)
 	else
 	{
 		//check to see if we've already loaded the parent image in memory
-		for (int i = 0; i < ParentImages.size() - 1; i++)
+		for (int i = 0; i < ParentImages.size(); i++)
 		{
 			//checking each individual element
 			if (ParentImages[i] == ParentImage)
 			{
 				imageNumber = agk::LoadSubImage(parentImageNumbers[i], Filename.getString());
 				alreadyLoaded = true;
+				nonParentImageNumbers.push_back(imageNumber);
+				NonParentFileNames.push_back(Filename);
 				break; //found it, so break out of for
 			}
 

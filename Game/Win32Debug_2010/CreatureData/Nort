@@ -1,9 +1,9 @@
-Height:64
-Width:64
+Height:400
+Width:550
 Count:1
 ParentImage:
-PathFile:Assets/Creatures/Nort.png
-Size:10.0
+PathFile:Nort.png
+Size:20.0
 HP:15
 Speed:1.0
 PlaySpeed:10.0

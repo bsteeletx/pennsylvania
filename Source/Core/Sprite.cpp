@@ -48,8 +48,8 @@ Sprite::Sprite(unsigned int assignedImageNumber, unsigned int parentImage, Text 
 	create(assignedSpriteNumber);
 }
 
-Sprite::Sprite(File FileToInit)
-	: Image(FileToInit)
+Sprite::Sprite(File FileToInit, Text PathToParent)
+	: Image(FileToInit, PathToParent)
 {
 	create();
 

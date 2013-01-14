@@ -1,8 +1,7 @@
 Height:35
 Width:57
 Count:16
-ParentImage:
-PathFile:Assets/Creatures/DBlocker.png
+PathFile:DBlocker.png
 Size:10.0
 HP:0
 Speed:0.0

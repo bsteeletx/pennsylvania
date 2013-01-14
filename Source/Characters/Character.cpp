@@ -27,7 +27,7 @@ Character::Character(void)
 //       Also, should only set up variables, save everything else for initialization
 //////////////////////////////////////////
 Character::Character(Text FilenamePath)
-	: AnimatedSprite(File (true, FilenamePath))
+	: AnimatedSprite(File (true, FilenamePath), Text ("Assets/Creatures/Creatures.png"))
 {
 	Data = File(true, FilenamePath);
 	init();
