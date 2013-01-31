@@ -1,7 +1,8 @@
 Height:400
 Width:550
 Count:1
-PathFile:Bug.png
+ParentImage:Assests/Creatures/Creatures.png
+PathFile:Assets/Creatures/Bug.png
 Size:20.0
 HP:0
 Speed:0.0

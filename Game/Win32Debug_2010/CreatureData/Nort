@@ -1,7 +1,7 @@
 Height:400
 Width:550
 Count:1
-ParentImage:
+ParentImage:Assets/Creatures/Creatures.png
 PathFile:Nort.png
 Size:20.0
 HP:15

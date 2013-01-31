@@ -1,7 +1,7 @@
 Height:400
 Width:550
 Count:10
-ParentImage:
+ParentImage:Assets/Creatures/Creatures.png
 PathFile:Thief.png
 Size:20.0
 HP:25
