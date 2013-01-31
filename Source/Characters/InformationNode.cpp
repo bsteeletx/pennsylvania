@@ -67,4 +67,5 @@ void InformationNode::kill(Character *KilledBy)
 void InformationNode::update(std::vector<Character*> Defenders)
 {
 	//nothing as of yet
+	setPosition(Point(getX(), getY()));
 }

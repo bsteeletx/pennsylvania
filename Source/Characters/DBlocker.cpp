@@ -14,7 +14,7 @@ DBlocker::DBlocker(void)
 DBlocker::DBlocker(Point GridLocation)
 	: Character(Text("Assets/Creatures/DBlocker"))
 {
-	this->setPosition(GridLocation.getNormalCoords());
+	this->setPositionByOffset(GridLocation.getNormalCoords());
 	Type = DBLOCKER;
 }
 

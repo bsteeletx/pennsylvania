@@ -174,24 +174,28 @@ void Character::init(void)
 		if (End == Text(""))
 			continue;
 
-		if (Start == Text("HP"))
+		if (Start == Text("Height"))
+			OffsetAmount.setY(agk::ValFloat(End.getString())/2);
+		else if (Start == Text("Width"))
+			OffsetAmount.setX(agk::ValFloat(End.getString())/2);
+		else if (Start == Text("HP"))
 			maxHitPoints = hitPoints = atoi(End.getString());
 		else if (Start == Text("Speed"))
-			moveSpeed = atof(End.getString());
+			moveSpeed = agk::ValFloat(End.getString());
 		else if (Start == Text("Attack"))
 			attackAmount = atoi(End.getString());
 		else if (Start == Text("AttackSpeed"))
-			attackSpeed = atof(End.getString())/1.0f;
+			attackSpeed = agk::ValFloat(End.getString())/1.0f;
 		else if (Start == Text("Cost"))
-			cost = atoi(End.getString());
+			cost = agk::Val(End.getString());
 		else if (Start == Text("IdleSpeed"))
-			idleFrameSpeed = agk::Val(End.getString());
+			idleFrameSpeed = agk::ValFloat(End.getString());
 		else if (Start == Text("MoveSpeed"))
-			moveFrameSpeed = agk::Val(End.getString());
+			moveFrameSpeed = agk::ValFloat(End.getString());
 		else if (Start == Text("AttackFrameSpeed"))
-			attackFrameSpeed = agk::Val(End.getString());
+			attackFrameSpeed = agk::ValFloat(End.getString());
 		else if (Start == Text("DeathSpeed"))
-			deathFrameSpeed = agk::Val(End.getString());
+			deathFrameSpeed = agk::ValFloat(End.getString());
 		else
 		{
 			//Setting up Animation Frame Values
@@ -232,11 +236,18 @@ void Character::init(void)
 
 	//Set the depth of attackers to be in front of defenders
 	if (isDefender())
-		this->setDepth(5000);
+	{
+		setDepth(5000);
+		OffsetAmount.setX(getWidth()/2.0f);
+		OffsetAmount.setY(getHeight()/2.0f);
+		//setOffset(OffsetAmount.getX(), OffsetAmount.getY());
+	}
 	else
 	{
-		this->setDepth(3000);
-		this->setOffset(5.0f, 0.0f);
+		setDepth(3000);
+		OffsetAmount.setX(getWidth()/2.0f);
+		OffsetAmount.setY(getHeight()/2.0f);
+		//setOffset(OffsetAmount.getX(), OffsetAmount.getY());
 	}
 
 	timeFromLastAttack = 0.0f;
@@ -353,7 +364,7 @@ void Character::update(std::vector<Character*> Defenders)
 	if (isExample)
 		return;
 
-	for (int j = 0; j < Defenders.size(); j++)
+	for (unsigned int j = 0; j < Defenders.size(); j++)
 	{
 		//Check each of the Defenders, as long as they aren't already dead
 		if (Defenders[j]->getState() != DEATH)
@@ -408,12 +419,12 @@ void Character::update(std::vector<Character*> Defenders)
 				{
 					if (getMoveSpeed() > 0.0f)
 						//Dividing Move Speed by 1000 to make it easier for designers to tweak things
-						setPosition(Point(getX() - (getMoveSpeed() / 1000.0f), getY()));
+						setPositionByOffset(Point(getX() - (getMoveSpeed() / 1000.0f), getY()));
 				}
 				else
 				{
 					if (getMoveSpeed() > 0.0f)
-						setPosition(Point(getX() + (getMoveSpeed() / 1000.0f), getY()));
+						setPositionByOffset(Point(getX() + (getMoveSpeed() / 1000.0f), getY()));
 				}
 			}
 		}
@@ -451,9 +462,10 @@ bool Character::isFinishedDying(void)
 ///////////////////////////////////////////////////
 void Character::setState(CharacterState State)
 {
-	float fps;
-	bool loop;
-	unsigned short min, max;
+	float fps = 0.0f;
+	bool loop = false;
+	unsigned short min = 1;
+	unsigned short max = 10000;
 
 	if (CurrentState == State)
 		return;
