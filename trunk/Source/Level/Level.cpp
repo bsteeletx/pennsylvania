@@ -45,7 +45,7 @@ Level::Level(short levelNumber, std::vector<Creature> AttackerList)
 	reward = 0;
 	levelID = levelNumber;
 
-	for (int i = 0; i < AttackerList.size(); i++)
+	for (unsigned int i = 0; i < AttackerList.size(); i++)
 		AttackerInitList.push_back(AttackerList[i]);
 }
 
@@ -112,8 +112,8 @@ void Level::init(void)
 			addBackground(Value);			
 		else if (Category == Text("Creature Location"))
 		{
-			Location.setX(Value.getChar(0) - 48); //subtracting 48 to get to number values as 0 = 48 in ASCII
-			Location.setY(Value.getChar(2) - 48);
+			Location.setX((float) Value.getChar(0) - 48); //subtracting 48 to get to number values as 0 = 48 in ASCII
+			Location.setY((float) Value.getChar(2) - 48);
 			addCreatureType(Type, Location);
 		}
 		else
@@ -144,7 +144,7 @@ void Level::init(void)
 	LevelSource.close();
 
 	//set up attacker choice menu
-	for (int i = 0; i < AttackerInitList.size(); i++)
+	for (unsigned int i = 0; i < AttackerInitList.size(); i++)
 	{
 		//Assign Grid Location to Location Value
 		Point Location(i, 0);
@@ -168,6 +168,7 @@ void Level::init(void)
 	Selector = Sprite("Assets/Common/selector.png");
 	Selector.setDepth(1);
 	Selector.setSize(10.75f);
+	//Selector.setOffset(Selector.getWidth()/2, Selector.getHeight()/2);
 	addSprite(Selector.getSpriteNumber());
 
 	//Place the text for player's currency, set the color and position
@@ -299,9 +300,16 @@ void Level::handleUI(void)
 {
 	//Get actual pointer location
 	Point MouseLoc(agk::GetPointerX(), agk::GetPointerY());
-
+	agk::PrintC("Mouse Location: ");
+	agk::PrintC(MouseLoc.getX());
+	agk::PrintC(", ");
+	agk::Print(MouseLoc.getY());
 	//set MouseLoc as gridCoords
 	MouseLoc.setCoordsAsGridCoords();
+	agk::PrintC("Grid Location: ");
+	agk::PrintC(MouseLoc.getX());
+	agk::PrintC(", ");
+	agk::Print(MouseLoc.getY());
 
 	//set the Green Selector to the Mouse's Grid Position
 	Selector.setPosition(MouseLoc.getNormalCoords());

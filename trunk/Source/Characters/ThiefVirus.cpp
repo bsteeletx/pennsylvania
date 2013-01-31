@@ -23,7 +23,7 @@ ThiefVirus::ThiefVirus(void)
 ThiefVirus::ThiefVirus(Point GridLocation)
 	: Character(Text("CreatureData/Thief"))
 {
-	this->setPosition(GridLocation.getNormalCoords());
+	setPosition(GridLocation.getNormalCoords());
 	Type = THIEF_VIRUS;
 }
 

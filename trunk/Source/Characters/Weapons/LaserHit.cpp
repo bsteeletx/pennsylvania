@@ -52,7 +52,7 @@ void LaserHit::setVisiblity(bool isVisible)
 		setLife(0.15f);
 		setFrequency(100.0f);
 		setDirection(-1.0f, 0.0f);
-		addColorKeyFrame(0.1, RGBA(255, 0, 0, 128));
+		addColorKeyFrame(0.1f, RGBA(255, 0, 0, 128));
 		setDepth(8000);
 	}
 }

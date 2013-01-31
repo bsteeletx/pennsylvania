@@ -51,6 +51,9 @@ void app::Begin( void )
    
 	//Setting Error Mode
 	agk::SetErrorMode(0);
+
+	//setting debug on
+	agk::SetPhysicsDebugOn();
 }
 
 /////////////////////////////
