@@ -31,6 +31,7 @@ namespace AGK
 			bool m_bMultiLine;
 			bool m_bDepthChanged;
 			bool m_bFixed;
+			bool m_bIsPassword;
 			
 			int m_iCursorPos;
 			float m_fCursorBlinkTime;
@@ -86,6 +87,7 @@ namespace AGK
 			void SetMaxLines( UINT lines );
 			void SetScissor( float x, float y ,float x2, float y2 );
 			void FixToScreen( bool fix );
+			void SetPasswordMode( int mode ) { m_bIsPassword = (mode==1); }
 
 			UINT GetID() { return m_iID; }
 			float GetX() { return m_fX; }

@@ -7,6 +7,7 @@
 #include "cText.h"
 #include "Particles.h"
 #include "cTextEntry.h"
+#include "AGKShader.h"
 
 // Namespace
 namespace AGK
@@ -98,6 +99,23 @@ namespace AGK
 				}
 			}
 
+			AGKShader* GetShader()
+			{
+				switch( m_iType )
+				{
+					case 1: 
+					{
+						return ((cSprite*)m_pItem)->GetShader();
+						break;
+					}
+
+					case 2: return AGKShader::g_pShaderTexColor; break;
+					case 3: return AGKShader::g_pShaderTexColor; break;
+					case 4: return 0; break;
+					default: return 0;
+				}
+			}
+
 			bool GetDepthChanged()
 			{
 				switch( m_iType )
@@ -177,10 +195,13 @@ namespace AGK
 			bool m_bSortTextures;
 			bool m_bSortDepth;
 			bool m_bSortTransparentDepth;
+			float m_f3DDepth;
 
 			cSpriteContainer *m_pOpaqueSprites;
-			cSpriteContainer *m_pColorKeySprites;
 			cSpriteContainer *m_pAlphaSprites;
+
+			cSpriteContainer *m_pBackOpaqueSprites;
+			cSpriteContainer *m_pBackAlphaSprites;
 			int m_iQuality;
 		
 			UINT m_iLastTotal;
@@ -188,13 +209,12 @@ namespace AGK
 			UINT m_iLastDrawn;
 			UINT m_iLastDrawCalls;
 
+			UINT iCurrentTexture;
+			AGKShader *m_pCurrentShader;
+
 			bool AddContainer( cSpriteContainer *pNewMember );
 			void DrawList( cSpriteContainer *pList, int mode );
 			
-			void PlatformDrawOpaque( cSpriteContainer *pList );
-			void PlatformDrawColorKey( cSpriteContainer *pList );
-			void PlatformDrawAlpha( cSpriteContainer *pList );
-
 			void PlatformSetupOpaque();
 			void PlatformSetupColorKey();
 			void PlatformSetupAlpha();
@@ -217,6 +237,7 @@ namespace AGK
 			void SetSortDepth( bool sort );
 			void SetSortTransparentDepth( bool sort );
 			void SetQuality( int quality );
+			void Set3DDepth( float fZ ) { m_f3DDepth = fZ; }
 
 			void AddSprite( cSprite* sprite );
 			void AddText( cText* text );
@@ -228,8 +249,10 @@ namespace AGK
 			void RemoveParticles( cParticleEmitter* particles );
 			void RemoveEditBox( cEditBox* editbox );
 
+			void ResortAll();
 			virtual void UpdateAll( float time );
-			virtual void DrawAll();
+			virtual void DrawBack();
+			virtual void DrawFront();
 			void DrawDebug();
 	};
 }

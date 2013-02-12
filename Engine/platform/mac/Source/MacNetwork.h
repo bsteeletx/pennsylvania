@@ -51,6 +51,80 @@ namespace AGK
 				[ MacLock unlock ];
 			}
 	};
+
+	class cSpinLock 
+	{
+		protected:
+		NSLock *MacLock;
+			
+		public:
+			cSpinLock()
+			{
+				MacLock = [[NSLock alloc] init];
+			}
+
+			~cSpinLock()
+			{
+				[ MacLock release ];
+			}
+
+			bool Acquire()
+			{
+				[ MacLock lock ];
+				return true;
+			}
+
+			void Release()
+			{
+				[ MacLock unlock ];
+			}
+	};
+
+	class cCondition 
+	{
+        protected:
+            NSCondition *m_condition;
+            bool m_bLocked;
+            
+        public:
+            cCondition()
+            {
+                m_condition = [[NSCondition alloc] init];
+                m_bLocked = false;
+            }
+            
+            ~cCondition()
+            {
+                [m_condition release];
+            }
+            
+            void Lock()
+            {
+                [m_condition lock];
+                m_bLocked = true;
+            }
+            
+            void Unlock()
+            {
+                m_bLocked = false;
+                [m_condition unlock];
+            }
+            
+            void Wait()
+            {
+                [m_condition wait];
+            }
+            
+            void Signal()
+            {
+                [m_condition signal];
+            }
+            
+            void Broadcast()
+            {
+                [m_condition broadcast];
+            }
+	};
 	
 	class AGKPacket
 	{
@@ -118,6 +192,7 @@ namespace AGK
 		
 		bool Flush();
 		void Close( bool bGraceful=true );	
+		void ForceClose();
 		bool GetDisconnected() { return m_bDisconnected; }
 		
 		bool Connect( const char* IP, UINT port, UINT timeout=3000 );

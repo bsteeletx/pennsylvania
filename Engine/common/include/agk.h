@@ -3,6 +3,7 @@
 #ifndef _H_AGK_
 #define _H_AGK_
 
+	#include "sha1.h"
 	#include "Common.h"
 	#include "agkKeys.h"
 	#include "Globals.h"
@@ -28,6 +29,15 @@
 	#include "Mouse.h"
 	#include "cTextEntry.h"
 	#include "ZipFile.h"
+
+	#include "3DMath.h"
+	#include "AGKShader.h"
+	#include "cObject3D.h"
+	#include "cCamera.h"
+	#include "AGKLights.h"
+	#include "../Collision/CollisionIncludes.h"
+	#include "cObjectMgr.h"
+
 	#include "Wrapper.h"
 
 #endif

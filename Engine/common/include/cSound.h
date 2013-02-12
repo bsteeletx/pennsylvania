@@ -21,7 +21,7 @@ namespace AGK
 		unsigned short  nBlockAlign;        /* block size of data */
 		unsigned short  wBitsPerSample;     /* number of bits per sample of mono data */
 		unsigned short  cbSize;             /* the count in bytes of the size of extra data */
-	} WAVEFORMATEX;
+	} AGKWAVEFORMATEX;
 
 	class cMusicMgr
 	{
@@ -81,7 +81,7 @@ namespace AGK
 					uString m_sFile;
 					unsigned char *m_pRawData;
 					UINT m_uDataSize;
-					WAVEFORMATEX m_fmt;
+					AGKWAVEFORMATEX m_fmt;
 					int m_iMax;
 					UINT m_iInstances;
 

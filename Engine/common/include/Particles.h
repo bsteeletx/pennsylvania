@@ -117,7 +117,7 @@ namespace AGK
 			void UpdateNumParticles();
 
 			void PlatformDrawQuadParticles( UINT count, unsigned short *pIndices, float *pVertices, float *pUV, unsigned char *pColors );
-			void PlatformDrawPointParticles( UINT count, float *pVertices, unsigned char *pColors );
+			//void PlatformDrawPointParticles( UINT count, float *pVertices, unsigned char *pColors );
 			static float GetMaxPointSize();
 			
 		public:

@@ -12,7 +12,7 @@ namespace AGK
 			char* m_pData;
 			UINT m_iLength; //length of the current string, cached for speed
 			UINT m_iTotalLength; //length of the array holding the string, might have room for more data
-		
+	public:
 			void Reset();
 		
 		public:
@@ -20,7 +20,7 @@ namespace AGK
 			uString( const uString &szString );
 			uString( const char* szString, UINT initialLength=0 ); //can define a longer array than the data given
 			~uString();
-		
+
 			void SetStr( const char* szString );
 			inline void SetStr( const uString &szString ) { SetStr( szString.GetStr() ); }
 			inline const char* GetStr() const { if ( !m_pData || m_iLength == 0 ) return ""; else return m_pData; }
@@ -59,8 +59,15 @@ namespace AGK
 			int ToInt() const;
 			float ToFloat() const;
 
+			// "delimit" is a list of characters that split words
 			int CountTokens( const char* delimit );
 			char* GetToken( const char* delimit, int index );
+			int GetToken( const char* delimit, int index, uString &out );
+
+			// "delimit" is a single character that splits sections
+			int CountTokens2( char delimit );
+			//int GetToken2( char delimit, int index, uString &out );
+			int SplitTokens2( char delimit, uString* &out );
 			
 			inline int CompareTo( const uString &pTo ) const { return CompareTo( pTo.GetStr() ); }
 			int CompareTo( const char* szTo ) const;

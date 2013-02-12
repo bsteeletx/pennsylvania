@@ -27,6 +27,7 @@
     <ConfigurationType>Application</ConfigurationType>
     <CharacterSet>NotSet</CharacterSet>
     <PlatformToolset>v100</PlatformToolset>
+    <WholeProgramOptimization>false</WholeProgramOptimization>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">
@@ -46,8 +47,8 @@
     <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(SolutionDir)..\Game\$(PlatformName)$(Configuration)_2010\</OutDir>
     <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(SolutionDir)..\Temp\$(ProjectName)$(PlatformName)$(Configuration)_2010\</IntDir>
     <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</LinkIncremental>
-    <IncludePath Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(SolutionDir)..\Engine\common\include\;$(SolutionDir)\Core\;$(IncludePath)</IncludePath>
-    <LibraryPath Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(SolutionDir)..\Engine\platform\windows\Lib\VS2010\Debug\</LibraryPath>
+    <IncludePath Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(DXSDK_DIR)\Include\;$(SolutionDir)..\Engine\common\include\;$(SolutionDir)\Core\;$(IncludePath)</IncludePath>
+    <LibraryPath Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(VCInstallDir)atlmfc\lib;$(FrameworkSDKDir)\lib;$(WindowsSdkDir)lib;$(VCInstallDir)lib;$(DXSDK_DIR)\Lib\x86\;$(SolutionDir)..\Engine\platform\windows\Lib\VS2010\Debug\</LibraryPath>
     <TargetName Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(ProjectName)$(PlatformName)$(Configuration)</TargetName>
     <TargetName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(ProjectName)$(PlatformName)$(Configuration)</TargetName>
     <IncludePath Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(SolutionDir)..\Engine\common\include\;$(SolutionDir)\Core\;$(IncludePath)</IncludePath>
@@ -61,10 +62,9 @@
       <AdditionalIncludeDirectories>$(SolutionDir)..\Engine\common\include\;$(IADP_SDK_DIR)\Cpp\include;/c/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>AGKWINDOWS;IDE_VS2008;WIN32;_DEBUG;_WINDOWS;IDE_VS2008;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <MinimalRebuild>false</MinimalRebuild>
-      <BasicRuntimeChecks>Default</BasicRuntimeChecks>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
-      <PrecompiledHeader>
-      </PrecompiledHeader>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
       <DisableSpecificWarnings>4996;%(DisableSpecificWarnings)</DisableSpecificWarnings>
@@ -72,13 +72,15 @@
       <BrowseInformation>
       </BrowseInformation>
       <EnablePREfast>true</EnablePREfast>
+      <IntrinsicFunctions>false</IntrinsicFunctions>
+      <FavorSizeOrSpeed>Neither</FavorSizeOrSpeed>
+      <WholeProgramOptimization>false</WholeProgramOptimization>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>winmm.lib;AGKWindows.lib;Wininet.lib;OpenGL32.lib;Glu32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>winmm.lib;AGKWindows.lib;Wininet.lib;OpenGL32.lib;dxguid.lib;locationapi.lib;Quartz.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <OutputFile>$(OutDir)/$(TargetName)$(TargetExt)</OutputFile>
-      <AdditionalLibraryDirectories>$(IADP_SDK_DIR)\Cpp\Lib;/c/lib;..\Engine\platform\windows\Lib\VS2010\Debug;$(WindowsSdkDir)Lib;$(VCInstallDir)lib;$(VCInstallDir)atlmfc\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <IgnoreSpecificDefaultLibraries>
-      </IgnoreSpecificDefaultLibraries>
+      <AdditionalLibraryDirectories>..\Engine\platform\windows\Lib\VS2010\Debug;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <IgnoreSpecificDefaultLibraries>atlsd</IgnoreSpecificDefaultLibraries>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>Windows</SubSystem>
       <TargetMachine>MachineX86</TargetMachine>
@@ -87,6 +89,8 @@
       </AssemblyDebug>
       <LinkTimeCodeGeneration>Default</LinkTimeCodeGeneration>
       <MapFileName>$(TargetDir)$(TargetName).map</MapFileName>
+      <DelayLoadDLLs>Dwmapi.dll;%(DelayLoadDLLs)</DelayLoadDLLs>
+      <AdditionalManifestDependencies>%(AdditionalManifestDependencies)</AdditionalManifestDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -120,84 +124,139 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Characters\BugVirus.cpp" />
-    <ClCompile Include="Characters\Character.cpp" />
-    <ClCompile Include="Characters\DBlocker.cpp" />
-    <ClCompile Include="Characters\InformationNode.cpp" />
-    <ClCompile Include="Characters\MinerVirus.cpp" />
-    <ClCompile Include="Characters\Nort.cpp" />
-    <ClCompile Include="Characters\Spammer.cpp" />
-    <ClCompile Include="Characters\ThiefVirus.cpp" />
-    <ClCompile Include="Characters\Weapons\Laser.cpp" />
-    <ClCompile Include="Characters\Weapons\LaserHit.cpp" />
+    <ClCompile Include="BugVirus.cpp" />
+    <ClCompile Include="Ceiling.cpp" />
+    <ClCompile Include="Character.cpp" />
     <ClCompile Include="Core.cpp" />
+    <ClCompile Include="Core\Advert.cpp" />
     <ClCompile Include="Core\AnimatedSprite.cpp" />
+    <ClCompile Include="Core\Camera.cpp" />
+    <ClCompile Include="Core\DirectionalLight.cpp" />
     <ClCompile Include="Core\EditBox.cpp" />
+    <ClCompile Include="Core\Error.cpp" />
+    <ClCompile Include="Core\Facebook.cpp" />
     <ClCompile Include="Core\File.cpp" />
+    <ClCompile Include="Core\GeneralCore.cpp" />
     <ClCompile Include="Core\HTTP.cpp" />
     <ClCompile Include="Core\Image.cpp" />
+    <ClCompile Include="Core\InAppPurchase.cpp" />
+    <ClCompile Include="Core\Input.cpp" />
     <ClCompile Include="Core\Joint.cpp" />
+    <ClCompile Include="Core\Memblock.cpp" />
     <ClCompile Include="Core\Music.cpp" />
     <ClCompile Include="Core\MyParticles.cpp" />
     <ClCompile Include="Core\Network.cpp" />
     <ClCompile Include="Core\NetworkMessage.cpp" />
+    <ClCompile Include="Core\NFC.cpp" />
+    <ClCompile Include="Core\Notification.cpp" />
+    <ClCompile Include="Core\Object.cpp" />
+    <ClCompile Include="Core\Physics2D.cpp" />
     <ClCompile Include="Core\PhysicsForce.cpp" />
     <ClCompile Include="Core\PhysicsSprite.cpp" />
     <ClCompile Include="Core\Point.cpp" />
+    <ClCompile Include="Core\PointLight.cpp" />
+    <ClCompile Include="Core\Quaternion.cpp" />
+    <ClCompile Include="Core\RateApp.cpp" />
+    <ClCompile Include="Core\RayCast.cpp" />
     <ClCompile Include="Core\RGBA.cpp" />
+    <ClCompile Include="Core\Shader.cpp" />
     <ClCompile Include="Core\Sound.cpp" />
     <ClCompile Include="Core\Sprite.cpp" />
     <ClCompile Include="Core\Text.cpp" />
+    <ClCompile Include="Core\ThreeD.cpp" />
     <ClCompile Include="Core\Timer.cpp" />
+    <ClCompile Include="Core\Touch.cpp" />
+    <ClCompile Include="Core\Twitter.cpp" />
     <ClCompile Include="Core\Vector.cpp" />
+    <ClCompile Include="Core\Video.cpp" />
     <ClCompile Include="Core\VirtualButton.cpp" />
-    <ClCompile Include="Core\VirtualJoystick.cpp" />
-    <ClCompile Include="Level\Fog.cpp" />
-    <ClCompile Include="Level\Level.cpp" />
-    <ClCompile Include="Level\Level00.cpp" />
+    <ClCompile Include="Core\MyJoystick.cpp" />
+    <ClCompile Include="Core\MyZipFile.cpp" />
+    <ClCompile Include="DBlocker.cpp" />
+    <ClCompile Include="Floor.cpp" />
+    <ClCompile Include="InformationNode.cpp" />
+    <ClCompile Include="Laser.cpp" />
+    <ClCompile Include="LaserHit.cpp" />
+    <ClCompile Include="Level.cpp" />
+    <ClCompile Include="Level00.cpp" />
+    <ClCompile Include="MinerVirus.cpp" />
+    <ClCompile Include="Nort.cpp" />
+    <ClCompile Include="Selector.cpp" />
+    <ClCompile Include="Spammer.cpp" />
+    <ClCompile Include="Sun.cpp" />
     <ClCompile Include="template.cpp" />
+    <ClCompile Include="ThiefVirus.cpp" />
+    <ClCompile Include="Wall.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Characters\BugVirus.h" />
-    <ClInclude Include="Characters\Character.h" />
-    <ClInclude Include="Characters\CreatureList.h" />
-    <ClInclude Include="Characters\DBlocker.h" />
-    <ClInclude Include="Characters\InformationNode.h" />
-    <ClInclude Include="Characters\MinerVirus.h" />
-    <ClInclude Include="Characters\Nort.h" />
-    <ClInclude Include="Characters\Spammer.h" />
-    <ClInclude Include="Characters\ThiefVirus.h" />
-    <ClInclude Include="Characters\Weapons\Laser.h" />
-    <ClInclude Include="Characters\Weapons\LaserHit.h" />
+    <ClInclude Include="BugVirus.h" />
+    <ClInclude Include="Ceiling.h" />
+    <ClInclude Include="Character.h" />
     <ClInclude Include="CoreForApp.h" />
+    <ClInclude Include="Core\Advert.h" />
     <ClInclude Include="Core\AnimatedSprite.h" />
+    <ClInclude Include="Core\Camera.h" />
+    <ClInclude Include="Core\DirectionalLight.h" />
     <ClInclude Include="Core\EditBox.h" />
+    <ClInclude Include="Core\Error.h" />
+    <ClInclude Include="Core\Facebook.h" />
     <ClInclude Include="Core\File.h" />
+    <ClInclude Include="Core\GeneralCore.h" />
     <ClInclude Include="Core\HTTP.h" />
     <ClInclude Include="Core\Image.h" />
+    <ClInclude Include="Core\InAppPurchase.h" />
+    <ClInclude Include="Core\Input.h" />
     <ClInclude Include="Core\Joint.h" />
+    <ClInclude Include="Core\Memblock.h" />
     <ClInclude Include="Core\Music.h" />
     <ClInclude Include="Core\MyParticles.h" />
     <ClInclude Include="Core\Network.h" />
     <ClInclude Include="Core\NetworkMessage.h" />
+    <ClInclude Include="Core\NFC.h" />
+    <ClInclude Include="Core\Notification.h" />
+    <ClInclude Include="Core\Object.h" />
+    <ClInclude Include="Core\Physics2D.h" />
     <ClInclude Include="Core\PhysicsForce.h" />
     <ClInclude Include="Core\PhysicsSprite.h" />
     <ClInclude Include="Core\Point.h" />
+    <ClInclude Include="Core\PointLight.h" />
+    <ClInclude Include="Core\Quaternion.h" />
+    <ClInclude Include="Core\RateApp.h" />
+    <ClInclude Include="Core\RayCast.h" />
     <ClInclude Include="Core\RGBA.h" />
+    <ClInclude Include="Core\Shader.h" />
     <ClInclude Include="Core\Sound.h" />
     <ClInclude Include="Core\Sprite.h" />
     <ClInclude Include="Core\Text.h" />
+    <ClInclude Include="Core\ThreeD.h" />
     <ClInclude Include="Core\Timer.h" />
+    <ClInclude Include="Core\Touch.h" />
+    <ClInclude Include="Core\Twitter.h" />
     <ClInclude Include="Core\Vector.h" />
+    <ClInclude Include="Core\Video.h" />
     <ClInclude Include="Core\VirtualButton.h" />
-    <ClInclude Include="Core\VirtualJoystick.h" />
+    <ClInclude Include="Core\MyJoystick.h" />
+    <ClInclude Include="Core\MyZipFile.h" />
+    <ClInclude Include="CreatureList.h" />
+    <ClInclude Include="DBlocker.h" />
     <ClInclude Include="Defines.h" />
+    <ClInclude Include="Floor.h" />
     <ClInclude Include="Globals.h" />
-    <ClInclude Include="Level\Fog.h" />
-    <ClInclude Include="Level\Level.h" />
-    <ClInclude Include="Level\Level00.h" />
-    <ClInclude Include="Level\Levels.h" />
+    <ClInclude Include="InformationNode.h" />
+    <ClInclude Include="Laser.h" />
+    <ClInclude Include="LaserHit.h" />
+    <ClInclude Include="Level.h" />
+    <ClInclude Include="Level00.h" />
+    <ClInclude Include="Levels.h" />
+    <ClInclude Include="MinerVirus.h" />
+    <ClInclude Include="Nort.h" />
+    <ClInclude Include="Selector.h" />
+    <ClInclude Include="Spammer.h" />
+    <ClInclude Include="Sun.h" />
     <ClInclude Include="template.h" />
+    <ClInclude Include="ThiefVirus.h" />
+    <ClInclude Include="VietnamCore.h" />
+    <ClInclude Include="Wall.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\Game\Win32Debug_2010\CreatureData\Bug" />

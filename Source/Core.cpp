@@ -1,4 +1,12 @@
 // Common Includes (for Win32)
+
+// from v1083
+//#define _WIN32_WINNT 0x0502
+
+// from v1084
+// windows 7 for touch commands
+#define _WIN32_WINNT 0x0601
+
 #include <windows.h>
 #include <stdlib.h>
 #include <malloc.h>
@@ -13,11 +21,12 @@
 #include "direct.h"
 
 // App specific include for Core (so core can be distributed between apps without editing inside it)
-#define DEVICE_WIDTH 1024
-#define DEVICE_HEIGHT 768
+#define DEVICE_WIDTH 640
+#define DEVICE_HEIGHT 480
 #include "CoreForApp.h"
 
 #define WM_SOUND_EVENT 0x8001
+#define WM_VIDEO_EVENT 0x8002
 
 // comment out to revert to single mouse
 //#define MULTI_MOUSE
@@ -108,22 +117,95 @@ unsigned int TranslateKey( unsigned int key )
 	return key;
 }
 
+bool g_bShouldBeTopMost = false;
+
+// delay the loading of these functions so Windows XP and Vista don't complain
+int (__stdcall *CloseTouchInputHandleDelayed)( HTOUCHINPUT ) = 0;
+int (__stdcall *GetTouchInputInfoDelayed)( HTOUCHINPUT, unsigned int, PTOUCHINPUT, int ) = 0;
+BOOL (__stdcall *RegisterTouchWindowDelay)(HWND, ULONG) = 0;
+
+void LoadDelayedFunctions()
+{
+	// only checks once
+	static int first = 1;
+	if ( first == 1 )
+	{
+		first = 0;
+		HMODULE user32 = LoadLibrary( "USER32.dll" );
+		CloseTouchInputHandleDelayed = (int(__stdcall *)(HTOUCHINPUT)) GetProcAddress( user32, "CloseTouchInputHandle" );
+		GetTouchInputInfoDelayed = (int(__stdcall *)(HTOUCHINPUT, unsigned int, PTOUCHINPUT, int)) GetProcAddress( user32, "GetTouchInputInfo" );
+		RegisterTouchWindowDelay = (BOOL(__stdcall *)(HWND, ULONG)) GetProcAddress( user32, "RegisterTouchWindow" );
+		FreeLibrary( user32 );
+	}
+}
+
 LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
 	static bool bLeftDown = false;
 
+	// Ensure touch triggered mouse press is released
+	static int iTouchDownCount = 0;
+	if ( iTouchDownCount > 0 )
+	{
+		iTouchDownCount++;
+		if ( iTouchDownCount > 50 )
+		{
+			agk::MouseLeftButton( 0, 0 );
+			iTouchDownCount = 0;
+		}
+	}
+
 	switch (message)
 	{
 #ifdef WM_TOUCH
+		// only works on Windows 7 or above
 		case WM_TOUCH:
 		{
-			// windows based touch device
+			LoadDelayedFunctions();
 
-			return DefWindowProc(hWnd, message, wParam, lParam);
+			if ( CloseTouchInputHandleDelayed )
+			{
+				// windows based touch device
+				UINT cInputs = LOWORD(wParam);
+				if ( cInputs > 0 )
+				{
+					// compensate for window (which may not be in top left)
+					RECT rect;
+					::GetWindowRect( g_hWnd, &rect );
+					
+					PTOUCHINPUT pInputs = new TOUCHINPUT[cInputs];
+					if (GetTouchInputInfoDelayed((HTOUCHINPUT)lParam, cInputs, pInputs, sizeof(TOUCHINPUT)))
+					{
+						// process pInputs
+						for ( UINT i = 0; i < cInputs; i++ )
+						{
+							pInputs[i].x -= (rect.left*100);
+							pInputs[i].y -= (rect.top*100);
+							pInputs[i].x /= 100;
+							pInputs[i].y /= 100;
+
+							if ( pInputs[i].dwFlags & TOUCHEVENTF_DOWN ) agk::TouchPressed( pInputs[i].dwID, pInputs[i].x, pInputs[i].y );
+							if ( pInputs[i].dwFlags & TOUCHEVENTF_MOVE ) agk::TouchMoved( pInputs[i].dwID, pInputs[i].x, pInputs[i].y );
+							if ( pInputs[i].dwFlags & TOUCHEVENTF_UP ) agk::TouchReleased( pInputs[i].dwID, pInputs[i].x, pInputs[i].y );
+
+							// For fast touch response when Mouse commands used
+							if ( cInputs==1 && i==0 )
+							{
+								agk::MouseLeftButton( 0, 1 );
+								agk::MouseMove( 0, pInputs[i].x, pInputs[i].y );
+								iTouchDownCount = 1;
+							}
+						}
+						
+						CloseTouchInputHandleDelayed((HTOUCHINPUT)lParam);
+					}
+					
+					delete [] pInputs;
+				}
+			}
 
 			break;
 		}
-
 #endif
 
 #ifdef MULTI_MOUSE
@@ -315,9 +397,51 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 
 		case WM_SIZE:
 		{
+			// if maximizing then set window to topmost to prevent it overlapping the start button when "use small icons" is ticked
+			// which seems to cause image stutter
+			g_bShouldBeTopMost = (wParam == SIZE_MAXIMIZED);
+			if ( g_bShouldBeTopMost ) ::SetWindowPos( g_hWnd, HWND_TOPMOST, 0,0,0,0, SWP_NOACTIVATE | SWP_NOMOVE | SWP_NOSENDCHANGING | SWP_NOSIZE );
+			else ::SetWindowPos( g_hWnd, HWND_NOTOPMOST, 0,0,0,0, SWP_NOACTIVATE | SWP_NOMOVE | SWP_NOSENDCHANGING | SWP_NOSIZE );
+
 			agk::UpdateDeviceSize();
+			agk::WindowMoved();
 			break;
 		}
+
+		case WM_WINDOWPOSCHANGED:
+		case WM_MOVE:
+		{
+			agk::WindowMoved();
+			return DefWindowProc(hWnd, message, wParam, lParam);
+		}
+
+		case WM_ACTIVATE:
+		{
+			// if being made inactive and currently we are topmost temporarily remove topmost until we are active again.
+			if ( LOWORD(wParam) != WA_INACTIVE ) 
+			{
+				if ( g_bShouldBeTopMost ) ::SetWindowPos( g_hWnd, HWND_TOPMOST, 0,0,0,0, SWP_NOACTIVATE | SWP_NOMOVE | SWP_NOSENDCHANGING | SWP_NOSIZE );
+			}
+			else
+			{
+				if ( g_bShouldBeTopMost ) ::SetWindowPos( g_hWnd, HWND_NOTOPMOST, 0,0,0,0, SWP_NOACTIVATE | SWP_NOMOVE | SWP_NOSENDCHANGING | SWP_NOSIZE );
+			}
+			agk::WindowMoved();
+			return DefWindowProc(hWnd, message, wParam, lParam);
+		}
+
+		case WM_NCACTIVATE:
+		{
+			if ( wParam ) agk::WindowMoved();
+			return DefWindowProc(hWnd, message, wParam, lParam);
+		}
+
+		case WM_SETFOCUS:
+		{
+			agk::WindowMoved();
+			return DefWindowProc(hWnd, message, wParam, lParam);
+		}
+
 
 		case WM_KEYDOWN:
 		{
@@ -365,11 +489,56 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 			agk::HandleMusicEvents( (UINT) lParam );
 			break;
 		}
+
+		case WM_VIDEO_EVENT:
+		{
+			agk::HandleVideoEvents();
+			break;
+		}
 			
+		case WM_CLOSE:
+		{
+			// 310811 - use coreforapp call to intercept close action
+			AppForceExit();
+			break;
+		}
+
+		case WM_COMMAND:
+		{
+			if ( (wParam & 0xffff) == 124 )
+			{
+				// capture
+				agk::CaptureImage();
+				agk::CancelCapture();
+			}
+			else if ( (wParam & 0xffff) == 125 )
+			{
+				// cancel
+				agk::CancelCapture();
+			}
+			break;
+		}
+
 		case WM_DESTROY:
 		{
 			PostQuitMessage(0);
 			break;
+		}
+
+		case WM_ERASEBKGND:
+		{
+			break;
+		}
+
+		case WM_PAINT:
+		{
+			ValidateRect( g_hWnd, NULL );
+			break;
+		}
+
+		case 0x031E: //WM_DWMCOMPOSITIONCHANGED
+		{
+			agk::CompositionChanged();
 		}
 
 		default:
@@ -387,7 +556,7 @@ HWND CreateWin32Window( HINSTANCE hInstance, int width, int height, uString &szT
 
 	// hardcoded resource IDs for icons
 	wcex.cbSize			= sizeof(WNDCLASSEX);
-	wcex.style			= CS_HREDRAW | CS_VREDRAW;
+	wcex.style			= CS_HREDRAW | CS_VREDRAW | CS_OWNDC;
 	wcex.lpfnWndProc	= WndProc;
 	wcex.cbClsExtra		= 0;
 	wcex.cbWndExtra		= 0;
@@ -413,6 +582,7 @@ HWND CreateWin32Window( HINSTANCE hInstance, int width, int height, uString &szT
 	if ( y < 0 ) y = 0;
 	if ( x+width > rc.right ) x = rc.right-width;
 	if ( y+height > rc.bottom ) y = rc.bottom-height;
+
 	if ( fullscreen )												
     {
 		width = rc.right-rc.left;
@@ -481,6 +651,9 @@ HWND CreateWin32Window( HINSTANCE hInstance, int width, int height, uString &szT
 	pDevices.dwFlags = 0;
 	RegisterRawInputDevices( &pDevices, 1, sizeof(RAWINPUTDEVICE) );
 #endif
+
+	LoadDelayedFunctions();
+	if ( RegisterTouchWindowDelay ) RegisterTouchWindowDelay(hWnd,TWF_WANTPALM);
 
 	// success
 	return hWnd;
@@ -551,12 +724,15 @@ int APIENTRY _tWinMain(HINSTANCE hInstance,
 
 	// create a win32 window for the app
 	uString szTitle( "template" );
-	DWORD dwCenterWindowX = ( GetSystemMetrics ( SM_CXSCREEN ) - DEVICE_WIDTH ) / 2;
-	DWORD dwCenterWindowY = ( GetSystemMetrics ( SM_CYSCREEN ) - DEVICE_HEIGHT ) / 2;
+	int dwCenterWindowX = ( GetSystemMetrics ( SM_CXSCREEN ) - DEVICE_WIDTH ) / 2;
+	int dwCenterWindowY = ( GetSystemMetrics ( SM_CYSCREEN ) - DEVICE_HEIGHT ) / 2;
 	HWND hWnd = CreateWin32Window( hInstance, DEVICE_WIDTH, DEVICE_HEIGHT, szTitle, dwCenterWindowX, dwCenterWindowY, false );
 
 	// gather data
 	AppGatherData ( (DWORD)hWnd, lpCmdLine );
+
+	// 100612 - build 1077 - Only AGK Player needs 'player assets', so new flag controls if they are created
+	agk::SetExtraAGKPlayerAssetsMode ( 0 ); // 0-no assets, 1-minimum assets, 2-extra AGK Player assets
 
 	// initialise graphics API (win32 openGL) for app
 	agk::InitGL( (void*) hWnd );
@@ -565,6 +741,7 @@ int APIENTRY _tWinMain(HINSTANCE hInstance,
 	CreateInternalBitmapsForLIBIMAGES();
 
 	// call app begin
+	bool bExitLoop = false;
 	try
 	{
 		App.Begin();
@@ -574,11 +751,11 @@ int APIENTRY _tWinMain(HINSTANCE hInstance,
 		uString err = agk::GetLastError();
 		err.Prepend( "Uncaught exception: \n\n" );
 		MessageBox( NULL, err.GetStr(), "Error", 0 );
+		bExitLoop = true;
 	}
 
 	// message pump
 	MSG msg;
-	bool bExitLoop = false;
 	while ( !bExitLoop )
 	{
 		if ( PeekMessage(&msg, NULL, 0, 0, PM_REMOVE) )
@@ -592,19 +769,22 @@ int APIENTRY _tWinMain(HINSTANCE hInstance,
 			// call app each frame
 			try
 			{
-				App.Loop();
+				if ( !agk::IsCapturingImage() ) App.Loop();
 			}
 			catch(...)
 			{
 				uString err = agk::GetLastError();
 				err.Prepend( "Uncaught exception: \n\n" );
 				MessageBox( NULL, err.GetStr(), "Error", 0 );
+				bExitLoop = true;
 			}
 		}
 	}
 	
 	// call app end
 	App.End();
+
+	agk::CleanUp();
 
 	// finished
 	return 0;

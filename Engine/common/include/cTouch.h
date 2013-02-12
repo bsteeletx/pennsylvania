@@ -5,7 +5,8 @@
 // Common includes
 #include "Common.h"
 
-#define MAX_TOUCH_COUNT 10
+// Maximum AGK allows
+#define MAX_AGK_TOUCH_COUNT 10
 
 // Namespace
 namespace AGK
@@ -18,7 +19,7 @@ namespace AGK
 			
 			static int g_iIterIndex;
 			static bool g_bIncludeUnknown;
-			static cTouch g_pTouchEvents[ MAX_TOUCH_COUNT ];
+			static cTouch g_pTouchEvents[ MAX_AGK_TOUCH_COUNT ];
 
 		public:
 			enum eTouchType

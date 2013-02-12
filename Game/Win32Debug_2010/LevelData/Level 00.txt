@@ -1,4 +1,8 @@
 Background Image:Assets/Levels/Level 00/level0background.png
+Left Wall:Assets/Levels/Level 00/backgroud0repeat.jpg
+Back Wall:Assets/Levels/Level 00/backgroud0repeat.jpg
+Right Wall:Assets/Levels/Level 00/backgroud0repeat.jpg
+Floor:Assets/Levels/Level 00/floor0repeat.jpg
 Creature Type:0
 Creature Location:0 0
 Creature Location:0 1

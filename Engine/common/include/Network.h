@@ -183,6 +183,7 @@ namespace AGK
 			volatile bool m_bKick;
 			int m_iUserValue[ 5 ];
 			float m_fPingStart;
+			char m_iPingResponded;
 			float m_fPing;
 			bool m_bDisconnected;
 			bool m_bDelete;
@@ -242,6 +243,7 @@ namespace AGK
 
 			BroadcastListener *m_pBroadcastListener;	//client only
 			AGKSocket *m_pServerSock;					//client only
+			char m_iKeepAliveResponded;					//client only
 			
 			cNetworkClient** volatile m_ppClients; 
 			volatile UINT m_iNumClients;
