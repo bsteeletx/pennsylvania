@@ -26,12 +26,14 @@
 #define AGK_SPRITE_FLIPH		0x00004000
 #define AGK_SPRITE_FLIPV		0x00008000
 #define AGK_SPRITE_SNAP			0x00010000
+#define AGK_SPRITE_MANAGE_IMAGES 0x00020000
 
 
 // Namespace
 namespace AGK
 {
 	class cImage;
+	class AGKShader;
 
 	// class for holding animation UV coordinates
 	class _EXPORT_ cSpriteFrame
@@ -62,6 +64,7 @@ namespace AGK
 			static cSprite* g_pAllSprites;
 			static cSprite* g_pLastSprite;
 			static unsigned char g_iDepthShift[ 10000 ];
+			static unsigned char g_iDepthCount[ 10000 ];
 
 			friend class agk;
 			friend class cSpriteMgr;
@@ -89,7 +92,12 @@ namespace AGK
 			// image variables
 			cImage*		m_pImage;
 			UINT		m_iImageID;
+			UINT		m_iImageInternalID;
 			UINT		m_iColor;
+
+			// shader variables
+			AGKShader*	m_pShader;
+			bool		m_bCustomShader;
 
 			float		m_fClipX;
 			float		m_fClipY;
@@ -178,6 +186,7 @@ namespace AGK
 			static int g_iPixelsDrawn;
 
 			static void UpdateDepth();
+			static void RemoveImage( cImage *pDelImage );
 
 			// construct/destruct
 			cSprite();
@@ -185,6 +194,8 @@ namespace AGK
 			cSprite( const uString &szImage );
 			cSprite( cImage *pImage );
 			~cSprite();
+
+			void ImageDeleting( cImage *pImage );
 		
 			// get functions
 			UINT GetID					( void );
@@ -224,10 +235,17 @@ namespace AGK
 			void GetClipValues			( int &x, int &y, int &width, int &height );
 			int GetGroup				( void );
 
+			AGKShader* GetShader() { return m_pShader; }
+
 			float GetXFromPixel( int x );
 			float GetYFromPixel( int y );
 			int GetPixelFromX( float x );
 			int GetPixelFromY( float y );
+
+			float GetWorldXFromPoint( float x, float y );
+			float GetWorldYFromPoint( float x, float y );
+			float GetXFromWorld( float x, float y );
+			float GetYFromWorld( float x, float y );
 
 			// set functions
 			void SetID					( UINT ID );
@@ -255,6 +273,7 @@ namespace AGK
 			void SetScaleByOffset		( float x, float y );
 			void SetImage				( const uString &szImage, bool bUpdateCollisionShape=false );
 			void SetImage				( cImage *pImage, bool bUpdateCollisionShape=false );
+			void SwitchImage			( cImage *pImage, bool bUpdateCollisionShape=false );
 			void SetTransparency		( int mode );
 			void SetOffset				( float x, float y );
 			void SetUVBorder			( float border );
@@ -264,6 +283,7 @@ namespace AGK
 			void SetScissor				( float x, float y, float x2, float y2 );
 			void SetUV					( float u1, float v1, float u2, float v2, float u3, float v3, float u4, float v4 );
 			void ResetUV				();
+			void SetManageImages		( int mode );
 
 			void SetUserData			( void* data );
 			void* GetUserData			( );

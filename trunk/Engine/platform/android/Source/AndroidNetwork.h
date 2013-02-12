@@ -1,5 +1,5 @@
-#ifndef _H_NETWORK_MAC
-#define _H_NETWORK_MAC
+#ifndef _H_NETWORK_ANDROID
+#define _H_NETWORK_ANDROID
 
 #include "Common.h"
 
@@ -10,8 +10,8 @@ namespace AGK
 	class cLock 
 	{
 		protected:
-		pthread_mutex_t mutex;
-			
+			pthread_mutex_t mutex;
+						
 		public:
 			cLock()
 			{
@@ -35,6 +35,124 @@ namespace AGK
 			void Release()
 			{
 				pthread_mutex_unlock( &mutex );
+			}
+	};
+
+#if __ARM_ARCH__ > 5
+	// spin locks are faster, but not recursive and must not be used on single core devices
+	class cSpinLock 
+	{
+		protected:
+			volatile int iLock;
+			
+		public:
+			cSpinLock() { iLock = 0; }
+
+			~cSpinLock() { }
+
+			bool Acquire()
+			{
+				asm volatile ( "mov r1, #0x1 \n\t"
+					 "1: ldrex r0, [%0] \n\t"
+						"cmp r0, #0 \n\t"
+						"strexeq r0, r1, [%0] \n\t"
+						"cmpeq r0, #0 \n\t"
+						"bne 1b \n\t"
+						"dmb \n\t"
+						: 
+						: "r"(&iLock)
+						: "r0", "r1" );
+						
+				return true;
+			}
+
+			void Release()
+			{
+				asm volatile ( "dmb;" );
+				iLock = 0;
+			}
+	};
+#else
+	class cSpinLock 
+	{
+		protected:
+			pthread_mutex_t mutex;
+			
+		public:
+			cSpinLock() 
+			{ 
+				pthread_mutexattr_t attr;
+				pthread_mutexattr_init( &attr );
+				pthread_mutex_init( &mutex, &attr );
+			}
+
+			~cSpinLock()
+			{
+				pthread_mutex_destroy( &mutex );
+			}
+
+			bool Acquire()
+			{
+				pthread_mutex_lock( &mutex );
+				return true;
+			}
+
+			void Release()
+			{
+				pthread_mutex_unlock( &mutex );
+			}
+	};
+#endif
+
+	class cCondition 
+	{
+		protected:
+			pthread_cond_t condition;
+			pthread_mutex_t mutex;
+			bool m_bLocked;
+			
+		public:
+			cCondition()
+			{
+				pthread_cond_init( &condition, NULL );
+				pthread_mutexattr_t attr;
+				pthread_mutexattr_init( &attr );
+				pthread_mutex_init( &mutex, &attr );
+				m_bLocked = false;
+			}
+
+			~cCondition()
+			{
+				pthread_mutex_destroy( &mutex );
+				pthread_cond_destroy( &condition );
+			}
+
+			void Lock()
+			{
+				pthread_mutex_lock( &mutex );
+				m_bLocked = true;
+			}
+
+			void Unlock()
+			{
+				m_bLocked = false;
+				pthread_mutex_unlock( &mutex );
+			}
+
+			void Wait()
+			{
+				pthread_cond_wait( &condition, &mutex );
+				//pthread_cond_timeout_np( &condition, &mutex, 50 );
+			}
+
+			void Signal()
+			{
+				pthread_cond_signal( &condition );
+			}
+
+			void Broadcast()
+			{
+				pthread_cond_broadcast( &condition );
 			}
 	};
 	
@@ -104,6 +222,7 @@ namespace AGK
 		
 		bool Flush();
 		void Close( bool bGraceful=true );	
+		void ForceClose();
 		bool GetDisconnected() { return m_bDisconnected; }
 		
 		bool Connect( const char* IP, UINT port, UINT timeout=3000 );
@@ -233,6 +352,7 @@ namespace AGK
 			int m_iSent;
 			int m_iSendLength;
 			cFile *m_pUploadFile;
+			bool m_bFailed;
 			
 			void SendRequestInternal();
 			void SendFileInternal();

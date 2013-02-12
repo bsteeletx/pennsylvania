@@ -1,0 +1,7 @@
+#include "BugVirus.h"
+#include "DBlocker.h"
+#include "InformationNode.h"
+#include "MinerVirus.h"
+#include "Spammer.h"
+#include "ThiefVirus.h"
+#include "Nort.h"

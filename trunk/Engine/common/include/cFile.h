@@ -25,6 +25,8 @@ namespace AGK
 
 			static void DeleteFile( const char *szFilename );
 			static bool Exists( const char *szFilename );
+			static bool ExistsWrite( const char *szFilename );
+			static bool ExistsRead( const char *szFilename );
 			static bool GetModified( const char *szFilename, int &time );
 			static UINT GetFileSize( const char *szFilename );
 
@@ -39,17 +41,20 @@ namespace AGK
 			UINT GetPos();
 			void Seek( UINT pos );
 
+			void WriteByte( unsigned char b );
 			void WriteInteger( int i );
 			void WriteFloat( float f );
 			void WriteString( const char *str );
 			void WriteData( const char *str, UINT bytes );
 			void WriteLine( const char *str );
 
+			unsigned char ReadByte( );
 			int ReadInteger( );
 			float ReadFloat( );
 			int ReadString( uString &str );
 			int ReadData( char *str, UINT length );
 			int ReadLine( uString &str );
+			int ReadLineFast( uString &str );
 	};
 }
 

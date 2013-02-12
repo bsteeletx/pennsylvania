@@ -7,14 +7,18 @@
 	// disable deprecation warning
 	#pragma warning(disable:4995)
 
-	//#ifdef _DEBUG
-		#define _AGK_ERROR_CHECK
-	//#endif
+	#define _AGK_ERROR_CHECK
+	#define USE_BOX2D
+
+	// Windows 7 for touch commands
+	#ifndef _WIN32_WINNT //experiment (using Windows SDK 8.0 to fix sensor output)
+	#define _WIN32_WINNT 0x0601 
+	#endif
 
 	#include <windows.h>
 	#include <stdio.h>
 	#include <gl\gl.h>								// Header File For The OpenGL32 Library
-	#include <gl\glu.h>								// Header File For The GLu32 Library
+	#include <gl\glu.h>
 	#include "..\..\platform\windows\Source\glext.h"
 	#include <WinSock.h>
 	#include <math.h>
@@ -23,6 +27,7 @@
 	#include <sys/stat.h>
 	#include <wininet.h>
 	#include <time.h>
+	#include <cassert>
 
 	#ifndef GL_CLAMP_TO_EDGE
 		#define GL_CLAMP_TO_EDGE  0x812F
@@ -53,8 +58,6 @@
 	#endif
 
 	#define STDCALL __stdcall
-
-	#define USE_BOX2D
 
 	#ifndef INT64
 		#define INT64 __int64
@@ -133,6 +136,7 @@
 	#define DWORD UINT
 	#define LONGLONG UINT
 	#define LPSTR char*
+    #define BYTE unsigned char
 
 	//#ifdef DEBUG
 		#define _AGK_ERROR_CHECK
@@ -143,8 +147,8 @@
 	#import <UIKit/UIKit.h>
 	#import <QuartzCore/QuartzCore.h>
 	#import <OpenGLES/EAGL.h>
-	#import <OpenGLES/ES1/gl.h>
-	#import <OpenGLES/ES1/glext.h>
+	#import <OpenGLES/ES2/gl.h>
+	#import <OpenGLES/ES2/glext.h>
 	#import <OpenGLES/EAGLDrawable.h>
 	#import <AudioToolbox/AudioToolbox.h>
 	#import <AVFoundation/AVFoundation.h>
@@ -210,6 +214,7 @@
 	#include <sys/stat.h>
 
 	#define USE_BOX2D
+	#define BYTE unsigned char
 
 	#ifndef _EXPORT_
 		#define _EXPORT_ 
@@ -284,6 +289,8 @@
 
 #ifdef IDE_ANDROID
 	#define _AGK_ERROR_CHECK
+	#define USE_BOX2D
+	#define BYTE unsigned char
 
 	#include <stdio.h>
 	#include <string.h>
@@ -303,9 +310,8 @@
 	#include <pthread.h>
 
 	#include <EGL/egl.h>
-	#include <GLES/gl.h>
-
-	#define USE_BOX2D
+	//#include <GLES/gl.h>
+	#include <GLES2/gl2.h>
 
 	#ifndef _EXPORT_
 		#define _EXPORT_
@@ -322,6 +328,24 @@
 	#define LPSTR char*
 
 	#define INT64 int
+
+	#ifndef __ARM_ARCH__
+	#  if defined __ARM_ARCH_7__   || defined __ARM_ARCH_7A__ || \
+		  defined __ARM_ARCH_7R__  || defined __ARM_ARCH_7M__
+	#    define __ARM_ARCH__ 7
+	#
+	#  elif defined __ARM_ARCH_6__   || defined __ARM_ARCH_6J__ || \
+		  defined __ARM_ARCH_6K__  || defined __ARM_ARCH_6Z__ || \
+		  defined __ARM_ARCH_6KZ__ || defined __ARM_ARCH_6T2__
+	#    define __ARM_ARCH__ 6
+	#
+	#  elif defined __ARM_ARCH_5__ || defined __ARM_ARCH_5T__ || \
+			defined __ARM_ARCH_5TE__ || defined __ARM_ARCH_5TEJ__
+	#    define __ARM_ARCH__ 5
+	#  else 
+	#    define __ARM_ARCH__ 4
+	#  endif
+	#endif
 #endif
 
 #ifdef IDE_BLACKBERRY

@@ -5,6 +5,7 @@
 // Common includes
 #include "Common.h"
 #include "uString.h"
+#include "Network.h"
 
 #define MAX_IMAGES 0xffffffff
 
@@ -12,6 +13,10 @@
 namespace AGK
 {
 	class Point2D;
+	class cImage;
+	class cSprite;
+	class cText;
+	class ImageCompressor;
 
 	class cSubImage
 	{
@@ -28,23 +33,57 @@ namespace AGK
 			~cSubImage() {}
 	};
 
+	class cImageLink
+	{
+		public:
+			cImage *m_pImage;
+			cImageLink *m_pNext;
+
+			cImageLink() { m_pImage = 0; m_pNext = 0; }
+			~cImageLink() {}
+	};
+
+	class cSpriteLink
+	{
+		public:
+			cSprite *m_pSprite;
+			cSpriteLink *m_pNext;
+
+			cSpriteLink() { m_pSprite = 0; m_pNext = 0; }
+			~cSpriteLink() {}
+	};
+
+	class cTextLink
+	{
+		public:
+			cText *m_pText;
+			cTextLink *m_pNext;
+
+			cTextLink() { m_pText = 0; m_pNext = 0; }
+			~cTextLink() {}
+	};
+
 	class _EXPORT_ cImage
 	{
 		friend class agk;
+		friend class cText;
+		friend class ImageCompressor;
+
+		public:
+			UINT				m_iID;
 
 		protected:
 
-			UINT				m_iID;
 			UINT				m_iTextureID;
-			UINT				m_iWidth;
+			UINT				m_iWidth; // the width/height of the image stored in OpenGL with padding
 			UINT				m_iHeight;
-			UINT				m_iOrigWidth;
+			UINT				m_iOrigWidth; // the width and height of the image stored in the filesystem without padding.
 			UINT				m_iOrigHeight;
 			uString				m_szFile;
 			cImage*				m_pNextImage;
 			// if parent image is not null then this image is a sub image stored on a parent atlas texture
 			cImage*				m_pParentImage;
-			// for normal images this will be 0.0 -> 1.0, for sub images this will specify where on the texture atlas this image is
+			// for power of 2 images this will be 0.0 -> 1.0, for sub images this will specify where on the texture atlas this image is
 			float				m_fU1;
 			float				m_fV1;
 			float				m_fU2;
@@ -63,18 +102,31 @@ namespace AGK
 			bool				m_bResized;
 			float				m_fScaledAmount;
             int                 m_iSpecialLoadMode;
+			bool				m_bIsCubeMap;
 
-			unsigned char*		m_pCompressedPixelData;
-			UINT				m_iCompressedLength;
+			unsigned char* volatile m_pCompressedPixelData;
+			volatile UINT		m_iCompressedLength;
+			volatile int		m_iCompressed;
 
 			int					m_iMinFilter;
 			int					m_iMagFilter;
 			int					m_iWrapU;
 			int					m_iWrapV;
 
+			cImageLink*			m_pChildren;
+			bool				m_bDeleting;
+			bool				m_bDontLink;
+
+			cSpriteLink*		m_pCurrentSprites;
+			cTextLink*			m_pCurrentTextObjects;
+			
 			static cImage* g_pAllImages;
-			static UINT iCurrTexture;
+			static UINT iCurrTexture[8];
 			static int g_iAlphaColThreshold;
+            static int g_iSavePixels;
+
+			cSpinLock m_pCompressLock;
+			static ImageCompressor* g_pCompressThread;
 
 			// internal
 			void Reset();
@@ -90,17 +142,31 @@ namespace AGK
 			void PlatformLoadFromData( int width, int height, UINT *bits );
 
 			void SetCompressedPixelData( unsigned char* pixels, unsigned int size );
+			void CompressData();
 
 		public:
 
-			static void BindTexture( UINT iTex );
+			static void BindTexture( UINT iTex, UINT stage=0 );
 			static void ReloadAllImages();
+
+			void AddChild( cImage *pChild );
+			void RemoveChild( cImage *pChild );
+
+			void AddSprite( cSprite *pSprite );
+			void RemoveSprite( cSprite *pSprite );
+
+			void AddText( cText *pText );
+			void RemoveText( cText *pText );
 
 			// construct/destruct
 			cImage ( );
 			cImage ( const uString &szFile );
 			cImage ( const char* szFile );
 			~cImage ( );
+
+			int GetRawData( unsigned char** pData );
+
+			void Bind( UINT stage=0 );
 
 			void CreateFromScreen( int x, int y, int width, int height );
 			void CopyFrom( cImage *pFromImage, int srcX, int srcY, int width, int height );
@@ -109,6 +175,8 @@ namespace AGK
 			int DecodeQR( uString &out );
 			bool EncodeQR( const char* text, int errormode );
 			void Print( float size );
+
+			void CreateColorImage( UINT red, UINT green, UINT blue, UINT alpha );
 
 			// internal - one line
 			UINT GetID() const;

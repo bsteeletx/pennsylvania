@@ -88,6 +88,9 @@ namespace AGK
 			cText( int iLength=0 );
 			~cText();
 			void SetSpriteManager( cSpriteMgr *pMgr );
+
+			static void GlobalImageDeleting( cImage *pImage );
+			void ImageDeleting( cImage *pImage );
 			
 			void ChangedAspect();
 			void SetString( const uString &sString ) { SetString( sString.GetStr() ); }

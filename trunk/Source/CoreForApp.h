@@ -1,7 +1,7 @@
 #ifndef _H_COREFORAPP
 #define _H_COREFORAPP
 
-// interpreter header
+// template header
 #include "template.h"
 
 #ifdef IDE_MEEGO

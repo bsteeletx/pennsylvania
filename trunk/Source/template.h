@@ -3,7 +3,7 @@
 
 // Link to AGK libraries
 #include "Globals.h"
-#include "Level/Levels.h"
+#include "Levels.h"
 
 // Global values for the app
 class app

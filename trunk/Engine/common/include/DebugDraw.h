@@ -9,11 +9,14 @@ struct b2AABB;
 namespace AGK
 {
 	class cSprite;
+	class AGKShader;
 
 	// This class implements debug drawing callbacks that are invoked inside b2World::Step.
 	class DebugDraw : public b2Draw
 	{
 	public:
+		AGKShader *m_pShader;
+
 		DebugDraw() {}
 		~DebugDraw() {}
 

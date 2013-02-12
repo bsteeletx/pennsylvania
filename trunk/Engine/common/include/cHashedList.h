@@ -40,6 +40,8 @@ namespace AGK
 			UINT HashIndex( const char *szIndex );
 
 		public:
+			bool m_bIsClearing;
+
 			cHashedList( UINT iSize=1024 );
 			~cHashedList();
 
@@ -84,6 +86,7 @@ template<class T> cHashedList<T>::cHashedList( UINT iSize )
 	m_iLastID = 10000;
 	bDeletePointers = false;
 	m_iItemCount = 0;
+	m_bIsClearing = false;
 }
 
 template<class T>cHashedList<T>::~cHashedList()
@@ -101,13 +104,11 @@ template<class T>UINT cHashedList<T>::HashIndex( UINT iIndex )
 
 template<class T>UINT cHashedList<T>::HashIndex( const char *szIndex )
 {
-	//return iIndex % m_iListSize;
-	// if m_iListSize is a power of 2 we can do it in bitwise operators
 	UINT iIndex = 0;
 	UINT length = strlen( szIndex );
 	for ( UINT i = 0; i < length; i++ )
 	{
-		iIndex += szIndex[i];
+		iIndex += szIndex[i]*23*i;
 	}
 	return iIndex & (m_iListSize-1);
 }
@@ -197,6 +198,8 @@ template<class T> T* cHashedList<T>::GetNext()
 
 template<class T> T* cHashedList<T>::RemoveItem( UINT iID )
 {
+	if ( m_bIsClearing ) return 0;
+
 	UINT index = HashIndex( iID );
 	cHashedItem *pItem = m_pHashedItems[ index ];
 	cHashedItem *pLast = UNDEF;
@@ -293,6 +296,8 @@ template<class T> void cHashedList<T>::ClearAll( )
 		}
 	}
 
+	m_bIsClearing = false;
+	m_iLastID = 10000;
 	m_iItemCount = 0;
 	m_pIter = UNDEF;
 }

@@ -33,45 +33,6 @@
     <ClCompile Include="template.cpp">
       <Filter>Default Project Classes</Filter>
     </ClCompile>
-    <ClCompile Include="Level\Fog.cpp">
-      <Filter>Level Specific</Filter>
-    </ClCompile>
-    <ClCompile Include="Level\Level.cpp">
-      <Filter>Level Specific</Filter>
-    </ClCompile>
-    <ClCompile Include="Level\Level00.cpp">
-      <Filter>Level Specific</Filter>
-    </ClCompile>
-    <ClCompile Include="Characters\BugVirus.cpp">
-      <Filter>Creatures</Filter>
-    </ClCompile>
-    <ClCompile Include="Characters\Character.cpp">
-      <Filter>Creatures</Filter>
-    </ClCompile>
-    <ClCompile Include="Characters\DBlocker.cpp">
-      <Filter>Creatures</Filter>
-    </ClCompile>
-    <ClCompile Include="Characters\InformationNode.cpp">
-      <Filter>Creatures</Filter>
-    </ClCompile>
-    <ClCompile Include="Characters\MinerVirus.cpp">
-      <Filter>Creatures</Filter>
-    </ClCompile>
-    <ClCompile Include="Characters\Nort.cpp">
-      <Filter>Creatures</Filter>
-    </ClCompile>
-    <ClCompile Include="Characters\Spammer.cpp">
-      <Filter>Creatures</Filter>
-    </ClCompile>
-    <ClCompile Include="Characters\ThiefVirus.cpp">
-      <Filter>Creatures</Filter>
-    </ClCompile>
-    <ClCompile Include="Characters\Weapons\Laser.cpp">
-      <Filter>Creatures\Weapons</Filter>
-    </ClCompile>
-    <ClCompile Include="Characters\Weapons\LaserHit.cpp">
-      <Filter>Creatures\Weapons</Filter>
-    </ClCompile>
     <ClCompile Include="Core\AnimatedSprite.cpp">
       <Filter>Vietnam</Filter>
     </ClCompile>
@@ -129,12 +90,130 @@
     <ClCompile Include="Core\VirtualButton.cpp">
       <Filter>Vietnam</Filter>
     </ClCompile>
-    <ClCompile Include="Core\VirtualJoystick.cpp">
-      <Filter>Vietnam</Filter>
-    </ClCompile>
     <ClCompile Include="Core\MyParticles.cpp">
       <Filter>Vietnam</Filter>
     </ClCompile>
+    <ClCompile Include="Core\Advert.cpp">
+      <Filter>Vietnam</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\Camera.cpp">
+      <Filter>Vietnam</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\DirectionalLight.cpp">
+      <Filter>Vietnam</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\Error.cpp">
+      <Filter>Vietnam</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\Facebook.cpp">
+      <Filter>Vietnam</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\GeneralCore.cpp">
+      <Filter>Vietnam</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\InAppPurchase.cpp">
+      <Filter>Vietnam</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\Input.cpp">
+      <Filter>Vietnam</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\Memblock.cpp">
+      <Filter>Vietnam</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\Notification.cpp">
+      <Filter>Vietnam</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\Physics2D.cpp">
+      <Filter>Vietnam</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\PointLight.cpp">
+      <Filter>Vietnam</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\RateApp.cpp">
+      <Filter>Vietnam</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\Shader.cpp">
+      <Filter>Vietnam</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\ThreeD.cpp">
+      <Filter>Vietnam</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\Twitter.cpp">
+      <Filter>Vietnam</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\Video.cpp">
+      <Filter>Vietnam</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\Object.cpp">
+      <Filter>Vietnam</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\Quaternion.cpp">
+      <Filter>Vietnam</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\MyJoystick.cpp">
+      <Filter>Vietnam</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\NFC.cpp">
+      <Filter>Vietnam</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\Touch.cpp">
+      <Filter>Vietnam</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\RayCast.cpp">
+      <Filter>Vietnam</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\MyZipFile.cpp">
+      <Filter>Vietnam</Filter>
+    </ClCompile>
+    <ClCompile Include="Level.cpp">
+      <Filter>Level Specific</Filter>
+    </ClCompile>
+    <ClCompile Include="Level00.cpp">
+      <Filter>Level Specific</Filter>
+    </ClCompile>
+    <ClCompile Include="BugVirus.cpp">
+      <Filter>Creatures</Filter>
+    </ClCompile>
+    <ClCompile Include="Character.cpp">
+      <Filter>Creatures</Filter>
+    </ClCompile>
+    <ClCompile Include="DBlocker.cpp">
+      <Filter>Creatures</Filter>
+    </ClCompile>
+    <ClCompile Include="InformationNode.cpp">
+      <Filter>Creatures</Filter>
+    </ClCompile>
+    <ClCompile Include="MinerVirus.cpp">
+      <Filter>Creatures</Filter>
+    </ClCompile>
+    <ClCompile Include="Nort.cpp">
+      <Filter>Creatures</Filter>
+    </ClCompile>
+    <ClCompile Include="Spammer.cpp">
+      <Filter>Creatures</Filter>
+    </ClCompile>
+    <ClCompile Include="ThiefVirus.cpp">
+      <Filter>Creatures</Filter>
+    </ClCompile>
+    <ClCompile Include="Laser.cpp">
+      <Filter>Creatures\Weapons</Filter>
+    </ClCompile>
+    <ClCompile Include="LaserHit.cpp">
+      <Filter>Creatures\Weapons</Filter>
+    </ClCompile>
+    <ClCompile Include="Floor.cpp">
+      <Filter>Level Specific</Filter>
+    </ClCompile>
+    <ClCompile Include="Ceiling.cpp">
+      <Filter>Level Specific</Filter>
+    </ClCompile>
+    <ClCompile Include="Sun.cpp">
+      <Filter>Level Specific</Filter>
+    </ClCompile>
+    <ClCompile Include="Wall.cpp">
+      <Filter>Level Specific</Filter>
+    </ClCompile>
+    <ClCompile Include="Selector.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CoreForApp.h">
@@ -148,51 +227,6 @@
     </ClInclude>
     <ClInclude Include="template.h">
       <Filter>Default Project Classes</Filter>
-    </ClInclude>
-    <ClInclude Include="Level\Fog.h">
-      <Filter>Level Specific</Filter>
-    </ClInclude>
-    <ClInclude Include="Level\Level.h">
-      <Filter>Level Specific</Filter>
-    </ClInclude>
-    <ClInclude Include="Level\Level00.h">
-      <Filter>Level Specific</Filter>
-    </ClInclude>
-    <ClInclude Include="Level\Levels.h">
-      <Filter>Level Specific</Filter>
-    </ClInclude>
-    <ClInclude Include="Characters\BugVirus.h">
-      <Filter>Creatures</Filter>
-    </ClInclude>
-    <ClInclude Include="Characters\Character.h">
-      <Filter>Creatures</Filter>
-    </ClInclude>
-    <ClInclude Include="Characters\CreatureList.h">
-      <Filter>Creatures</Filter>
-    </ClInclude>
-    <ClInclude Include="Characters\DBlocker.h">
-      <Filter>Creatures</Filter>
-    </ClInclude>
-    <ClInclude Include="Characters\InformationNode.h">
-      <Filter>Creatures</Filter>
-    </ClInclude>
-    <ClInclude Include="Characters\MinerVirus.h">
-      <Filter>Creatures</Filter>
-    </ClInclude>
-    <ClInclude Include="Characters\Nort.h">
-      <Filter>Creatures</Filter>
-    </ClInclude>
-    <ClInclude Include="Characters\Spammer.h">
-      <Filter>Creatures</Filter>
-    </ClInclude>
-    <ClInclude Include="Characters\ThiefVirus.h">
-      <Filter>Creatures</Filter>
-    </ClInclude>
-    <ClInclude Include="Characters\Weapons\Laser.h">
-      <Filter>Creatures\Weapons</Filter>
-    </ClInclude>
-    <ClInclude Include="Characters\Weapons\LaserHit.h">
-      <Filter>Creatures\Weapons</Filter>
     </ClInclude>
     <ClInclude Include="Core\AnimatedSprite.h">
       <Filter>Vietnam</Filter>
@@ -251,12 +285,139 @@
     <ClInclude Include="Core\VirtualButton.h">
       <Filter>Vietnam</Filter>
     </ClInclude>
-    <ClInclude Include="Core\VirtualJoystick.h">
-      <Filter>Vietnam</Filter>
-    </ClInclude>
     <ClInclude Include="Core\MyParticles.h">
       <Filter>Vietnam</Filter>
     </ClInclude>
+    <ClInclude Include="Core\Advert.h">
+      <Filter>Vietnam</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Camera.h">
+      <Filter>Vietnam</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\DirectionalLight.h">
+      <Filter>Vietnam</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Error.h">
+      <Filter>Vietnam</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Facebook.h">
+      <Filter>Vietnam</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\GeneralCore.h">
+      <Filter>Vietnam</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\InAppPurchase.h">
+      <Filter>Vietnam</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Input.h">
+      <Filter>Vietnam</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Memblock.h">
+      <Filter>Vietnam</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Notification.h">
+      <Filter>Vietnam</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Physics2D.h">
+      <Filter>Vietnam</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\PointLight.h">
+      <Filter>Vietnam</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\RateApp.h">
+      <Filter>Vietnam</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Shader.h">
+      <Filter>Vietnam</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\ThreeD.h">
+      <Filter>Vietnam</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Twitter.h">
+      <Filter>Vietnam</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Video.h">
+      <Filter>Vietnam</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Object.h">
+      <Filter>Vietnam</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Quaternion.h">
+      <Filter>Vietnam</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\MyJoystick.h">
+      <Filter>Vietnam</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\NFC.h">
+      <Filter>Vietnam</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Touch.h">
+      <Filter>Vietnam</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\RayCast.h">
+      <Filter>Vietnam</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\MyZipFile.h">
+      <Filter>Vietnam</Filter>
+    </ClInclude>
+    <ClInclude Include="VietnamCore.h">
+      <Filter>Vietnam</Filter>
+    </ClInclude>
+    <ClInclude Include="Level.h">
+      <Filter>Level Specific</Filter>
+    </ClInclude>
+    <ClInclude Include="Level00.h">
+      <Filter>Level Specific</Filter>
+    </ClInclude>
+    <ClInclude Include="Levels.h">
+      <Filter>Level Specific</Filter>
+    </ClInclude>
+    <ClInclude Include="BugVirus.h">
+      <Filter>Creatures</Filter>
+    </ClInclude>
+    <ClInclude Include="Character.h">
+      <Filter>Creatures</Filter>
+    </ClInclude>
+    <ClInclude Include="CreatureList.h">
+      <Filter>Creatures</Filter>
+    </ClInclude>
+    <ClInclude Include="DBlocker.h">
+      <Filter>Creatures</Filter>
+    </ClInclude>
+    <ClInclude Include="InformationNode.h">
+      <Filter>Creatures</Filter>
+    </ClInclude>
+    <ClInclude Include="MinerVirus.h">
+      <Filter>Creatures</Filter>
+    </ClInclude>
+    <ClInclude Include="Nort.h">
+      <Filter>Creatures</Filter>
+    </ClInclude>
+    <ClInclude Include="Spammer.h">
+      <Filter>Creatures</Filter>
+    </ClInclude>
+    <ClInclude Include="ThiefVirus.h">
+      <Filter>Creatures</Filter>
+    </ClInclude>
+    <ClInclude Include="LaserHit.h">
+      <Filter>Creatures\Weapons</Filter>
+    </ClInclude>
+    <ClInclude Include="Laser.h">
+      <Filter>Creatures\Weapons</Filter>
+    </ClInclude>
+    <ClInclude Include="Floor.h">
+      <Filter>Level Specific</Filter>
+    </ClInclude>
+    <ClInclude Include="Sun.h">
+      <Filter>Level Specific</Filter>
+    </ClInclude>
+    <ClInclude Include="Ceiling.h">
+      <Filter>Level Specific</Filter>
+    </ClInclude>
+    <ClInclude Include="Wall.h">
+      <Filter>Level Specific</Filter>
+    </ClInclude>
+    <ClInclude Include="Selector.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\Game\Win32Debug_2010\CreatureData\InformationNode">

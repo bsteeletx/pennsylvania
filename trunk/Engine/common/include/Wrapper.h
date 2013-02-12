@@ -54,6 +54,17 @@ namespace AGK
 			~cDirectoryItem() { }
 	};
 
+	class cMemblock
+	{
+		public:
+			UINT m_iID;
+			unsigned char* m_pData;
+			UINT m_iSize;
+
+			cMemblock() { m_iID = 0; m_pData = 0; m_iSize = 0; }
+			~cMemblock() { if ( m_pData ) delete [] m_pData; }
+	};
+
 	class agk
 	{
 		private:
@@ -76,6 +87,10 @@ namespace AGK
 			friend class cVirtualJoystick;
 			friend class cEditBox;
 			friend class ZipFile;
+			friend class AGKShader;
+			friend class cObject3D;
+			friend class cObjectMgr;
+			friend class DebugDraw;
 
 		public:
 
@@ -93,17 +108,10 @@ namespace AGK
 			// *********************
 
 			// calculated viewport dimensions
-			/*
-			static float m_iViewportX;
-			static float m_iViewportY;
-			static float m_iViewportWidth;
-			static float m_iViewportHeight;
-			*/
-		
-			static int m_iTargetViewportX;
-			static int m_iTargetViewportY;
-			static int m_iTargetViewportWidth;
-			static int m_iTargetViewportHeight;
+			static float m_fTargetViewportX;
+			static float m_fTargetViewportY;
+			static float m_fTargetViewportWidth;
+			static float m_fTargetViewportHeight;
 
 			static int m_iScissorX;
 			static int m_iScissorY;
@@ -111,6 +119,10 @@ namespace AGK
 			static int m_iScissorHeight;
 			static bool m_bScissorUser;
 			static bool m_bScissorEnabled;
+			static float m_fScissorUserX;
+			static float m_fScissorUserY;
+			static float m_fScissorUserX2;
+			static float m_fScissorUserY2;
 
 			// app start time in seconds
 			static double m_fTimeStart; 
@@ -123,6 +135,10 @@ namespace AGK
 			static float m_fTimeDelta; 
 			static UINT m_iTimeMilliseconds;
 			static float m_fFps;
+			static bool m_bUsingVSync;
+
+			static UINT m_iPolygonsDrawn;
+			static UINT m_iVerticesProcessed;
 
 			// width and height of the device (current state of device target) (i.e. desktop resolution)
 			static int m_iRealDeviceWidth;
@@ -147,6 +163,7 @@ namespace AGK
 			static bool m_bClearDepth;
 			static bool m_bClearColor;
 			static int m_iResolutionMode;
+			static int m_iExtraAGKPlayerAssetsMode;
 			static int m_iOrientation;
 			static float m_fCurrentAngle;
 			static float m_fTargetAngle;
@@ -227,6 +244,7 @@ namespace AGK
 
 			static cDirectoryItem *m_pCurrentDirectoryIter;
 			static cDirectoryItem *m_pCurrentFileIter;
+            static bool m_bUpdateFileLists;
 
 			// date/time variables
 			static int m_pMonthDays[ 12 ];
@@ -245,21 +263,58 @@ namespace AGK
 			static float m_fAdX;
 			static float m_fAdY;
 			static float m_fAdWidth;
+            static float m_fAdOffsetX;
+            static float m_fAdOffsetY;
 			static int m_iAdHorz;
 			static int m_iAdVert;
             static int m_iAdTest;
+            static int m_iAdVisible;
+
+			// video variables
+			static float m_fVideoX;
+			static float m_fVideoY;
+			static float m_fVideoWidth;
+			static float m_fVideoHeight;
 
 			// 3D variables
 			static float m_fFOV;
 			static float m_fNear;
 			static float m_fFar;
 			static int m_iProjMatrixMode;
+			static bool m_bRightHand;
+			static AGKMatrix4 m_matProj;
+			static AGKMatrix4 m_matOrtho;
+			static cCamera *m_pCurrentCamera;
+			static float m_f3DDepth;
+
+			// state change variables
+			static char m_iCurrentBlendEnabled;
+			static char m_iCurrentBlendFunc1;
+			static char m_iCurrentBlendFunc2;
+			static UINT m_iCurrentBoundVBO;
+			static char m_iCurrentDepthTest;
+			static char m_iCurrentDepthFunc;
+			static char m_iCurrentDepthWrite;
+			static char m_iCurrentCullMode;			
+
+			// drawing variables
+			static float* m_pLines;
+			static UINT m_iNumLines;
+			static UINT m_iLineArraySize;
+
+			// collision variables
+			static CollisionResults m_cCollisionResults;
 
 			// ***********************
 			// internal functions
 			// ***********************
+			#ifdef IDE_WINRT
+			static void PlatformSetDevicePtr( Windows::UI::Core::CoreWindow^ ptr );
+			static void PlatformInitGL( Windows::UI::Core::CoreWindow^ ptr );
+			#else
 			static void PlatformSetDevicePtr( void* ptr );
 			static void PlatformInitGL( void *ptr );
+			#endif
 			static void PlatformDestroyGL( void );
 			static void PlatformInitFilePaths();
 			static void RecalculateDisplay();
@@ -276,12 +331,13 @@ namespace AGK
 			static void PlatformReportError( const uString &sMsg );
 			static void PlatformSetViewport( int x, int y, int width, int height );
 			static void PlatformCompleteInputInit();
+			static void PlatformInputPointerPressed(float x, float y);
 			static void PlatformStartTextInput( const char *sInitial );
 			static void PlatformUpdateTextInput();
 			static void PlatformDrawTextInput();
 			static void PlatformMessage( const char* msg );
 			static void PlatformSetProjectionMatrix();
-			static void PlatformSet3DProjectionMatrix();
+			//static void PlatformSet3DProjectionMatrix();
 			static void PlatformPrepareDebugDraw();
 			static void PlatformEndDebugDraw();
 			static void PlatformPrepareDefaultDraw();
@@ -297,6 +353,77 @@ namespace AGK
 			static void PlatformResumed();
 			static int PlatformGetAdPortal();
 			static void PlatformSetOrientationAllowed( int p, int p2, int l, int l2 );
+			static void PlatformSetBlendMode( int mode ); // 0=opaque, 1=alpha blending, 2=additive blending
+			static void PlatformDeleteBuffer( UINT buffer );
+			static int PlatformGetNumProcessors();
+			static bool PlatformGetDeviceID( uString &out );
+
+			// state changes
+			static void PlatformSetBlendFunc( int mode1, int mode2 ); // 0=zero, 1=one, 2=sAlpha, 3=1-sAlpha, 4=dAlpha, 5=1-dAlpha, 6=sColor, 7=1-sColor, 8=dColor, 9=1-dColor, 10=saturate alpha
+			static void PlatformSetBlendEnabled( int mode ); // 0=off, 1=on
+			static void PlatformSetDepthTest( int mode ); // 0=off, 1=on
+			static void PlatformSetDepthFunc( int mode ); // 0=never, 1=less, 2=equal, 3=lequal, 4=greater, 5=notequal, 6=gequal, 7=equal, 8=always
+			static void PlatformSetDepthWrite( int mode ); // 0=off, 1=on
+			static void PlatformSetCullMode( int mode ); // 0=off, 1=on
+			static bool PlatformBindBuffer( UINT buffer );
+
+			// social plugins
+			static void  PlatformSocialPluginsSetup           ( void );
+			static void  PlatformSocialPluginsDestroy         ( void );
+
+			// RATING COMMANDS
+			static void  PlatformRateApp                      ( char* szID );
+
+			// IN APP PURCHASE COMMANDS
+			static void  PlatformInAppPurchaseSetTitle        ( char* szTitle );
+			static void  PlatformInAppPurchaseAddProductID    ( char* szID );
+			static void  PlatformInAppPurchaseSetup           ( void );
+			static void  PlatformInAppPurchaseActivate        ( int iID );
+			static int   PlatformGetInAppPurchaseState        ( void );
+			static int   PlatformGetInAppPurchaseAvailable    ( int iID );
+			static bool  PlatformHasInAppPurchase             ( void );
+
+			// ADMOB COMMANDS
+			static void  PlatformAdMobSetupRelative			  ( const char* szID, int horz, int vert, float offsetX, float offsetY );
+            static void  PlatformAdMobPosition                ( int horz, int vert, float offsetx, float offsety );
+			static void  PlatformSetAdMobVisible              ( int iVisible );
+			static void  PlatformAdMobRequestNewAd            ( void );
+			static void  PlatformAdMobDestroy                 ( void );
+			static bool  PlatformHasAdMob		              ( void );
+
+			// FACEBOOK COMMANDS
+			static void  PlatformFacebookSetup                ( char* szID );
+			static void  PlatformFacebookLogin                ( void );
+			static void  PlatformFacebookLogout               ( void );
+			static void  PlatformFacebookShowLikeButton       ( char* szURL, int iX, int iY, int iWidth, int iHeight );
+			static void  PlatformFacebookDestroyLikeButton    ( void );
+			static void  PlatformFacebookPostOnMyWall         ( char* szLink, char* szPicture, char* szName, char* szCaption, char* szDescription );
+			static void  PlatformFacebookPostOnFriendsWall    ( char* szID, char* szLink, char* szPicture, char* szName, char* szCaption, char* szDescription );
+			static void  PlatformFacebookInviteFriend         ( char* szID, char* szMessage );
+			static void  PlatformFacebookGetFriends           ( void );
+			static int   PlatformFacebookGetFriendsState      ( void );
+			static int   PlatformFacebookGetFriendsCount      ( void );
+			static char* PlatformFacebookGetFriendsName       ( int iIndex );
+			static char* PlatformFacebookGetFriendsID         ( int iIndex );
+			static void  PlatformFacebookDownloadFriendsPhoto ( int iIndex );
+			static int   PlatformGetFacebookDownloadState     ( void );
+			static char* PlatformGetFacebookDownloadFile      ( void );
+			static int   PlatformGetFacebookLoggedIn          ( void );
+			static bool  PlatformHasFacebook	              ( void );
+			static char* PlatformFacebookGetUserID			  ( void );
+			static char* PlatformFacebookGetUserName		  ( void );
+
+			// TWITTER COMMANDS
+			static void  PlatformTwitterSetup                 ( char* szKey, char* szSecret );
+			static void  PlatformTwitterMessage               ( char* szMessage );
+			static bool  PlatformHasTwitter		              ( void );
+
+			// NOTIFICATION COMMANDS
+			static void  PlatformNotificationCreate           ( char* szDateTime, char* szMessage, char* szData );
+			static void  PlatformNotificationReset            ( void );
+			static int   PlatformGetNotification              ( void );
+			static char* PlatformGetNotificationData          ( void );
+			static bool  PlatformHasNotifications             ( void );
 
 			static void UpdateAd();
 			static void DrawAd();
@@ -330,9 +457,16 @@ namespace AGK
 			static cHashedList<cParticleEmitter> m_cParticleEmitterList;
 			static cHashedList<cEditBox> m_cEditBoxList;
 			static cHashedList<ZipFile> m_cZipFileList;
-			//static cHashedList<cObject3D> m_cObject3DList;
+			static cHashedList<cMemblock> m_cMemblockList;
+
+			static cHashedList<cObject3D> m_cObject3DList;
+			static cHashedList<cCamera> m_cCameraList;
+			static cHashedList<AGKShader> m_cShaderList;
+			static cHashedList<AGKPointLight> m_cPointLightList;
+			static cHashedList<AGKDirectionalLight> m_cDirectionalLightList;
 
 			static cSpriteMgr m_cSpriteMgr;
+			static cObjectMgr m_cObjectMgr;
 
 			// error variables
 			static int m_iErrorMode;
@@ -360,6 +494,9 @@ namespace AGK
 			static int m_iSyncMode;
 			static bool m_bOrientationSet;
 			static int m_iCurrentOrientationMode;
+			static uString m_sPNToken;
+
+			static int m_iDrawingCount;
 
 			static uString m_sCurrentDir;
 			static uString m_sOrigSetDir;
@@ -391,6 +528,8 @@ namespace AGK
 			static float m_f3DDrawingSetupTime;
 			static float m_fDrawingTime;
 
+			static int m_iNumProcessors;
+
 		public:
         
             static void PlatformGetFullPathWrite( uString &inout );
@@ -410,12 +549,20 @@ namespace AGK
 
 			// internal public functions, called by automated processes on the device
 			static void SetResolutionMode( int mode );
+			static void SetExtraAGKPlayerAssetsMode ( int mode );
+			#ifdef IDE_WINRT
+			static void agk::InitGL ( Windows::UI::Core::CoreWindow^ ptr );
+			#else
 			static void InitGL( void* ptr );
+			#endif
 			static void DestroyGL( void );
 			static void UpdatePtr( void* ptr );
 			static void UpdatePtr2( void* ptr ); // does minimal amount of changes
+			static void WindowMoved();
 			static void ResetAllStates ( void );
 			static void CleanUp();
+			static void CompositionChanged();
+			static void PNToken( const char* token );
 		
 			static void OrientationChanged( int mode );
 			static int CanOrientationChange( int mode );
@@ -471,6 +618,7 @@ namespace AGK
 
 			// sound input commands, the device stub file will need to call these to notify the GDK about sound events
 			static void HandleMusicEvents( UINT lParam );
+			static void HandleVideoEvents();
 
 #ifdef USE_BOX2D
 			static float PhyToWorldX( float value ) { return value / m_phyScale; }
@@ -480,6 +628,12 @@ namespace AGK
 
 			static void ClearJoint( b2Joint *pJoint );
 #endif
+
+			static bool IsRightHand() { return m_bRightHand; }
+        
+            // social command helpers
+            static int FacebookHandleOpenURL( void* url );
+            static void FacebookReceivedNotification( const char* data );
 
 		public:
 
@@ -527,9 +681,15 @@ namespace AGK
 			static void Sync();
 			static void Break();
 			static void Update( float time=0 );
-			static void Render();
+			static void Update2D( float time=0 );
+			static void Update3D( float time=0 );
+			static void DrawAllLines();
+			static void Render2DBack();
+			static void Render2DFront();
 			static void Render3D();
+			static void Render();
 			static void Swap();
+			static void UpdateInput();
 			static void ClearScreen();
 			static void ClearDepthBuffer();
 			static void Sleep( UINT milliseconds );
@@ -539,6 +699,17 @@ namespace AGK
 			static int GetSeconds();
 			static float GetFrameTime();
 			static UINT GetMilliseconds();
+			static char* GetDeviceLanguage();
+
+			static char* GetDeviceID();
+			static void GetDeviceID( uString &out );
+			static char* Sha1( const char* str );
+			static void Sha1( const char* str, uString &out );
+			static char* HTTPEncode( const char* str );
+			static void HTTPEncode( const char* str, uString &out );
+			static char* HTTPDecode( const char* str );
+			static void HTTPDecode( const char* str, uString &out );
+			static int GetNumProcessors();
 
 			// math functions
 			static void SetRandomSeed( UINT seed );
@@ -554,10 +725,12 @@ namespace AGK
 			static float ASin( float a );
 			static float ACos( float a );
 			static float ATan( float a );
+			static float ATan2( float y, float x );
 			static float ATanFull( float x, float y );
 			static float ASinRad( float a );
 			static float ACosRad( float a );
 			static float ATanRad( float a );
+			static float ATan2Rad( float y, float x );
 			static float ATanFullRad( float x, float y );
 			static int Trunc( float a );
 			static int Floor( float a );
@@ -578,6 +751,8 @@ namespace AGK
 			static void SetSortTransparentDepth( int sort );
 			static void SetSortCreated( int sort );
 			static float ScreenFPS();
+			static UINT GetPolygonsDrawn();
+			static UINT GetVerticesProcessed();
 			static void EnableClearDepth( UINT clear );
 			static void EnableClearColor( UINT clear );
 			static void SetBorderColor( UINT red, UINT green, UINT blue );
@@ -615,8 +790,10 @@ namespace AGK
 			static UINT LoadImage ( const char* sImageFilename );
 			static void LoadSubImage ( UINT iImageIndex, UINT iParentIndex, const char* sImageFilename );
 			static UINT LoadSubImage ( UINT iParentIndex, const char* sImageFilename );
+			static void CreateImageColor( UINT imageID, UINT red, UINT green, UINT blue, UINT alpha );
 			static UINT GetImageExists ( UINT iImageIndex );
 			static void DeleteImage ( UINT iImageIndex );
+			static void DeleteAllImages();
 			static float GetImageWidth ( UINT iImageIndex );
 			static float GetImageHeight ( UINT iImageIndex );
 			static void SetImageMinFilter( UINT iImageIndex, UINT mode );
@@ -630,6 +807,7 @@ namespace AGK
 			static UINT GetImage( float x, float y, float width, float height );
 			static void GetImage( UINT imageID, float x, float y, float width, float height );
 			static char* GetImageFilename( UINT imageID );
+            static void SetImageSavePixels( int mode );
 
             static UINT ChooseImage();
             static UINT ShowChooseImageScreen();
@@ -661,6 +839,7 @@ namespace AGK
 			static void CloneSprite( UINT iSpriteIndex, UINT iOtherSprite );
 			static UINT CloneSprite( UINT iOtherSprite );
 			static void DeleteSprite ( UINT iSpriteIndex );
+			static void DeleteAllSprites();
 			static void SetSpritePosition ( UINT iSpriteIndex, float fX, float fY );
 			static void SetSpritePositionByOffset ( UINT iSpriteIndex, float fX, float fY );
 			static void SetSpriteX ( UINT iSpriteIndex, float fX );
@@ -702,6 +881,11 @@ namespace AGK
 			static int GetSpritePixelFromX( UINT iSpriteIndex, float x );
 			static int GetSpritePixelFromY( UINT iSpriteIndex, float y );
 
+			static float GetWorldXFromSprite( UINT iSpriteIndex, float x, float y );
+			static float GetWorldYFromSprite( UINT iSpriteIndex, float x, float y );
+			static float GetSpriteXFromWorld( UINT iSpriteIndex, float x, float y );
+			static float GetSpriteYFromWorld( UINT iSpriteIndex, float x, float y );
+			
 			static void SetSpriteSize( UINT iSpriteIndex, float width=-1, float height=-1 );
 			static void SetSpriteAnimation( UINT iSpriteIndex, int iFrameWidth, int iFrameHeight, int iFrameCount );
 			static void AddSpriteAnimationFrame( UINT iSpriteIndex, UINT iImageIndex );
@@ -746,8 +930,15 @@ namespace AGK
 			static void SetPhysicsGravity( float x, float y );
 			static void SetPhysicsDebugOn();
 			static void SetPhysicsDebugOff();
+			static void SetPhysicsThreading( int threads );
+			static void SetPhysicsCCD( int mode );
+			static void SetPhysicsSleeping( int mode );
 			static void SetPhysicsMaxPolygonPoints( int points );
 			static b2World* GetPhysicsWorld();
+
+			//physics benchmarking
+			static float GetPhysicsSolveTime();
+			static int GetPhysicsIslandCount();
 
 			static void SetPhysicsWallTop( int mode );
 			static void SetPhysicsWallLeft( int mode );
@@ -969,6 +1160,7 @@ namespace AGK
 			static void CreateText( UINT iTextIndex, const char *string );
 			static UINT CreateText( const char *string );
 			static void DeleteText( UINT iTextIndex );
+			static void DeleteAllText();
 			static void SetTextString( UINT iTextIndex, const char *string );
 			static void SetTextPosition( UINT iTextIndex, float fX, float fY );
 			static void SetTextX( UINT iTextIndex, float fX );
@@ -1079,6 +1271,7 @@ namespace AGK
 			static int GetRawMouseRightState();
 			static int GetRawMouseRightReleased();
 			static void SetRawMouseVisible( int visible );
+			static void SetRawMousePosition( float x, float y );
 		
 			// accelerometer
 			static void FixOrientationByDefault();
@@ -1205,6 +1398,7 @@ namespace AGK
 			static void SetEditBoxMaxLines( UINT index, UINT max );
 			static void SetEditBoxMultiLine( UINT index, int mulitline );
 			static void SetEditBoxScissor( UINT index, float x, float y, float x2, float y2 );
+			static void SetEditBoxPasswordMode( UINT index, int mode );
 			static void FixEditBoxToScreen( UINT index, int fix );
 			static char* GetEditBoxText( UINT index );
 			static float GetEditBoxX( UINT index );
@@ -1248,9 +1442,15 @@ namespace AGK
 			static void SetMusicSystemVolume( int iVol );
 			static UINT GetMusicExists( UINT iID );
 
+			// record sound
+			static void RecordSound( const char* szFilename );
+			static void StopSoundRecording();
+			static int IsSoundRecording();
+
 			// file system commands
 			static void SetRawWritePath( const char *str );
 			static char* GetWritePath();
+			static char* GetReadPath();
 
 			static char* ChooseRawFile( const char* ext );
 
@@ -1270,11 +1470,13 @@ namespace AGK
 			static int FileEOF( UINT iFileID );
 			static int GetFileSize( UINT iFileID );
 			
+			static void WriteByte( UINT iFileID, int b );
 			static void WriteInteger( UINT iFileID, int i );
 			static void WriteFloat( UINT iFileID, float f );
 			static void WriteString( UINT iFileID, const char* str );
 			static void WriteLine( UINT iFileID, const char* str );
 
+			static int ReadByte( UINT iFileID );
 			static int ReadInteger( UINT iFileID );
 			static float ReadFloat( UINT iFileID );
 			static char* ReadString( UINT iFileID );
@@ -1351,6 +1553,8 @@ namespace AGK
 			static UINT CreateHTTPConnection();
 			static void DeleteHTTPConnection( UINT iHTTP );
 
+			static int GetInternetState();
+
 			static UINT SetHTTPHost( UINT iHTTP, const char *szHost, int iSecure );
 			static UINT SetHTTPHost( UINT iHTTP, const char *szHost, int iSecure, const char *szUser, const char *szPass );
 			static void CloseHTTPConnection( UINT iHTTP );
@@ -1406,6 +1610,10 @@ namespace AGK
 			static float GetDrawingSetupTime();
 			static float GetDrawingTime();
 
+			static UINT GetLoadedImages();
+			static UINT GetUnassignedImages();
+			static char* GetUnassignedImageFileName( UINT index );
+
 			// date/time
 			static int GetYearFromUnix64( INT64 unixtime, int* daysinyear=0 );
 			static int GetMonthFromUnix64( INT64 unixtime );
@@ -1434,28 +1642,352 @@ namespace AGK
 
 			// adverts
 			static void SetInneractiveDetails( const char* szCode );
+            static void SetAdMobDetails( char* szID );
 			static void CreateAdvert( int type, int horz, int vert, int test );
+            static void CreateAdvertEx( int type, int horz, int vert, int test, float offsetx, float offsety );
 			static void SetAdvertPosition( float x, float y, float width );
 			static void SetAdvertLocation( int horz, int vert, float width );
+            static void SetAdvertLocation( int horz, int vert, float offsetx, float offsety, float width );
+            static void SetAdvertVisible( int iVisible );
+            static void RequestAdvertRefresh ( void );
 			static void DeleteAdvert( );
+
+			//
+			// V108 - 
+			//
+
+			// log command (mainly for HTML5 but others can use it; output window)
+			static void Log( char *szMessage );
+        
+			// internal social functions
+            static void SocialPluginsSetup ( void );
+            static void SocialPluginsDestroy ( void );
+
+			// video commands
+			static int LoadVideo( const char *szFilename );
+			static void DeleteVideo();
+			static void SetVideoDimensions( float x, float y, float width, float height );
+			static void PlayVideo();
+            static void PauseVideo(); 
+			static void StopVideo();
+			static int GetVideoPlaying();
+			static float GetVideoPosition();
+			static float GetVideoDuration();
+			static void SetVideoVolume( float volume );
+			static float GetVideoWidth();
+			static float GetVideoHeight();
+
+			// RATING COMMANDS
+			static void  RateApp                      ( char* szID );
+
+			// IN APP PURCHASE COMMANDS
+			static void  InAppPurchaseSetTitle        ( char* szTitle );
+			static void  InAppPurchaseAddProductID    ( char* szID );
+			static void  InAppPurchaseSetup           ( void );
+			static void  InAppPurchaseActivate        ( int iID );
+			static int   GetInAppPurchaseState        ( void );
+			static int   GetInAppPurchaseAvailable    ( int iID );
+
+			// FACEBOOK COMMANDS
+			static void  FacebookSetup                ( char* szID );
+			static void  FacebookLogin                ( void );
+			static void  FacebookLogout               ( void );
+			static void  FacebookShowLikeButton       ( char* szURL, int iX, int iY, int iWidth, int iHeight );
+			static void  FacebookDestroyLikeButton    ( void );
+			static void  FacebookPostOnMyWall         ( char* szLink, char* szPicture, char* szName, char* szCaption, char* szDescription );
+			static void  FacebookPostOnFriendsWall    ( char* szID, char* szLink, char* szPicture, char* szName, char* szCaption, char* szDescription );
+			static void  FacebookInviteFriend         ( char* szID, char* szMessage );
+			static void  FacebookGetFriends           ( void );
+			static int   FacebookGetFriendsState      ( void );
+			static int   FacebookGetFriendsCount      ( void );
+			static char* FacebookGetFriendsName       ( int iIndex );
+			static char* FacebookGetFriendsID         ( int iIndex );
+			static void  FacebookDownloadFriendsPhoto ( int iIndex );
+			static int   GetFacebookDownloadState     ( void );
+			static char* GetFacebookDownloadFile      ( void );
+			static int   GetFacebookLoggedIn          ( void );
+			static char* FacebookGetUserID			  ( void );
+			static char* FacebookGetUserName		  ( void );
+
+			// TWITTER COMMANDS
+			static void  TwitterSetup                 ( char* szKey, char* szSecret );
+			static void  TwitterMessage               ( char* szMessage );
+
+			// NOTIFICATION COMMANDS
+			static void  NotificationCreate           ( char* szDateTime, char* szMessage, char* szData );
+			static void  NotificationReset            ( void );
+			static int   GetNotification              ( void );
+			static char* GetNotificationData          ( void );
+
+			// V108 Ultra notification (WinRT Metro-style)
+			static int   GetNotificationType          ( void );
+			static void  SetNotificationImage		  ( int iImageIndex );
+			static void  SetNotificationText          ( char* pText );
+
+			// push notifications
+			static int PushNotificationSetup();
+			static char* GetPushNotificationToken();
 
 			// zip functions
 			static void CreateZip( UINT zipID, const char* filename );
 			static UINT CreateZip( const char* filename );
 			static void AddZipEntry( UINT zipID, const char* path, const char* zipPath );
 			static void CloseZip( UINT zipID );
-
 			static void ExtractZip( const char* zipfilename, const char* path );
 
-			// memblock functions
+			// memblock functions (do not exist at this time)
 			static UINT CreateMemblock( UINT size );
 			static void CreateMemblock( UINT memID, UINT size );
 			static int GetMemblockExists( UINT memID );
 			static void DeleteMemblock( UINT memID );
+			
+			static int GetMemblockSize( UINT memID );
+			static int GetMemblockByte( UINT memID, UINT offset );
+			static int GetMemblockShort( UINT memID, UINT offset );
+			static int GetMemblockInt( UINT memID, UINT offset );
+			static float GetMemblockFloat( UINT memID, UINT offset );
+
+			static void SetMemblockByte( UINT memID, UINT offset, int value );
+			static void SetMemblockShort( UINT memID, UINT offset, int value );
+			static void SetMemblockInt( UINT memID, UINT offset, int value );
+			static void SetMemblockFloat( UINT memID, UINT offset, float value );
+
+			static void CreateMemblockFromImage( UINT memID, UINT imageID );
+			static UINT CreateMemblockFromImage( UINT imageID );
+			static void CreateImageFromMemblock( UINT imageID, UINT memID );
+			static UINT CreateImageFromMemblock( UINT memID );
+
+			//
+			// V108 ULTRA RAW COMMANDS
+			//
+			// Internal
+			static void InitialiseUltraCommands		( void );
+			static void FreeUltraCommands			( void );
+			// Real Commands
+			static int  GetNFCExists				( void );
+			static int  GetGeolocationExists		( void );
+			static int  GetCompassExists			( void );
+			static int  GetGyrometerExists			( void );
+			static int  GetInclinometerExists		( void );
+			static int  GetLightSensorExists		( void );
+			static int  GetOrientationSensorExists	( void );
+
+			// V108 NFC
+			static UINT GetRawNFCCount				( void );
+			static UINT GetRawFirstNFCDevice		( void );
+			static UINT GetRawNextNFCDevice			( void );
+			static char* GetRawNFCName				( UINT iIndex );
+			static int SendRawNFCData				( UINT iIndex, char* pMessageText );
+			static int GetRawNFCDataState			( UINT iIndex );
+			static char* GetRawNFCData				( UINT iIndex );
+
+			// V108 Geolocation
+			static float  GetRawGeoLatitude			( void );
+			static float  GetRawGeoLongitude		( void );
+			static char*  GetRawGeoCity				( void );
+			static char*  GetRawGeoCountry			( void );
+			static char*  GetRawGeoPostalCode		( void );
+			static char*  GetRawGeoState			( void );
+
+			// V108 Compass
+			static float  GetRawCompassNorth		( int iMagneticTrue );
+
+			// V108 Gyrometer
+			static float  GetRawGyroVelocityX		( void );
+			static float  GetRawGyroVelocityY		( void );
+			static float  GetRawGyroVelocityZ		( void );
+
+			// V108 Inclinometer
+			static float  GetRawInclinoPitch		( void );
+			static float  GetRawInclinoRoll			( void );
+			static float  GetRawInclinoYaw			( void );
+
+			// V108 LightSensor
+			static float  GetRawLightLevel			( void );
+
+			// V108 OrientationSensor
+			static float  GetRawOrientationX		( void );
+			static float  GetRawOrientationY		( void );
+			static float  GetRawOrientationZ		( void );
+			static float  GetRawOrientationW		( void );	
+
+
+			// GameCenter
+
+			static int GetGameCenterExists();
+			static void GameCenterSetup();
+			static void GameCenterLogin();
+			static int GetGameCenterLoggedIn();
+			static void GameCenterSubmitScore( int iScore, const char* szBoardID );
+			static void GameCenterShowLeaderBoard ( const char* szBoardID ); 
+			static void GameCenterSubmitAchievement ( const char* szAchievementID, int iPercentageComplete );
+			static void GameCenterAchievementsShow ( );
+			static void GameCenterAchievementsReset ( );
+
+			// drawing commands
+			static void DrawLine( float x, float y, float x2, float y2, UINT red, UINT green, UINT blue );
+
+			//
+			// V108 3D Commands
+			//
+
+			static void SetGlobal3DDepth( int depth );
 
 			// 3d objects
 			static void CreateObjectBox( UINT objID, float width, float height, float length );
 			static UINT CreateObjectBox( float width, float height, float length );
+			static void CreateObjectSphere( UINT objID, float diameter, int rows, int columns );
+			static UINT CreateObjectSphere( float diameter, int rows, int columns );
+			static void CreateObjectCone( UINT objID, float height, float diameter, int segments );
+			static UINT CreateObjectCone( float height, float diameter, int segments );
+			static void CreateObjectCylinder( UINT objID, float height, float diameter, int segments );
+			static UINT CreateObjectCylinder( float height, float diameter, int segments );
+			static void CreateObjectPlane( UINT objID, float width, float height );
+			static UINT CreateObjectPlane( float width, float height );
+
+			static void LoadObject( UINT objID, const char *szFilename );
+			static void LoadObject( UINT objID, const char *szFilename, float height );
+			static UINT LoadObject( const char *szFilename );
+			static UINT LoadObject( const char *szFilename, float height );
+
+			static void CloneObject( UINT newobjID, UINT objID );
+			static UINT CloneObject( UINT objID );
+			static void InstanceObject( UINT newobjID, UINT objID );
+			static UINT InstanceObject( UINT objID );
+
+			static int GetObjectExists( UINT objID );
+			static void DeleteObject( UINT objID );
+			static cObject3D* GetObjectPtr( UINT objID );
+
+			static void SetObjectPosition( UINT objID, float x, float y, float z );
+			static void SetObjectRotation( UINT objID, float angx, float angy, float angz );
+			static void SetObjectRotationQuat( UINT objID, float w, float x, float y, float z );
+
+			static void SetObjectScale( UINT objID, float x, float y, float z );
+
+			static void MoveObjectLocalX( UINT objID, float amount );
+			static void MoveObjectLocalY( UINT objID, float amount );
+			static void MoveObjectLocalZ( UINT objID, float amount );
+
+			static void RotateObjectLocalX( UINT objID, float amount );
+			static void RotateObjectLocalY( UINT objID, float amount );
+			static void RotateObjectLocalZ( UINT objID, float amount );
+
+			static void RotateObjectGlobalX( UINT objID, float amount );
+			static void RotateObjectGlobalY( UINT objID, float amount );
+			static void RotateObjectGlobalZ( UINT objID, float amount );
+
+			static float GetObjectX( UINT objID );
+			static float GetObjectY( UINT objID );
+			static float GetObjectZ( UINT objID );
+			static float GetObjectAngleX( UINT objID );
+			static float GetObjectAngleY( UINT objID );
+			static float GetObjectAngleZ( UINT objID );
+			static float GetObjectQuatW( UINT objID );
+			static float GetObjectQuatX( UINT objID );
+			static float GetObjectQuatY( UINT objID );
+			static float GetObjectQuatZ( UINT objID );
+
+			static void SetObjectLookAt( UINT objID, float x, float y, float z, float roll );
+			static void SetObjectImage( UINT objID, UINT imageID, UINT texStage );
+			static void SetObjectShader( UINT objID, UINT shaderID );
+			static void SetObjectColor( UINT objID, UINT red, UINT green, UINT blue, UINT alpha );
+			static void SetObjectLightMode( UINT objID, int mode );
+
+			static void SetObjectDepthReadMode( UINT objID, int mode );
+			static void SetObjectDepthWrite( UINT objID, int mode );
+			static void SetObjectTransparency( UINT objID, int mode );
+			static void SetObjectCullMode( UINT objID, int mode );
+			static void SetObjectVisible( UINT objID, int mode );
+
+			static int GetObjectDepthReadMode( UINT objID );
+			static int GetObjectDepthWrite( UINT objID );
+			static int GetObjectTransparency( UINT objID );
+			static int GetObjectCullMode( UINT objID );
+			static int GetObjectVisible( UINT objID );
+			static int GetObjectInScreen( UINT objID );
+
+			static float GetScreenXFrom3D( float x, float y, float z );
+			static float GetScreenYFrom3D( float x, float y, float z );
+
+			static float Get3DVectorXFromScreen( float x, float y );
+			static float Get3DVectorYFromScreen( float x, float y );
+			static float Get3DVectorZFromScreen( float x, float y );
+
+			// collision
+			static void SetObjectCollisionMode( UINT objID, int mode );
+			static bool InternalSphereCast( UINT objID, const AGKVector &p, const AGKVector &v, float radius );
+			static int ObjectRayCast( UINT objID, float oldx, float oldy, float oldz, float newx, float newy, float newz );
+			static int ObjectSphereCast( UINT objID, float oldx, float oldy, float oldz, float newx, float newy, float newz, float radius );
+			static int ObjectSphereSlide( UINT objID, float oldx, float oldy, float oldz, float newx, float newy, float newz, float radius );
+			static UINT GetObjectRayCastNumHits();
+			static UINT GetObjectRayCastHitID( UINT index );
+			static float GetObjectRayCastX( UINT index );
+			static float GetObjectRayCastY( UINT index );
+			static float GetObjectRayCastZ( UINT index );
+			static float GetObjectRayCastSlideX( UINT index );
+			static float GetObjectRayCastSlideY( UINT index );
+			static float GetObjectRayCastSlideZ( UINT index );
+			static float GetObjectRayCastNormalX( UINT index );
+			static float GetObjectRayCastNormalY( UINT index );
+			static float GetObjectRayCastNormalZ( UINT index );
+			static float GetObjectRayCastBounceX( UINT index );
+			static float GetObjectRayCastBounceY( UINT index );
+			static float GetObjectRayCastBounceZ( UINT index );
+			static float GetObjectRayCastDistance( UINT index );
+
+			// shaders
+			static void LoadShader( UINT shaderID, const char* szVertexFile, const char* szPixelFile );
+			static UINT LoadShader( const char* szVertexFile, const char* szPixelFile );
+			static void SetShaderConstantByName( UINT shaderID, const char* szName, float value1, float value2, float value3, float value4 );
+
+			// cameras
+			static void SetCameraPosition( UINT cameraID, float x, float y, float z );
+			static void SetCameraRotationQuat( UINT cameraID, float w, float x, float y, float z );
+			static void SetCameraRotation( UINT cameraID, float angx, float angy, float angz );
+
+			static void MoveCameraLocalX( UINT cameraID, float amount );
+			static void MoveCameraLocalY( UINT cameraID, float amount );
+			static void MoveCameraLocalZ( UINT cameraID, float amount );
+
+			static void RotateCameraLocalX( UINT cameraID, float amount );
+			static void RotateCameraLocalY( UINT cameraID, float amount );
+			static void RotateCameraLocalZ( UINT cameraID, float amount );
+
+			static void RotateCameraGlobalX( UINT cameraID, float amount );
+			static void RotateCameraGlobalY( UINT cameraID, float amount );
+			static void RotateCameraGlobalZ( UINT cameraID, float amount );
+
+			static float GetCameraX( UINT cameraID );
+			static float GetCameraY( UINT cameraID );
+			static float GetCameraZ( UINT cameraID );
+			static float GetCameraAngleX( UINT cameraID );
+			static float GetCameraAngleY( UINT cameraID );
+			static float GetCameraAngleZ( UINT cameraID );
+			static float GetCameraQuatW( UINT cameraID );
+			static float GetCameraQuatX( UINT cameraID );
+			static float GetCameraQuatY( UINT cameraID );
+			static float GetCameraQuatZ( UINT cameraID );
+
+			static void SetCameraLookAt( UINT cameraID, float x, float y, float z, float roll );
+			static void SetCameraRange( UINT cameraID, float fNear, float fFar );
+			static void SetCameraFOV( UINT cameraID, float fov );
+
+			// lights
+			static void CreateLightPoint( UINT lightID, float x, float y, float z, float radius, int red, int green, int blue );
+			static int GetLightPointExists( UINT lightID );
+			static void DeleteLightPoint( UINT lightID );
+			static void ClearLightPoints();
+			static void SetLightPointPosition( UINT lightID, float x, float y, float z );
+			static void SetLightPointColor( UINT lightID, int red, int green, int blue );
+			static void SetLightPointRadius( UINT lightID, float radius );
+			static void CreateLightDirectional( UINT lightID, float vx, float vy, float vz, UINT red, UINT green, UINT blue );
+			static int GetLightDirectionalExists( UINT lightID );
+			static void DeleteLightDirectional( UINT lightID );
+			static void ClearLightDirectionals();
+			static void SetLightDirectionalDirection( UINT lightID, float vx, float vy, float vz );
+			static void SetLightDirectionalColor( UINT lightID, int red, int green, int blue );
+			
 	};
 }
 

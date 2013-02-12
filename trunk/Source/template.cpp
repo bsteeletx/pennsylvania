@@ -165,7 +165,7 @@ void app::loadLevel(unsigned short level)
 		Input.splitAtDelimeter(&Category, &Value, ':');
 
 		//Turning the Value from a string to a number
-		value = agk::Val(Value.getString());
+		value = agk::Val(Value.getCString());
 
 		//For this section we are only worried about attakers (for some reason that I can no longer remember)
 		//Push the attackers onto the attackerCount vector

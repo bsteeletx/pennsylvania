@@ -38,7 +38,7 @@ enum GameStates
 //////////////////SHAPES
 #define NOSHAPE 0
 #define CIRCLE 1
-#define BOX 2
+#define RECTANGLE 2
 #define POLYGON 3
 ///////////////////CREATURE TYPES
 enum Creature
@@ -54,11 +54,14 @@ enum Creature
 //////////////////ANIMATION TYPES
 enum CharacterState
 {
-	POSE,
+	MENU_TOOMUCH,
+	MENU_AVAILABLE,
+	SELECTED,
 	IDLE,
 	MOVING,
 	ATTACKING,
-	DEATH
+	DEATH,
+	FADEOUT
 };
 ///////////////////Collision Groups
 enum CollisionGroup
@@ -70,10 +73,82 @@ enum CollisionGroup
 };
 ////////////////GRID STYLE, IF APPLICABLE
 #if (GRIDGAME)
-	#define XMAX 8
+	#define XMAX 9
 	#define YMAX 4
-	#define XBEG 5.0f
-	#define YBEG 17.5f
-	#define SPOT_WIDTH 10.5f
-	#define SPOT_HEIGHT 13.5f
+	#define XBEG -44.0f//7.5f//5.0f
+	#define YBEG 4.888889f//63.5f//17.5f
+	#define SPOT_WIDTH 9.777778f
+	#define SPOT_HEIGHT 9.777778f
+	#define SPOT_BORDER 0.0f
 #endif
+/////////////////Facebook download states
+enum DownloadState
+{
+	NOACTIVITY,
+	DOWNLOADING,
+	FINISHED,
+	ERRORSTATE
+};
+//////////////////Orientations
+enum Orientation
+{
+	NONE, //orientation does not return 0
+	PORTRAIT,
+	REV_PORTRAIT,
+	LANDSCAPE,
+	REV_LANDSCAPE
+};
+/////////////////TextInputState was opposite of what you'd expect
+enum TextInputState
+{
+	USING,
+	NOTUSING
+};
+//////////////////3D Shapes
+enum ObjectType
+{
+	BOX,
+	CONE,
+	CYLINDER,
+	PLANE,
+	SPHERE
+};
+//////////////////Cull Modes
+enum CullMode
+{
+	BOTH,
+	FRONT,
+	BACK
+};
+////////////////Depth Read Mode
+enum DepthMode
+{
+	NEVER,
+	LESS,
+	EQUAL,
+	LESS_OR_EQUAL,
+	GREATER,
+	NOT_EQUAL,
+	GREATER_OR_EQUAL,
+	ALWAYS
+};
+////////////////Transparency Modes
+enum TransparencyMode
+{
+	NO_TRANSPARENCY,
+	BLENDED,
+	ADDITIVE
+};
+//////////////////Ray Cast Modes
+enum RayCastMode
+{
+	PHYSICS,
+	PHYSICS_CATEGORY,
+	PHYSICS_GROUP,
+	SPRITE,
+	SPRITE_CATEGORY,
+	SPRITE_GROUP,
+	SPRITE_SINGLE
+};
+//////////////////App Store Game ID
+#define IOS_GAME_ID ""
