@@ -1,16 +1,9 @@
 #pragma once
-//#include "Character.h"
+#include "Character.h"
+#include "Vietnam/Image.h"
+#include "Vietnam/Sprite.h"
 #include "CreatureList.h"
 #include <vector>
-//#include "Object.h"
-#include "Wall.h"
-#include "Camera.h"
-#include "Ceiling.h"
-#include "Floor.h"
-#include "PointLight.h"
-#include "Sun.h"
-#include "MyJoystick.h"
-#include "Selector.h"
 
 class Level
 {
@@ -21,13 +14,10 @@ public:
 
 	Level& Level::operator= (const Level &NewLevel);
 
-	//void addBackground(Text PathFilename);
-	void addCeiling(Image Texture);
+	void addBackground(Text PathFilename);
 	void addCreatureType(Creature creatureNumber, Point Location);
-	void addFloor(Image Texture);
-	//void addSprite(unsigned int image);
-	void addWalls(Image WallTexture[3]);
-	
+	void addSprite(unsigned int image);
+		
 	virtual void deleteLevel(void);
 
 	virtual bool getFog(Point GridLocation) = 0;
@@ -42,7 +32,8 @@ public:
 	unsigned short currencyAmount;
 
 protected:
-	Selector MouseBox;
+	Sprite Selector;
+	Sprite Background;
 
 	std::vector<Character*> Attackers;
 	std::vector<Character*> Defenders;
@@ -50,36 +41,8 @@ protected:
 	unsigned short reward;
 
 private:
-	//std::vector<unsigned int> imageStack;
-	//std::vector<unsigned int> spriteStack;
-	enum WallTypes
-	{
-		LEFT_WALL,
-		BACK_WALL,
-		RIGHT_WALL
-	};
-
-	enum CameraSettings
-	{
-		FRONT,
-		TOP,
-		LEFT,
-		RIGHT
-	};
-
-	struct CameraFrontSettings
-	{
-
-	};
-
-	Camera LevelCam;
-	Wall Walls[3];
-	Ceiling Sky;
-	Floor Ground;
-	MyJoystick CameraControl;
-	Sun Sol;
-
-	CameraSettings currentView;
+	std::vector<unsigned int> imageStack;
+	std::vector<unsigned int> spriteStack;
 	
 	bool fogEnabled;
 
@@ -94,9 +57,5 @@ private:
 
 	Creature Selected;
 	std::vector<Creature> AttackerInitList;
-
-	void switchCamera(CameraSettings newSetting);
-
-	void updateCamera(void);
 };
 

@@ -2,10 +2,9 @@
 #include "AnimatedSprite.h"
 #include "Defines.h"
 #include "File.h"
-#include "Object.h"
 
 class Character :
-	public BoxObject
+	public AnimatedSprite
 {
 public:
 	Character(void);
@@ -70,8 +69,6 @@ protected:
 	
 	float timeFromLastAttack;
 	
-	AnimatedSprite *Texture;
-
 	Character *CurrentTarget;
 	Character *KilledBy;
 	CharacterState CurrentState;

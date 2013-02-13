@@ -47,7 +47,7 @@
     <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(SolutionDir)..\Game\$(PlatformName)$(Configuration)_2010\</OutDir>
     <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(SolutionDir)..\Temp\$(ProjectName)$(PlatformName)$(Configuration)_2010\</IntDir>
     <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</LinkIncremental>
-    <IncludePath Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(DXSDK_DIR)\Include\;$(SolutionDir)..\Engine\common\include\;$(SolutionDir)\Core\;$(IncludePath)</IncludePath>
+    <IncludePath Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(DXSDK_DIR)\Include\;$(SolutionDir)..\Engine\common\include\;$(SolutionDir)/Vietnam/;$(IncludePath)</IncludePath>
     <LibraryPath Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(VCInstallDir)atlmfc\lib;$(FrameworkSDKDir)\lib;$(WindowsSdkDir)lib;$(VCInstallDir)lib;$(DXSDK_DIR)\Lib\x86\;$(SolutionDir)..\Engine\platform\windows\Lib\VS2010\Debug\</LibraryPath>
     <TargetName Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(ProjectName)$(PlatformName)$(Configuration)</TargetName>
     <TargetName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(ProjectName)$(PlatformName)$(Configuration)</TargetName>
@@ -59,7 +59,7 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>$(SolutionDir)..\Engine\common\include\;$(IADP_SDK_DIR)\Cpp\include;/c/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)..\Engine\common\include\;$(IADP_SDK_DIR)\Cpp\include;/c/include;$(SolutionDir)Vietnam\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>AGKWINDOWS;IDE_VS2008;WIN32;_DEBUG;_WINDOWS;IDE_VS2008;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <MinimalRebuild>false</MinimalRebuild>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
@@ -125,55 +125,9 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="BugVirus.cpp" />
-    <ClCompile Include="Ceiling.cpp" />
     <ClCompile Include="Character.cpp" />
     <ClCompile Include="Core.cpp" />
-    <ClCompile Include="Core\Advert.cpp" />
-    <ClCompile Include="Core\AnimatedSprite.cpp" />
-    <ClCompile Include="Core\Camera.cpp" />
-    <ClCompile Include="Core\DirectionalLight.cpp" />
-    <ClCompile Include="Core\EditBox.cpp" />
-    <ClCompile Include="Core\Error.cpp" />
-    <ClCompile Include="Core\Facebook.cpp" />
-    <ClCompile Include="Core\File.cpp" />
-    <ClCompile Include="Core\GeneralCore.cpp" />
-    <ClCompile Include="Core\HTTP.cpp" />
-    <ClCompile Include="Core\Image.cpp" />
-    <ClCompile Include="Core\InAppPurchase.cpp" />
-    <ClCompile Include="Core\Input.cpp" />
-    <ClCompile Include="Core\Joint.cpp" />
-    <ClCompile Include="Core\Memblock.cpp" />
-    <ClCompile Include="Core\Music.cpp" />
-    <ClCompile Include="Core\MyParticles.cpp" />
-    <ClCompile Include="Core\Network.cpp" />
-    <ClCompile Include="Core\NetworkMessage.cpp" />
-    <ClCompile Include="Core\NFC.cpp" />
-    <ClCompile Include="Core\Notification.cpp" />
-    <ClCompile Include="Core\Object.cpp" />
-    <ClCompile Include="Core\Physics2D.cpp" />
-    <ClCompile Include="Core\PhysicsForce.cpp" />
-    <ClCompile Include="Core\PhysicsSprite.cpp" />
-    <ClCompile Include="Core\Point.cpp" />
-    <ClCompile Include="Core\PointLight.cpp" />
-    <ClCompile Include="Core\Quaternion.cpp" />
-    <ClCompile Include="Core\RateApp.cpp" />
-    <ClCompile Include="Core\RayCast.cpp" />
-    <ClCompile Include="Core\RGBA.cpp" />
-    <ClCompile Include="Core\Shader.cpp" />
-    <ClCompile Include="Core\Sound.cpp" />
-    <ClCompile Include="Core\Sprite.cpp" />
-    <ClCompile Include="Core\Text.cpp" />
-    <ClCompile Include="Core\ThreeD.cpp" />
-    <ClCompile Include="Core\Timer.cpp" />
-    <ClCompile Include="Core\Touch.cpp" />
-    <ClCompile Include="Core\Twitter.cpp" />
-    <ClCompile Include="Core\Vector.cpp" />
-    <ClCompile Include="Core\Video.cpp" />
-    <ClCompile Include="Core\VirtualButton.cpp" />
-    <ClCompile Include="Core\MyJoystick.cpp" />
-    <ClCompile Include="Core\MyZipFile.cpp" />
     <ClCompile Include="DBlocker.cpp" />
-    <ClCompile Include="Floor.cpp" />
     <ClCompile Include="InformationNode.cpp" />
     <ClCompile Include="Laser.cpp" />
     <ClCompile Include="LaserHit.cpp" />
@@ -181,66 +135,61 @@
     <ClCompile Include="Level00.cpp" />
     <ClCompile Include="MinerVirus.cpp" />
     <ClCompile Include="Nort.cpp" />
-    <ClCompile Include="Selector.cpp" />
     <ClCompile Include="Spammer.cpp" />
-    <ClCompile Include="Sun.cpp" />
     <ClCompile Include="template.cpp" />
     <ClCompile Include="ThiefVirus.cpp" />
-    <ClCompile Include="Wall.cpp" />
+    <ClCompile Include="Vietnam\Advert.cpp" />
+    <ClCompile Include="Vietnam\AnimatedSprite.cpp" />
+    <ClCompile Include="Vietnam\Camera.cpp" />
+    <ClCompile Include="Vietnam\DirectionalLight.cpp" />
+    <ClCompile Include="Vietnam\EditBox.cpp" />
+    <ClCompile Include="Vietnam\Error.cpp" />
+    <ClCompile Include="Vietnam\Facebook.cpp" />
+    <ClCompile Include="Vietnam\File.cpp" />
+    <ClCompile Include="Vietnam\GeneralCore.cpp" />
+    <ClCompile Include="Vietnam\HTTP.cpp" />
+    <ClCompile Include="Vietnam\Image.cpp" />
+    <ClCompile Include="Vietnam\InAppPurchase.cpp" />
+    <ClCompile Include="Vietnam\Input.cpp" />
+    <ClCompile Include="Vietnam\Joint.cpp" />
+    <ClCompile Include="Vietnam\Memblock.cpp" />
+    <ClCompile Include="Vietnam\Music.cpp" />
+    <ClCompile Include="Vietnam\MyJoystick.cpp" />
+    <ClCompile Include="Vietnam\MyParticles.cpp" />
+    <ClCompile Include="Vietnam\MyZipFile.cpp" />
+    <ClCompile Include="Vietnam\Network.cpp" />
+    <ClCompile Include="Vietnam\NetworkMessage.cpp" />
+    <ClCompile Include="Vietnam\NFC.cpp" />
+    <ClCompile Include="Vietnam\Notification.cpp" />
+    <ClCompile Include="Vietnam\Object.cpp" />
+    <ClCompile Include="Vietnam\Physics2D.cpp" />
+    <ClCompile Include="Vietnam\PhysicsForce.cpp" />
+    <ClCompile Include="Vietnam\PhysicsSprite.cpp" />
+    <ClCompile Include="Vietnam\Point.cpp" />
+    <ClCompile Include="Vietnam\PointLight.cpp" />
+    <ClCompile Include="Vietnam\Quaternion.cpp" />
+    <ClCompile Include="Vietnam\RateApp.cpp" />
+    <ClCompile Include="Vietnam\RayCast.cpp" />
+    <ClCompile Include="Vietnam\RGBA.cpp" />
+    <ClCompile Include="Vietnam\Shader.cpp" />
+    <ClCompile Include="Vietnam\Sound.cpp" />
+    <ClCompile Include="Vietnam\Sprite.cpp" />
+    <ClCompile Include="Vietnam\Text.cpp" />
+    <ClCompile Include="Vietnam\ThreeD.cpp" />
+    <ClCompile Include="Vietnam\Timer.cpp" />
+    <ClCompile Include="Vietnam\Touch.cpp" />
+    <ClCompile Include="Vietnam\Twitter.cpp" />
+    <ClCompile Include="Vietnam\Vector.cpp" />
+    <ClCompile Include="Vietnam\Video.cpp" />
+    <ClCompile Include="Vietnam\VirtualButton.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BugVirus.h" />
-    <ClInclude Include="Ceiling.h" />
     <ClInclude Include="Character.h" />
     <ClInclude Include="CoreForApp.h" />
-    <ClInclude Include="Core\Advert.h" />
-    <ClInclude Include="Core\AnimatedSprite.h" />
-    <ClInclude Include="Core\Camera.h" />
-    <ClInclude Include="Core\DirectionalLight.h" />
-    <ClInclude Include="Core\EditBox.h" />
-    <ClInclude Include="Core\Error.h" />
-    <ClInclude Include="Core\Facebook.h" />
-    <ClInclude Include="Core\File.h" />
-    <ClInclude Include="Core\GeneralCore.h" />
-    <ClInclude Include="Core\HTTP.h" />
-    <ClInclude Include="Core\Image.h" />
-    <ClInclude Include="Core\InAppPurchase.h" />
-    <ClInclude Include="Core\Input.h" />
-    <ClInclude Include="Core\Joint.h" />
-    <ClInclude Include="Core\Memblock.h" />
-    <ClInclude Include="Core\Music.h" />
-    <ClInclude Include="Core\MyParticles.h" />
-    <ClInclude Include="Core\Network.h" />
-    <ClInclude Include="Core\NetworkMessage.h" />
-    <ClInclude Include="Core\NFC.h" />
-    <ClInclude Include="Core\Notification.h" />
-    <ClInclude Include="Core\Object.h" />
-    <ClInclude Include="Core\Physics2D.h" />
-    <ClInclude Include="Core\PhysicsForce.h" />
-    <ClInclude Include="Core\PhysicsSprite.h" />
-    <ClInclude Include="Core\Point.h" />
-    <ClInclude Include="Core\PointLight.h" />
-    <ClInclude Include="Core\Quaternion.h" />
-    <ClInclude Include="Core\RateApp.h" />
-    <ClInclude Include="Core\RayCast.h" />
-    <ClInclude Include="Core\RGBA.h" />
-    <ClInclude Include="Core\Shader.h" />
-    <ClInclude Include="Core\Sound.h" />
-    <ClInclude Include="Core\Sprite.h" />
-    <ClInclude Include="Core\Text.h" />
-    <ClInclude Include="Core\ThreeD.h" />
-    <ClInclude Include="Core\Timer.h" />
-    <ClInclude Include="Core\Touch.h" />
-    <ClInclude Include="Core\Twitter.h" />
-    <ClInclude Include="Core\Vector.h" />
-    <ClInclude Include="Core\Video.h" />
-    <ClInclude Include="Core\VirtualButton.h" />
-    <ClInclude Include="Core\MyJoystick.h" />
-    <ClInclude Include="Core\MyZipFile.h" />
     <ClInclude Include="CreatureList.h" />
     <ClInclude Include="DBlocker.h" />
     <ClInclude Include="Defines.h" />
-    <ClInclude Include="Floor.h" />
     <ClInclude Include="Globals.h" />
     <ClInclude Include="InformationNode.h" />
     <ClInclude Include="Laser.h" />
@@ -250,13 +199,53 @@
     <ClInclude Include="Levels.h" />
     <ClInclude Include="MinerVirus.h" />
     <ClInclude Include="Nort.h" />
-    <ClInclude Include="Selector.h" />
     <ClInclude Include="Spammer.h" />
-    <ClInclude Include="Sun.h" />
     <ClInclude Include="template.h" />
     <ClInclude Include="ThiefVirus.h" />
-    <ClInclude Include="VietnamCore.h" />
-    <ClInclude Include="Wall.h" />
+    <ClInclude Include="Vietnam\Advert.h" />
+    <ClInclude Include="Vietnam\AnimatedSprite.h" />
+    <ClInclude Include="Vietnam\Camera.h" />
+    <ClInclude Include="Vietnam\DirectionalLight.h" />
+    <ClInclude Include="Vietnam\EditBox.h" />
+    <ClInclude Include="Vietnam\Error.h" />
+    <ClInclude Include="Vietnam\Facebook.h" />
+    <ClInclude Include="Vietnam\File.h" />
+    <ClInclude Include="Vietnam\GeneralCore.h" />
+    <ClInclude Include="Vietnam\HTTP.h" />
+    <ClInclude Include="Vietnam\Image.h" />
+    <ClInclude Include="Vietnam\InAppPurchase.h" />
+    <ClInclude Include="Vietnam\Input.h" />
+    <ClInclude Include="Vietnam\Joint.h" />
+    <ClInclude Include="Vietnam\Memblock.h" />
+    <ClInclude Include="Vietnam\Music.h" />
+    <ClInclude Include="Vietnam\MyJoystick.h" />
+    <ClInclude Include="Vietnam\MyParticles.h" />
+    <ClInclude Include="Vietnam\MyZipFile.h" />
+    <ClInclude Include="Vietnam\Network.h" />
+    <ClInclude Include="Vietnam\NetworkMessage.h" />
+    <ClInclude Include="Vietnam\NFC.h" />
+    <ClInclude Include="Vietnam\Notification.h" />
+    <ClInclude Include="Vietnam\Object.h" />
+    <ClInclude Include="Vietnam\Physics2D.h" />
+    <ClInclude Include="Vietnam\PhysicsForce.h" />
+    <ClInclude Include="Vietnam\PhysicsSprite.h" />
+    <ClInclude Include="Vietnam\Point.h" />
+    <ClInclude Include="Vietnam\PointLight.h" />
+    <ClInclude Include="Vietnam\Quaternion.h" />
+    <ClInclude Include="Vietnam\RateApp.h" />
+    <ClInclude Include="Vietnam\RayCast.h" />
+    <ClInclude Include="Vietnam\RGBA.h" />
+    <ClInclude Include="Vietnam\Shader.h" />
+    <ClInclude Include="Vietnam\Sound.h" />
+    <ClInclude Include="Vietnam\Sprite.h" />
+    <ClInclude Include="Vietnam\Text.h" />
+    <ClInclude Include="Vietnam\ThreeD.h" />
+    <ClInclude Include="Vietnam\Timer.h" />
+    <ClInclude Include="Vietnam\Touch.h" />
+    <ClInclude Include="Vietnam\Twitter.h" />
+    <ClInclude Include="Vietnam\Vector.h" />
+    <ClInclude Include="Vietnam\Video.h" />
+    <ClInclude Include="Vietnam\VirtualButton.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\Game\Win32Debug_2010\CreatureData\Bug" />

@@ -14,7 +14,7 @@
 //       I think it's the first one, but when I first created it, I was obviously thinking the second
 ////////////////////////////////////////////
 Character::Character(void)
-	: BoxObject()
+	: AnimatedSprite()
 {
 	maxHitPoints = hitPoints = 1;
 }
@@ -27,9 +27,8 @@ Character::Character(void)
 //       Also, should only set up variables, save everything else for initialization
 //////////////////////////////////////////
 Character::Character(Text FilenamePath)
-	: BoxObject(10.0f, 10.0f, 10.0f)
+	: AnimatedSprite(File (true, FilenamePath), Text ("Assets/Creatures/Creatures.png"))
 {
-	Texture = new AnimatedSprite(File (true, FilenamePath), Text ("Assets/Creatures/Creatures.png"));
 	Data = File(true, FilenamePath);
 	init();
 	didDamage = false;
@@ -163,8 +162,6 @@ float Character::getMoveSpeed(void)
 ////////////////////////////////
 void Character::init(void)
 {
-	setImage(*Texture, 0);
-
 	while(!Data.FileEOF())
 	{
 		Text Line = Data.getLine();
@@ -330,7 +327,6 @@ void Character::repair(short amount)
 void Character::setVisible(bool value)
 {
 	//If we're making the character visible, return the character to its position
-	/*
 	if (value)
 		setY(oldY);
 	//Otherwise, store where the character is supposed to be, and move him to offscreen in the y direction (x direction will get him removed)
@@ -339,16 +335,9 @@ void Character::setVisible(bool value)
 		oldY = getY();
 		setY(115.0f);
 	}
-	*/
-	//Set the sprite to be visible/invisible
-	//Sprite::setVisible(value);
-	if (value)
-		setZ(0.0f);
-	else
-		setZ(-50.0f);
 	
-	Object::setVisible(value);
-	//Texture->setVisible(value);
+	//Set the sprite to be visible/invisible
+	Sprite::setVisible(value);
 }
 
 //////////////////////////////////////////////
@@ -371,6 +360,18 @@ void Character::update(std::vector<Character*> Defenders)
 	if (isExample)
 		return;
 
+	if (getState() == FADEOUT)
+	{
+		short alpha = getColorAlpha() - 5;
+				
+		if (alpha >= 0)
+			setColorAlpha(alpha);
+		else
+			setX(-15.0f);
+
+		return;
+	}
+
 	for (unsigned int j = 0; j < Defenders.size(); j++)
 	{
 		//Check each of the Defenders, as long as they aren't already dead
@@ -379,9 +380,9 @@ void Character::update(std::vector<Character*> Defenders)
 			//This section is only for melee weapons
 			if (!hasRangedWeapon)
 			{
-				if (Texture->collidedWith(Defenders[j]->Texture->getSpriteNumber()))
+				if (collidedWith(Defenders[j]->getSpriteNumber()))
 				{	//can't move, attacking	
-					bool actualCollision = (Texture->getCollisionGroup() == Defenders[j]->Texture->getCollisionGroup());
+					bool actualCollision = (getCollisionGroup() == Defenders[j]->getCollisionGroup());
 
 					//special Thief section as it can collide with multiple groups
 					if (!actualCollision && getCreatureType() == THIEF_VIRUS)
@@ -409,7 +410,7 @@ void Character::update(std::vector<Character*> Defenders)
 			else
 			{
 				//Make sure they are in the same group
-				if (Texture->getCollisionGroup() == Defenders[j]->Texture->getCollisionGroup())
+				if (getCollisionGroup() == Defenders[j]->getCollisionGroup())
 				{
 					//Make sure they are on the same row
 					if (getY() == Defenders[j]->getY())
@@ -426,12 +427,12 @@ void Character::update(std::vector<Character*> Defenders)
 				{
 					if (getMoveSpeed() > 0.0f)
 						//Dividing Move Speed by 1000 to make it easier for designers to tweak things
-						moveLocalX(- (getMoveSpeed()/1000.0f));
+						setX(getX() - (getMoveSpeed()/1000.0f));
 				}
 				else
 				{
 					if (getMoveSpeed() > 0.0f)
-						moveLocalX(getMoveSpeed()/1000.0f);
+						setX(getX() + getMoveSpeed()/1000.0f);
 				}
 			}
 		}
@@ -455,7 +456,7 @@ CharacterState Character::getState(void)
 /////////////////////////////////////////
 bool Character::getIsFinishedDying(void)
 {
-	if (deathFrameMax == Texture->getCurrentFrame())
+	if (deathFrameMax == getCurrentFrame())
 		return true;
 
 	return false;
@@ -482,34 +483,34 @@ void Character::setState(CharacterState State)
 	switch (State)
 	{
 	case MENU_TOOMUCH:
-		Texture->setFrame(1);
-		Texture->setGroup((int) EXAMPLES);
-		Texture->setColor(RGBA(255, 255, 255, 64));
+		setFrame(1);
+		setGroup((int) EXAMPLES);
+		setColor(RGBA(255, 255, 255, 64));
 		return;
 		break;
 	case MENU_AVAILABLE:
-		Texture->setFrame(1);
-		Texture->setColor(RGBA(255, 255, 255, 192));
-		Texture->setGroup((int) EXAMPLES);
+		setFrame(1);
+		setColor(RGBA(255, 255, 255, 192));
+		setGroup((int) EXAMPLES);
 		return;
 		break;
 	case SELECTED:
-		Texture->setFrame(1);
-		Texture->setColorAlpha(128);
-		Texture->setGroup((int) GHOSTS);
+		setFrame(1);
+		setColorAlpha(128);
+		setGroup((int) GHOSTS);
 		return;
 		break;
 	case IDLE:
-		Texture->setColorAlpha(255);
+		setColorAlpha(255);
 		fps = idleFrameSpeed;
 		loop = true;
 		min = idleFrameMin;
 		max = this->idleFrameMax;
 		//As long as the attacker is not a MINER_VIRUS, set its group to MORTALS
 		if (getCreatureType() != MINER_VIRUS)
-			Texture->setCollisionGroup((int)(MORTALS));
+			setCollisionGroup((int)(MORTALS));
 		else
-			Texture->setCollisionGroup((int) GODS);
+			setCollisionGroup((int) GODS);
 		break;
 	case MOVING:
 		fps = moveFrameSpeed;
@@ -530,17 +531,11 @@ void Character::setState(CharacterState State)
 		max = deathFrameMax;
 		break;
 	case FADEOUT:
-		short alpha = Texture->getColorAlpha() - 5;
-				
-		if (alpha >= 0)
-			Texture->setColorAlpha(alpha);
-		else
-			setX(-15.0f);
 		break;
 		return;
 	}
 
-	Texture->play(fps, loop, min, max);
+	play(fps, loop, min, max);
 }
 
 ////////////////////////////////////////////
@@ -561,12 +556,12 @@ void Character::setAlphaOut(bool alphaOut, CollisionGroup Group)
 {
 	if (alphaOut)
 	{
-		Texture->setColorAlpha(128);
-		Texture->setCollisionGroup((int) Group);
+		setColorAlpha(128);
+		setCollisionGroup((int) Group);
 	}
 	else
 	{
-		Texture->setColorAlpha(255);
-		Texture->setCollisionGroup((int) Group);
+		setColorAlpha(255);
+		setCollisionGroup((int) Group);
 	}
 }

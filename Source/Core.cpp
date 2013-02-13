@@ -21,8 +21,8 @@
 #include "direct.h"
 
 // App specific include for Core (so core can be distributed between apps without editing inside it)
-#define DEVICE_WIDTH 640
-#define DEVICE_HEIGHT 480
+#define DEVICE_WIDTH 1024
+#define DEVICE_HEIGHT 768
 #include "CoreForApp.h"
 
 #define WM_SOUND_EVENT 0x8001

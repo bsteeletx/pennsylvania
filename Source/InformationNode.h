@@ -1,6 +1,7 @@
 #pragma once
 #include "Character.h"
 //#include "File.h"
+#include <vector>
 
 class InformationNode :
 	public Character

@@ -50,7 +50,7 @@ Laser::Laser(Point SparkleLocation)
 void Laser::turnOn(Character *Attacker, Character *Target)
 {
 	//Get the position of the Target and assign it to SparklePos
-	Point SparklePos = Target->getLocation();
+	Point SparklePos = Target->getPosition();
 
 	//Modify the value a bit to make it look better (this may not work for every game)
 	SparklePos.setY(SparklePos.getY() + 5.0f);
@@ -86,5 +86,5 @@ void Laser::turnOff(void)
 //////////////////////////////////////////////////////////////
 float Laser::getWidth(Character *Attacker, Character *Target)
 {
-	return Attacker->getDistanceFrom(*Target).getX() - 5.0f;
+	return Attacker->getDistanceFrom(*Target) - 5.0f;
 }

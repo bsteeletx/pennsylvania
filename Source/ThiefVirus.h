@@ -1,6 +1,6 @@
 #pragma once
 #include "Character.h"
-#include "../Core/Text.h"
+#include "Text.h"
 
 class ThiefVirus :
 	public Character

@@ -29,7 +29,7 @@ Nort::Nort(Point GridLocation)
 	Weapon->setVisible(false);
 	Weapon->setPosition(getX() + 15.0f, getY() + 5.75f);
 	isExample = false;
-	Texture->setCollisionGroup((int) MORTALS);
+	setCollisionGroup((int) MORTALS);
 	hasRangedWeapon = true;
 }
 
