@@ -9,7 +9,7 @@ Creature Location:0 1
 Creature Location:0 2
 Creature Location:0 3
 Creature Location:0 4
-Creature Location:6 2
+Creature Location:5 2
 Creature Type:6
 Creature Location:2 0
 Creature Location:2 1
