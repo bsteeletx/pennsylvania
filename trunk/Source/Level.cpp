@@ -81,14 +81,6 @@ void Level::init(void)
 	Point Location = Point();
 	Image Texture[3] = {NULL, NULL, NULL};
 
-	//setup objects
-	Walls[LEFT_WALL] = Wall(100.0f, 100.0f, Point(-50.0f, 0.0f, 0.0f), Point(0.0f, 90.0f, 0.0f));
-	Walls[BACK_WALL] = Wall(100.0f, 100.0f, Point(0.0f, 0.0f, 0.0f), Point(90.0f, 0.0f, 0.0f));
-	Walls[RIGHT_WALL] = Wall(100.0f, 100.0f, Point(50.0f, 0.0f, 00.0f), Point(0.0f, 90.0f, 0.0f));
-	Sol = Sun();
-	Sky = Ceiling(100.0f, 100.0f);
-	Ground = Floor(100.0f, 100.0f);
-
 	//Take Default beginning...
 	Text LevelName = Text("LevelData/Level ");
 
@@ -118,19 +110,8 @@ void Level::init(void)
 		Input.splitAtDelimeter(&Category, &Value, ':');
 		
 		//Check for what category we're looking for and assigne the value to the appropriate variable
-		if (Category == Text("Left Wall", false))
-			Texture[0] = Image(Value.getCString(), false);
-		else if (Category == Text("Back Wall", false))
-			Texture[1] = Image(Value.getCString(), false);
-		else if (Category == Text("Right Wall", false))
-		{
-			Texture[2] = Image(Value.getCString(), false);
-			addWalls(Texture);
-		}
-		//else if (Category == Text("Ceiling"))
-			//addCeiling(Image(Value.getCString(), false));
-		else if (Category == Text("Floor", false))
-			addFloor(Image(Value.getCString(), false));
+		if (Category == Text("Background Image", false))
+			addBackground(Value);
 		else if (Category == Text("Creature Location", false))
 		{
 			Location.setX((float) Value.getChar(0) - 48); //subtracting 48 to get to number values as 0 = 48 in ASCII
@@ -186,10 +167,9 @@ void Level::init(void)
 	//Load in the Selector
 	//NOTE (1/1/13): Needs to have a #if PC as you won't see the selector for other platforms
 	/////////////////Need to do a #if on the header file as well
-	MouseBox = Selector(Image("Assets/Common/selector.png"));
-	MouseBox.setGridPosition(Point(0.0f, 0.0f, 0.0f));
-	//Selector.setOffset(Selector.getWidth()/2, Selector.getHeight()/2);
-	//addSprite(Selector.getSpriteNumber());
+	Selector = Sprite(Text("Assets/Common/selector.png"), false);
+	Selector.setOffset(Selector.getWidth()/2, Selector.getHeight()/2);
+	addSprite(Selector.getSpriteNumber());
 
 	//Place the text for player's currency, set the color and position
 	CurrencyTitle = Text("Bytes: ");
@@ -203,19 +183,6 @@ void Level::init(void)
 
 	//Null out the Selected Creature
 	Selected = (Creature) NULL;
-
-	//setup camera
-	//LevelCam.setLookAt(Ground.getLocation(), CameraFrontSettings.roll);
-	//LevelCam.setPosition(CameraFrontSettings.xLoc, CameraFrontSettings.yLoc, CameraFrontSettings.zLoc);
-	//LevelCam.setFOV(CameraFrontSettings.fov);
-	currentView = FRONT;
-
-	//setup ground
-	Ground.setPosition(0.0f, 0.0f, 0.0f);
-	Ground.setRotation(0.0f, 0.0f, 0.0f);
-
-	//setup joystick
-	//CameraControl = MyJoystick(1, Point(5.0f, 95.0f), 10.0f);
 }
 
 ////////////////////////////////
@@ -243,41 +210,10 @@ void Level::deleteLevel(void)
 //
 // Add Sprites and images to memory management vectors
 ////////////////////////////////////////////
-/*void Level::addSprite(unsigned int sprite)
+void Level::addSprite(unsigned int sprite)
 {
 	spriteStack.push_back(sprite);
 	imageStack.push_back(agk::GetSpriteImageID(sprite));
-}*/
-
-//////////////////////////////////////////////
-// Add Ceiling
-// Input Image Object
-// Output: None
-///////////////////////////////////////////////
-void Level::addCeiling(Image Texture)
-{
-	Sky.setTexture(Texture);
-}
-
-////////////////////////////////////////////
-// Add Floor
-// Input Image Object
-// Output: None
-////////////////////////////////////////////
-void Level::addFloor(Image Texture)
-{
-	Ground.setTexture(Texture);
-}
-
-///////////////////////////////////////////
-// Add Walls
-// Input 3 Image Object
-// Output: None
-////////////////////////////////////////////
-void Level::addWalls(Image Texture[3])
-{
-	for (int i = 0; i < 3; i++)
-		Walls[i].setImage(Texture[i], 0);
 }
 
 //////////////////////////////////////////////
@@ -285,14 +221,14 @@ void Level::addWalls(Image Texture[3])
 // Input: Filepath and name of background image
 // Output: None
 //////////////////////////////////////////////
-/*void Level::addBackground(Text PathFilename)
+void Level::addBackground(Text PathFilename)
 {
 	Background = Sprite(PathFilename, false);
 	addSprite(Background.getSpriteNumber());
 	Background.setSize(100.0f);
 	Background.setDepth(10000);
 	Background.setVisible(true);
-}*/
+}
 
 //////////////////////////////////////////////////////////////////////
 // Add Creature of Type
@@ -366,7 +302,7 @@ void Level::handleUI(void)
 {
 	//Get actual pointer location
 	Point MouseLoc(agk::GetPointerX(), agk::GetPointerY());
-	agk::PrintC("Mouse Location: ");
+	/*agk::PrintC("Mouse Location: ");
 	agk::PrintC(MouseLoc.getX());
 	agk::PrintC(", ");
 	agk::Print(MouseLoc.getY());
@@ -375,29 +311,26 @@ void Level::handleUI(void)
 	agk::PrintC("Grid Location: ");
 	agk::PrintC(MouseLoc.getGridCoords().getX());
 	agk::PrintC(", ");
-	agk::Print(MouseLoc.getGridCoords().getY());
+	agk::Print(MouseLoc.getGridCoords().getY());*/
 
-	currentView = FRONT;
-	updateCamera();
-
-	//Selector.setSize(10.0f);
-	//Selector.setOffset(1.1f, 1.5f);
+	Selector.setSize(12.5f);
+	Selector.setOffset(1.1f, 1.5f);
 
 	//set the Green Selector to the Mouse's Grid Position
-	MouseBox.setGridPosition(MouseLoc);
+	Selector.setPosition(MouseLoc.getGridCoords().getNormalCoords());
 
 	//Selector needs a slight offset, if it hasn't been done, do it
-	/*if (!offsetSelector)
+	if (!offsetSelector)
 	{
 		Selector.setOffset(0.4f, 0.4f);
 		offsetSelector = true;
-	}*/
+	}
 
 	//Get Coords back to normal Coords
-	//MouseLoc.setCoords(Selector.getX(), Selector.getY());
+	MouseLoc.setCoords(Selector.getX(), Selector.getY());
 
 	//Apply the offset to the normal Coords
-	//Selector.setPositionByOffset(MouseLoc);
+	Selector.setPositionByOffset(MouseLoc);
 
 	//Need to have something turn the selector different colors for whether you can place something or not
 
@@ -406,8 +339,8 @@ void Level::handleUI(void)
 	if (agk::GetPointerReleased())
 	{
 		MouseLoc.setCoordsAsGridCoords();
-		unsigned int gridX = (int) MouseLoc.getX();
-		unsigned int gridY = (int) MouseLoc.getY();
+		unsigned short gridX = (int) MouseLoc.getX();
+		short gridY = (int) MouseLoc.getY();
 		bool validLocation = false;
 
 		//Check for Fog
@@ -470,7 +403,8 @@ void Level::handleUI(void)
 		Attackers.back()->setPosition(MouseLoc);
 	
 	//Colorize characters player cannot afford
-	for (unsigned int i = 0; i < Attackers.size(); i++)
+	//have this working somewhere else
+	/*for (unsigned int i = 0; i < Attackers.size(); i++)
 	{
 		if (Attackers[i]->isExample)
 		{
@@ -484,7 +418,7 @@ void Level::handleUI(void)
 					Attackers[i]->setState(MENU_TOOMUCH);
 			}
 		}
-	}
+	}*/
 
 	//Display Currency
 	CurrencyValue.setString(agk::Str(currencyAmount));
@@ -492,11 +426,14 @@ void Level::handleUI(void)
 	if (!CurrencyTitle.getVisible())
 	{
 		CurrencyTitle.setVisible(true);
+		CurrencyTitle.setColor(RGBA(0, 0, 0));
 		CurrencyValue.setVisible(true);
+		CurrencyValue.setColor(RGBA(0, 0, 0));
+		CurrencyValue.setDepth(1);
 	}
 }
 
-////////////////////////////
+/*////////////////////////////
 // Camera Specific update
 // input none
 // output none
@@ -509,13 +446,6 @@ void Level::updateCamera(void)
 	float zLoc = 0.0f;
 	float fov = 0.0f;
 	Point NewLocation = Point();
-
-	agk::PrintC("Camera Location: ");
-	agk::PrintC(LevelCam.getX());
-	agk::PrintC(" ");
-	agk::PrintC(LevelCam.getY());
-	agk::PrintC(" ");
-	agk::Print(LevelCam.getZ());
 
 	switch (currentView)
 	{
@@ -550,7 +480,7 @@ void Level::updateCamera(void)
 	//CameraControl.setActive(true);
 	//CameraControl.setPosition(Point(50.0f, 50.0f));
 	//CameraControl.setSize(25.0f);
-}
+}*/
 
 ////////////////////////////
 // Update Level
@@ -578,7 +508,10 @@ void Level::updateCharacters(void)
 		//Ensure Example Attackers stay in pose
 		if (Attackers[i]->isExample)
 		{
-			Attackers[i]->setState(MENU_TOOMUCH);
+			if (Attackers[i]->getCost() > currencyAmount)
+				Attackers[i]->setState(MENU_TOOMUCH);
+			else
+				Attackers[i]->setState(MENU_AVAILABLE);
 			continue;
 		}
 

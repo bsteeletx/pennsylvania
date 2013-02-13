@@ -73,12 +73,12 @@ enum CollisionGroup
 };
 ////////////////GRID STYLE, IF APPLICABLE
 #if (GRIDGAME)
-	#define XMAX 9
+	#define XMAX 8
 	#define YMAX 4
-	#define XBEG -44.0f//7.5f//5.0f
-	#define YBEG 4.888889f//63.5f//17.5f
-	#define SPOT_WIDTH 9.777778f
-	#define SPOT_HEIGHT 9.777778f
+	#define XBEG 5.0f
+	#define YBEG 17.5f
+	#define SPOT_WIDTH 10.0f
+	#define SPOT_HEIGHT 12.5f
 	#define SPOT_BORDER 0.0f
 #endif
 /////////////////Facebook download states

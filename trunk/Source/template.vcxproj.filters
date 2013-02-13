@@ -33,138 +33,6 @@
     <ClCompile Include="template.cpp">
       <Filter>Default Project Classes</Filter>
     </ClCompile>
-    <ClCompile Include="Core\AnimatedSprite.cpp">
-      <Filter>Vietnam</Filter>
-    </ClCompile>
-    <ClCompile Include="Core\EditBox.cpp">
-      <Filter>Vietnam</Filter>
-    </ClCompile>
-    <ClCompile Include="Core\File.cpp">
-      <Filter>Vietnam</Filter>
-    </ClCompile>
-    <ClCompile Include="Core\HTTP.cpp">
-      <Filter>Vietnam</Filter>
-    </ClCompile>
-    <ClCompile Include="Core\Image.cpp">
-      <Filter>Vietnam</Filter>
-    </ClCompile>
-    <ClCompile Include="Core\Joint.cpp">
-      <Filter>Vietnam</Filter>
-    </ClCompile>
-    <ClCompile Include="Core\Music.cpp">
-      <Filter>Vietnam</Filter>
-    </ClCompile>
-    <ClCompile Include="Core\Network.cpp">
-      <Filter>Vietnam</Filter>
-    </ClCompile>
-    <ClCompile Include="Core\NetworkMessage.cpp">
-      <Filter>Vietnam</Filter>
-    </ClCompile>
-    <ClCompile Include="Core\PhysicsForce.cpp">
-      <Filter>Vietnam</Filter>
-    </ClCompile>
-    <ClCompile Include="Core\PhysicsSprite.cpp">
-      <Filter>Vietnam</Filter>
-    </ClCompile>
-    <ClCompile Include="Core\Point.cpp">
-      <Filter>Vietnam</Filter>
-    </ClCompile>
-    <ClCompile Include="Core\RGBA.cpp">
-      <Filter>Vietnam</Filter>
-    </ClCompile>
-    <ClCompile Include="Core\Sound.cpp">
-      <Filter>Vietnam</Filter>
-    </ClCompile>
-    <ClCompile Include="Core\Sprite.cpp">
-      <Filter>Vietnam</Filter>
-    </ClCompile>
-    <ClCompile Include="Core\Text.cpp">
-      <Filter>Vietnam</Filter>
-    </ClCompile>
-    <ClCompile Include="Core\Timer.cpp">
-      <Filter>Vietnam</Filter>
-    </ClCompile>
-    <ClCompile Include="Core\Vector.cpp">
-      <Filter>Vietnam</Filter>
-    </ClCompile>
-    <ClCompile Include="Core\VirtualButton.cpp">
-      <Filter>Vietnam</Filter>
-    </ClCompile>
-    <ClCompile Include="Core\MyParticles.cpp">
-      <Filter>Vietnam</Filter>
-    </ClCompile>
-    <ClCompile Include="Core\Advert.cpp">
-      <Filter>Vietnam</Filter>
-    </ClCompile>
-    <ClCompile Include="Core\Camera.cpp">
-      <Filter>Vietnam</Filter>
-    </ClCompile>
-    <ClCompile Include="Core\DirectionalLight.cpp">
-      <Filter>Vietnam</Filter>
-    </ClCompile>
-    <ClCompile Include="Core\Error.cpp">
-      <Filter>Vietnam</Filter>
-    </ClCompile>
-    <ClCompile Include="Core\Facebook.cpp">
-      <Filter>Vietnam</Filter>
-    </ClCompile>
-    <ClCompile Include="Core\GeneralCore.cpp">
-      <Filter>Vietnam</Filter>
-    </ClCompile>
-    <ClCompile Include="Core\InAppPurchase.cpp">
-      <Filter>Vietnam</Filter>
-    </ClCompile>
-    <ClCompile Include="Core\Input.cpp">
-      <Filter>Vietnam</Filter>
-    </ClCompile>
-    <ClCompile Include="Core\Memblock.cpp">
-      <Filter>Vietnam</Filter>
-    </ClCompile>
-    <ClCompile Include="Core\Notification.cpp">
-      <Filter>Vietnam</Filter>
-    </ClCompile>
-    <ClCompile Include="Core\Physics2D.cpp">
-      <Filter>Vietnam</Filter>
-    </ClCompile>
-    <ClCompile Include="Core\PointLight.cpp">
-      <Filter>Vietnam</Filter>
-    </ClCompile>
-    <ClCompile Include="Core\RateApp.cpp">
-      <Filter>Vietnam</Filter>
-    </ClCompile>
-    <ClCompile Include="Core\Shader.cpp">
-      <Filter>Vietnam</Filter>
-    </ClCompile>
-    <ClCompile Include="Core\ThreeD.cpp">
-      <Filter>Vietnam</Filter>
-    </ClCompile>
-    <ClCompile Include="Core\Twitter.cpp">
-      <Filter>Vietnam</Filter>
-    </ClCompile>
-    <ClCompile Include="Core\Video.cpp">
-      <Filter>Vietnam</Filter>
-    </ClCompile>
-    <ClCompile Include="Core\Object.cpp">
-      <Filter>Vietnam</Filter>
-    </ClCompile>
-    <ClCompile Include="Core\Quaternion.cpp">
-      <Filter>Vietnam</Filter>
-    </ClCompile>
-    <ClCompile Include="Core\MyJoystick.cpp">
-      <Filter>Vietnam</Filter>
-    </ClCompile>
-    <ClCompile Include="Core\NFC.cpp">
-      <Filter>Vietnam</Filter>
-    </ClCompile>
-    <ClCompile Include="Core\Touch.cpp">
-      <Filter>Vietnam</Filter>
-    </ClCompile>
-    <ClCompile Include="Core\RayCast.cpp">
-      <Filter>Vietnam</Filter>
-    </ClCompile>
-    <ClCompile Include="Core\MyZipFile.cpp">
-      <Filter>Vietnam</Filter>
-    </ClCompile>
     <ClCompile Include="Level.cpp">
       <Filter>Level Specific</Filter>
     </ClCompile>
@@ -201,19 +69,138 @@
     <ClCompile Include="LaserHit.cpp">
       <Filter>Creatures\Weapons</Filter>
     </ClCompile>
-    <ClCompile Include="Floor.cpp">
-      <Filter>Level Specific</Filter>
+    <ClCompile Include="Vietnam\Advert.cpp">
+      <Filter>Vietnam</Filter>
     </ClCompile>
-    <ClCompile Include="Ceiling.cpp">
-      <Filter>Level Specific</Filter>
+    <ClCompile Include="Vietnam\AnimatedSprite.cpp">
+      <Filter>Vietnam</Filter>
     </ClCompile>
-    <ClCompile Include="Sun.cpp">
-      <Filter>Level Specific</Filter>
+    <ClCompile Include="Vietnam\Camera.cpp">
+      <Filter>Vietnam</Filter>
     </ClCompile>
-    <ClCompile Include="Wall.cpp">
-      <Filter>Level Specific</Filter>
+    <ClCompile Include="Vietnam\DirectionalLight.cpp">
+      <Filter>Vietnam</Filter>
     </ClCompile>
-    <ClCompile Include="Selector.cpp" />
+    <ClCompile Include="Vietnam\EditBox.cpp">
+      <Filter>Vietnam</Filter>
+    </ClCompile>
+    <ClCompile Include="Vietnam\Error.cpp">
+      <Filter>Vietnam</Filter>
+    </ClCompile>
+    <ClCompile Include="Vietnam\Facebook.cpp">
+      <Filter>Vietnam</Filter>
+    </ClCompile>
+    <ClCompile Include="Vietnam\File.cpp">
+      <Filter>Vietnam</Filter>
+    </ClCompile>
+    <ClCompile Include="Vietnam\GeneralCore.cpp">
+      <Filter>Vietnam</Filter>
+    </ClCompile>
+    <ClCompile Include="Vietnam\HTTP.cpp">
+      <Filter>Vietnam</Filter>
+    </ClCompile>
+    <ClCompile Include="Vietnam\Image.cpp">
+      <Filter>Vietnam</Filter>
+    </ClCompile>
+    <ClCompile Include="Vietnam\InAppPurchase.cpp">
+      <Filter>Vietnam</Filter>
+    </ClCompile>
+    <ClCompile Include="Vietnam\Input.cpp">
+      <Filter>Vietnam</Filter>
+    </ClCompile>
+    <ClCompile Include="Vietnam\Joint.cpp">
+      <Filter>Vietnam</Filter>
+    </ClCompile>
+    <ClCompile Include="Vietnam\Memblock.cpp">
+      <Filter>Vietnam</Filter>
+    </ClCompile>
+    <ClCompile Include="Vietnam\Music.cpp">
+      <Filter>Vietnam</Filter>
+    </ClCompile>
+    <ClCompile Include="Vietnam\MyJoystick.cpp">
+      <Filter>Vietnam</Filter>
+    </ClCompile>
+    <ClCompile Include="Vietnam\MyParticles.cpp">
+      <Filter>Vietnam</Filter>
+    </ClCompile>
+    <ClCompile Include="Vietnam\MyZipFile.cpp">
+      <Filter>Vietnam</Filter>
+    </ClCompile>
+    <ClCompile Include="Vietnam\Network.cpp">
+      <Filter>Vietnam</Filter>
+    </ClCompile>
+    <ClCompile Include="Vietnam\NetworkMessage.cpp">
+      <Filter>Vietnam</Filter>
+    </ClCompile>
+    <ClCompile Include="Vietnam\NFC.cpp">
+      <Filter>Vietnam</Filter>
+    </ClCompile>
+    <ClCompile Include="Vietnam\Notification.cpp">
+      <Filter>Vietnam</Filter>
+    </ClCompile>
+    <ClCompile Include="Vietnam\Object.cpp">
+      <Filter>Vietnam</Filter>
+    </ClCompile>
+    <ClCompile Include="Vietnam\Physics2D.cpp">
+      <Filter>Vietnam</Filter>
+    </ClCompile>
+    <ClCompile Include="Vietnam\PhysicsForce.cpp">
+      <Filter>Vietnam</Filter>
+    </ClCompile>
+    <ClCompile Include="Vietnam\PhysicsSprite.cpp">
+      <Filter>Vietnam</Filter>
+    </ClCompile>
+    <ClCompile Include="Vietnam\Point.cpp">
+      <Filter>Vietnam</Filter>
+    </ClCompile>
+    <ClCompile Include="Vietnam\PointLight.cpp">
+      <Filter>Vietnam</Filter>
+    </ClCompile>
+    <ClCompile Include="Vietnam\Quaternion.cpp">
+      <Filter>Vietnam</Filter>
+    </ClCompile>
+    <ClCompile Include="Vietnam\RateApp.cpp">
+      <Filter>Vietnam</Filter>
+    </ClCompile>
+    <ClCompile Include="Vietnam\RayCast.cpp">
+      <Filter>Vietnam</Filter>
+    </ClCompile>
+    <ClCompile Include="Vietnam\RGBA.cpp">
+      <Filter>Vietnam</Filter>
+    </ClCompile>
+    <ClCompile Include="Vietnam\Shader.cpp">
+      <Filter>Vietnam</Filter>
+    </ClCompile>
+    <ClCompile Include="Vietnam\Sound.cpp">
+      <Filter>Vietnam</Filter>
+    </ClCompile>
+    <ClCompile Include="Vietnam\Sprite.cpp">
+      <Filter>Vietnam</Filter>
+    </ClCompile>
+    <ClCompile Include="Vietnam\Text.cpp">
+      <Filter>Vietnam</Filter>
+    </ClCompile>
+    <ClCompile Include="Vietnam\ThreeD.cpp">
+      <Filter>Vietnam</Filter>
+    </ClCompile>
+    <ClCompile Include="Vietnam\Timer.cpp">
+      <Filter>Vietnam</Filter>
+    </ClCompile>
+    <ClCompile Include="Vietnam\Touch.cpp">
+      <Filter>Vietnam</Filter>
+    </ClCompile>
+    <ClCompile Include="Vietnam\Twitter.cpp">
+      <Filter>Vietnam</Filter>
+    </ClCompile>
+    <ClCompile Include="Vietnam\Vector.cpp">
+      <Filter>Vietnam</Filter>
+    </ClCompile>
+    <ClCompile Include="Vietnam\Video.cpp">
+      <Filter>Vietnam</Filter>
+    </ClCompile>
+    <ClCompile Include="Vietnam\VirtualButton.cpp">
+      <Filter>Vietnam</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CoreForApp.h">
@@ -227,141 +214,6 @@
     </ClInclude>
     <ClInclude Include="template.h">
       <Filter>Default Project Classes</Filter>
-    </ClInclude>
-    <ClInclude Include="Core\AnimatedSprite.h">
-      <Filter>Vietnam</Filter>
-    </ClInclude>
-    <ClInclude Include="Core\EditBox.h">
-      <Filter>Vietnam</Filter>
-    </ClInclude>
-    <ClInclude Include="Core\File.h">
-      <Filter>Vietnam</Filter>
-    </ClInclude>
-    <ClInclude Include="Core\HTTP.h">
-      <Filter>Vietnam</Filter>
-    </ClInclude>
-    <ClInclude Include="Core\Image.h">
-      <Filter>Vietnam</Filter>
-    </ClInclude>
-    <ClInclude Include="Core\Joint.h">
-      <Filter>Vietnam</Filter>
-    </ClInclude>
-    <ClInclude Include="Core\Music.h">
-      <Filter>Vietnam</Filter>
-    </ClInclude>
-    <ClInclude Include="Core\Network.h">
-      <Filter>Vietnam</Filter>
-    </ClInclude>
-    <ClInclude Include="Core\NetworkMessage.h">
-      <Filter>Vietnam</Filter>
-    </ClInclude>
-    <ClInclude Include="Core\PhysicsForce.h">
-      <Filter>Vietnam</Filter>
-    </ClInclude>
-    <ClInclude Include="Core\PhysicsSprite.h">
-      <Filter>Vietnam</Filter>
-    </ClInclude>
-    <ClInclude Include="Core\Point.h">
-      <Filter>Vietnam</Filter>
-    </ClInclude>
-    <ClInclude Include="Core\RGBA.h">
-      <Filter>Vietnam</Filter>
-    </ClInclude>
-    <ClInclude Include="Core\Sound.h">
-      <Filter>Vietnam</Filter>
-    </ClInclude>
-    <ClInclude Include="Core\Sprite.h">
-      <Filter>Vietnam</Filter>
-    </ClInclude>
-    <ClInclude Include="Core\Text.h">
-      <Filter>Vietnam</Filter>
-    </ClInclude>
-    <ClInclude Include="Core\Timer.h">
-      <Filter>Vietnam</Filter>
-    </ClInclude>
-    <ClInclude Include="Core\Vector.h">
-      <Filter>Vietnam</Filter>
-    </ClInclude>
-    <ClInclude Include="Core\VirtualButton.h">
-      <Filter>Vietnam</Filter>
-    </ClInclude>
-    <ClInclude Include="Core\MyParticles.h">
-      <Filter>Vietnam</Filter>
-    </ClInclude>
-    <ClInclude Include="Core\Advert.h">
-      <Filter>Vietnam</Filter>
-    </ClInclude>
-    <ClInclude Include="Core\Camera.h">
-      <Filter>Vietnam</Filter>
-    </ClInclude>
-    <ClInclude Include="Core\DirectionalLight.h">
-      <Filter>Vietnam</Filter>
-    </ClInclude>
-    <ClInclude Include="Core\Error.h">
-      <Filter>Vietnam</Filter>
-    </ClInclude>
-    <ClInclude Include="Core\Facebook.h">
-      <Filter>Vietnam</Filter>
-    </ClInclude>
-    <ClInclude Include="Core\GeneralCore.h">
-      <Filter>Vietnam</Filter>
-    </ClInclude>
-    <ClInclude Include="Core\InAppPurchase.h">
-      <Filter>Vietnam</Filter>
-    </ClInclude>
-    <ClInclude Include="Core\Input.h">
-      <Filter>Vietnam</Filter>
-    </ClInclude>
-    <ClInclude Include="Core\Memblock.h">
-      <Filter>Vietnam</Filter>
-    </ClInclude>
-    <ClInclude Include="Core\Notification.h">
-      <Filter>Vietnam</Filter>
-    </ClInclude>
-    <ClInclude Include="Core\Physics2D.h">
-      <Filter>Vietnam</Filter>
-    </ClInclude>
-    <ClInclude Include="Core\PointLight.h">
-      <Filter>Vietnam</Filter>
-    </ClInclude>
-    <ClInclude Include="Core\RateApp.h">
-      <Filter>Vietnam</Filter>
-    </ClInclude>
-    <ClInclude Include="Core\Shader.h">
-      <Filter>Vietnam</Filter>
-    </ClInclude>
-    <ClInclude Include="Core\ThreeD.h">
-      <Filter>Vietnam</Filter>
-    </ClInclude>
-    <ClInclude Include="Core\Twitter.h">
-      <Filter>Vietnam</Filter>
-    </ClInclude>
-    <ClInclude Include="Core\Video.h">
-      <Filter>Vietnam</Filter>
-    </ClInclude>
-    <ClInclude Include="Core\Object.h">
-      <Filter>Vietnam</Filter>
-    </ClInclude>
-    <ClInclude Include="Core\Quaternion.h">
-      <Filter>Vietnam</Filter>
-    </ClInclude>
-    <ClInclude Include="Core\MyJoystick.h">
-      <Filter>Vietnam</Filter>
-    </ClInclude>
-    <ClInclude Include="Core\NFC.h">
-      <Filter>Vietnam</Filter>
-    </ClInclude>
-    <ClInclude Include="Core\Touch.h">
-      <Filter>Vietnam</Filter>
-    </ClInclude>
-    <ClInclude Include="Core\RayCast.h">
-      <Filter>Vietnam</Filter>
-    </ClInclude>
-    <ClInclude Include="Core\MyZipFile.h">
-      <Filter>Vietnam</Filter>
-    </ClInclude>
-    <ClInclude Include="VietnamCore.h">
-      <Filter>Vietnam</Filter>
     </ClInclude>
     <ClInclude Include="Level.h">
       <Filter>Level Specific</Filter>
@@ -405,19 +257,138 @@
     <ClInclude Include="Laser.h">
       <Filter>Creatures\Weapons</Filter>
     </ClInclude>
-    <ClInclude Include="Floor.h">
-      <Filter>Level Specific</Filter>
+    <ClInclude Include="Vietnam\Advert.h">
+      <Filter>Vietnam</Filter>
     </ClInclude>
-    <ClInclude Include="Sun.h">
-      <Filter>Level Specific</Filter>
+    <ClInclude Include="Vietnam\AnimatedSprite.h">
+      <Filter>Vietnam</Filter>
     </ClInclude>
-    <ClInclude Include="Ceiling.h">
-      <Filter>Level Specific</Filter>
+    <ClInclude Include="Vietnam\Camera.h">
+      <Filter>Vietnam</Filter>
     </ClInclude>
-    <ClInclude Include="Wall.h">
-      <Filter>Level Specific</Filter>
+    <ClInclude Include="Vietnam\DirectionalLight.h">
+      <Filter>Vietnam</Filter>
     </ClInclude>
-    <ClInclude Include="Selector.h" />
+    <ClInclude Include="Vietnam\EditBox.h">
+      <Filter>Vietnam</Filter>
+    </ClInclude>
+    <ClInclude Include="Vietnam\Error.h">
+      <Filter>Vietnam</Filter>
+    </ClInclude>
+    <ClInclude Include="Vietnam\Facebook.h">
+      <Filter>Vietnam</Filter>
+    </ClInclude>
+    <ClInclude Include="Vietnam\File.h">
+      <Filter>Vietnam</Filter>
+    </ClInclude>
+    <ClInclude Include="Vietnam\GeneralCore.h">
+      <Filter>Vietnam</Filter>
+    </ClInclude>
+    <ClInclude Include="Vietnam\HTTP.h">
+      <Filter>Vietnam</Filter>
+    </ClInclude>
+    <ClInclude Include="Vietnam\Image.h">
+      <Filter>Vietnam</Filter>
+    </ClInclude>
+    <ClInclude Include="Vietnam\InAppPurchase.h">
+      <Filter>Vietnam</Filter>
+    </ClInclude>
+    <ClInclude Include="Vietnam\Input.h">
+      <Filter>Vietnam</Filter>
+    </ClInclude>
+    <ClInclude Include="Vietnam\Joint.h">
+      <Filter>Vietnam</Filter>
+    </ClInclude>
+    <ClInclude Include="Vietnam\Memblock.h">
+      <Filter>Vietnam</Filter>
+    </ClInclude>
+    <ClInclude Include="Vietnam\Music.h">
+      <Filter>Vietnam</Filter>
+    </ClInclude>
+    <ClInclude Include="Vietnam\MyJoystick.h">
+      <Filter>Vietnam</Filter>
+    </ClInclude>
+    <ClInclude Include="Vietnam\MyParticles.h">
+      <Filter>Vietnam</Filter>
+    </ClInclude>
+    <ClInclude Include="Vietnam\MyZipFile.h">
+      <Filter>Vietnam</Filter>
+    </ClInclude>
+    <ClInclude Include="Vietnam\Network.h">
+      <Filter>Vietnam</Filter>
+    </ClInclude>
+    <ClInclude Include="Vietnam\NetworkMessage.h">
+      <Filter>Vietnam</Filter>
+    </ClInclude>
+    <ClInclude Include="Vietnam\NFC.h">
+      <Filter>Vietnam</Filter>
+    </ClInclude>
+    <ClInclude Include="Vietnam\Notification.h">
+      <Filter>Vietnam</Filter>
+    </ClInclude>
+    <ClInclude Include="Vietnam\Object.h">
+      <Filter>Vietnam</Filter>
+    </ClInclude>
+    <ClInclude Include="Vietnam\Physics2D.h">
+      <Filter>Vietnam</Filter>
+    </ClInclude>
+    <ClInclude Include="Vietnam\PhysicsForce.h">
+      <Filter>Vietnam</Filter>
+    </ClInclude>
+    <ClInclude Include="Vietnam\PhysicsSprite.h">
+      <Filter>Vietnam</Filter>
+    </ClInclude>
+    <ClInclude Include="Vietnam\Point.h">
+      <Filter>Vietnam</Filter>
+    </ClInclude>
+    <ClInclude Include="Vietnam\PointLight.h">
+      <Filter>Vietnam</Filter>
+    </ClInclude>
+    <ClInclude Include="Vietnam\Quaternion.h">
+      <Filter>Vietnam</Filter>
+    </ClInclude>
+    <ClInclude Include="Vietnam\RateApp.h">
+      <Filter>Vietnam</Filter>
+    </ClInclude>
+    <ClInclude Include="Vietnam\RayCast.h">
+      <Filter>Vietnam</Filter>
+    </ClInclude>
+    <ClInclude Include="Vietnam\RGBA.h">
+      <Filter>Vietnam</Filter>
+    </ClInclude>
+    <ClInclude Include="Vietnam\Shader.h">
+      <Filter>Vietnam</Filter>
+    </ClInclude>
+    <ClInclude Include="Vietnam\Sound.h">
+      <Filter>Vietnam</Filter>
+    </ClInclude>
+    <ClInclude Include="Vietnam\Sprite.h">
+      <Filter>Vietnam</Filter>
+    </ClInclude>
+    <ClInclude Include="Vietnam\Text.h">
+      <Filter>Vietnam</Filter>
+    </ClInclude>
+    <ClInclude Include="Vietnam\ThreeD.h">
+      <Filter>Vietnam</Filter>
+    </ClInclude>
+    <ClInclude Include="Vietnam\Timer.h">
+      <Filter>Vietnam</Filter>
+    </ClInclude>
+    <ClInclude Include="Vietnam\Touch.h">
+      <Filter>Vietnam</Filter>
+    </ClInclude>
+    <ClInclude Include="Vietnam\Twitter.h">
+      <Filter>Vietnam</Filter>
+    </ClInclude>
+    <ClInclude Include="Vietnam\Vector.h">
+      <Filter>Vietnam</Filter>
+    </ClInclude>
+    <ClInclude Include="Vietnam\Video.h">
+      <Filter>Vietnam</Filter>
+    </ClInclude>
+    <ClInclude Include="Vietnam\VirtualButton.h">
+      <Filter>Vietnam</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\Game\Win32Debug_2010\CreatureData\InformationNode">

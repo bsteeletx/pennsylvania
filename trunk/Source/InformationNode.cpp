@@ -26,14 +26,14 @@ InformationNode::InformationNode(Point GridLocation, bool submerged, unsigned sh
 	: Character(Text("CreatureData/InformationNode"))
 {
 	setPosition(GridLocation.getNormalCoords());
-	setZ(5.0f);
+	//setZ(5.0f);
 	oldY = getY();
 	Type = INFORMATION_NODE;
 	Character::setVisible(!submerged);
-	Texture->setCollisionGroup((int) GODS);
+	setCollisionGroup((int) GODS);
 	setState(IDLE);
 
-	Texture->setSize(10.0f);
+	setSize(10.0f);
 }
 
 //////////////////////////////////////////
@@ -70,5 +70,13 @@ void InformationNode::kill(Character *KilledBy)
 void InformationNode::update(std::vector<Character*> Defenders)
 {
 	//nothing as of yet
-	setPosition(Point(getX(), getY(), getZ()));
+	if (getState() == FADEOUT)
+	{
+		short alpha = getColorAlpha() - 5;
+				
+		if (alpha >= 0)
+			setColorAlpha(alpha);
+		else
+			setX(-15.0f);
+	}
 }

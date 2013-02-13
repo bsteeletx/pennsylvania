@@ -175,7 +175,7 @@ void Level00::update(void)
 	//check on deaths for Thief Virus attack
 	for (unsigned int i = 0; i < Defenders.size(); i++)
 	{
-		if (Defenders[i]->getState() == DEATH)
+		if (Defenders[i]->getState() == FADEOUT)
 		{
 			if (Defenders[i]->getCreatureType() == INFORMATION_NODE)
 			{
