@@ -1,7 +1,7 @@
 Height:546
 Width:273
 Count:15
-ParentImage:Assets/Creatures/Redirector.jpg
+ParentImage:Assets/Creatures/Creatures.png
 PathFile:Redirector.jpg
 Size:18.0
 HP:35
