@@ -1,0 +1,20 @@
+Height:546
+Width:273
+Count:15
+ParentImage:Assets/Creatures/Redirector.jpg
+PathFile:Redirector.jpg
+Size:18.0
+HP:35
+Speed:8.0
+PlaySpeed:10.0
+Attack:5
+AttackSpeed:35.0
+Cost:15
+Idle:1, 15
+IdleSpeed:12.0
+Move:1, 15
+MoveSpeed:12.0
+AttackFrames:16, 30
+AttackFramesSpeed:10.0
+Death:31, 45
+DeathSpeed:10.0
