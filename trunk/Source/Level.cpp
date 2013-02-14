@@ -172,8 +172,8 @@ void Level::init(void)
 	addSprite(Selector.getSpriteNumber());
 
 	//Place the text for player's currency, set the color and position
-	CurrencyTitle = Text("Bytes: ");
-	CurrencyValue = Text(agk::Chr(currencyAmount));
+	CurrencyTitle = Text("Bytes: ", true);
+	CurrencyValue = Text(agk::Str(currencyAmount), true);
 
 	CurrencyTitle.setColor(RGBA(0, 0, 0));
 	CurrencyValue.setColor(RGBA(0, 0, 0));
@@ -422,15 +422,6 @@ void Level::handleUI(void)
 
 	//Display Currency
 	CurrencyValue.setString(agk::Str(currencyAmount));
-
-	if (!CurrencyTitle.getVisible())
-	{
-		CurrencyTitle.setVisible(true);
-		CurrencyTitle.setColor(RGBA(0, 0, 0));
-		CurrencyValue.setVisible(true);
-		CurrencyValue.setColor(RGBA(0, 0, 0));
-		CurrencyValue.setDepth(1);
-	}
 }
 
 /*////////////////////////////

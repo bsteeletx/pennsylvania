@@ -1,7 +1,7 @@
 #pragma once
 #include "Level.h"
 //AlarmSystem needs to be defined
-//#include "AlarmSystem.h"
+#include "Alarm.h"
 
 class Level00 :
 	public Level
@@ -29,6 +29,6 @@ private:
 
 	unsigned short currencyGained;
 
-	//AlarmSystem Alarm;
+	Alarm AlarmSystem;
 };
 

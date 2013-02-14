@@ -124,10 +124,12 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Alarm.cpp" />
     <ClCompile Include="BugVirus.cpp" />
     <ClCompile Include="Character.cpp" />
     <ClCompile Include="Core.cpp" />
     <ClCompile Include="DBlocker.cpp" />
+    <ClCompile Include="Fog.cpp" />
     <ClCompile Include="InformationNode.cpp" />
     <ClCompile Include="Laser.cpp" />
     <ClCompile Include="LaserHit.cpp" />
@@ -184,12 +186,14 @@
     <ClCompile Include="Vietnam\VirtualButton.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Alarm.h" />
     <ClInclude Include="BugVirus.h" />
     <ClInclude Include="Character.h" />
     <ClInclude Include="CoreForApp.h" />
     <ClInclude Include="CreatureList.h" />
     <ClInclude Include="DBlocker.h" />
     <ClInclude Include="Defines.h" />
+    <ClInclude Include="Fog.h" />
     <ClInclude Include="Globals.h" />
     <ClInclude Include="InformationNode.h" />
     <ClInclude Include="Laser.h" />
