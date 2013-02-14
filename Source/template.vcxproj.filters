@@ -201,6 +201,12 @@
     <ClCompile Include="Vietnam\VirtualButton.cpp">
       <Filter>Vietnam</Filter>
     </ClCompile>
+    <ClCompile Include="Fog.cpp">
+      <Filter>Level Specific</Filter>
+    </ClCompile>
+    <ClCompile Include="Alarm.cpp">
+      <Filter>Level Specific</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CoreForApp.h">
@@ -388,6 +394,12 @@
     </ClInclude>
     <ClInclude Include="Vietnam\VirtualButton.h">
       <Filter>Vietnam</Filter>
+    </ClInclude>
+    <ClInclude Include="Fog.h">
+      <Filter>Level Specific</Filter>
+    </ClInclude>
+    <ClInclude Include="Alarm.h">
+      <Filter>Level Specific</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

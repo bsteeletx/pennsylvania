@@ -112,6 +112,8 @@ void Level00::init(void)
 				unlockedAttacker.push_back((Creature) value);
 		}
 	}
+
+	AlarmSystem = Alarm(8); //length of alarm in seconds
 }
 
 /////////////////////////////////
@@ -147,6 +149,10 @@ bool Level00::getFog(Point GridLocation)
 /////////////////////////////
 void Level00::update(void)
 {
+	if (AlarmSystem.getActivated())
+	{
+		AlarmSystem.update();
+	}
 	//Attackers first
 	for (unsigned int i = 0; i < Attackers.size(); i++)
 	{
@@ -185,18 +191,8 @@ void Level00::update(void)
 					{
 						//This text should work if an Alarm system is set up
 						//sound alarm!
-/*						if (!Alarm.isOn())
-						{
-							Alarm.setAlarm(true, 5);
-							break;
-						}
-						//if alarm isn't finished, update it
-						else if (!Alarm.isFinished())
-						{
-							Alarm.update();
-							break;
-						}*/
-						//alarm is all finished, time to produce more defenders!
+						AlarmSystem.activate();
+
 						while (hiddenDefenderStack.size() != 0)
 						{
 							//Unhide all of the defenders, play their animations, and delete them from the vector

@@ -58,7 +58,7 @@ void Laser::turnOn(Character *Attacker, Character *Target)
 
 	//Other initializing functions for laser weapon
 	setVisible(true);
-	setSize(getWidth(Attacker, Target), 1.0f);
+	setSize(getWidth(Attacker, Target), 0.1f);
 	//Other initializing functions for laser particle effect
 	Sparkle->setPosition(SparklePos);
 	Sparkle->setVisiblity(true);
