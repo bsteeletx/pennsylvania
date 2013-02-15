@@ -4,6 +4,7 @@
 #include "Vietnam/Sprite.h"
 #include "CreatureList.h"
 #include <vector>
+#include "Music.h"
 
 class Level
 {
@@ -34,6 +35,7 @@ public:
 protected:
 	Sprite Selector;
 	Sprite Background;
+	Music Song;
 
 	std::vector<Character*> Attackers;
 	std::vector<Character*> Defenders;
