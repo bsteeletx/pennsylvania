@@ -183,6 +183,8 @@ void Level::init(void)
 
 	//Null out the Selected Creature
 	Selected = (Creature) NULL;
+
+	Song.setSystemVolume(100);
 }
 
 ////////////////////////////////
@@ -482,6 +484,8 @@ void Level::update(void)
 {
 	handleUI();
 	updateCharacters();
+	if (!Song.getPlaying())
+		Song.play();
 }
 
 ///////////////////////////////////

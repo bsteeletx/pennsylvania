@@ -114,6 +114,7 @@ void Level00::init(void)
 	}
 
 	AlarmSystem = Alarm(8); //length of alarm in seconds
+	Song = Music(Text("Assets/Sounds/Level 00.wav"));
 }
 
 /////////////////////////////////
