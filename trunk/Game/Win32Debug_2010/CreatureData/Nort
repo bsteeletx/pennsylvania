@@ -5,7 +5,7 @@ ParentImage:Assets/Creatures/Creatures.png
 PathFile:Nort.png
 Size:20.0
 HP:15
-Speed:1.0
+Speed:2.0
 PlaySpeed:10.0
 Attack:0
 AttackSpeed:0.0
