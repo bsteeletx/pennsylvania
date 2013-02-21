@@ -1,4 +1,4 @@
-Background Image:Assets/Levels/Level 00/level0background.png
+Background Image:Assets/Levels/Level 00/Level0 walls.jpg
 Left Wall:Assets/Levels/Level 00/backgroud0repeat.jpg
 Back Wall:Assets/Levels/Level 00/backgroud0repeat.jpg
 Right Wall:Assets/Levels/Level 00/backgroud0repeat.jpg
@@ -19,7 +19,7 @@ Creature Location:2 4
 Hidden Defenders:6, 7, 8, 9, 10, 11
 Unhide Defenders:Data:12
 Highest Attacker Type:5
-Starting Data:100
+Starting Data:25
 Data Required for Unlock:9
 Unlocked Attacker:2
 Data Required for Unlock:13
