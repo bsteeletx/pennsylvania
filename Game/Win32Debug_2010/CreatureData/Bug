@@ -4,12 +4,12 @@ Count:1
 ParentImage:Assests/Creatures/Creatures.png
 PathFile:Bug.png
 Size:20.0
-HP:0
-Speed:0.0
+HP:10
+Speed:3.0
 PlaySpeed:10.0
 Attack:3
 AttackSpeed:5.0
-Cost:100
+Cost:50
 Idle:1, 1
 IdleSpeed:10.0
 Move:1, 1
