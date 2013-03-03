@@ -3,7 +3,7 @@ Width:273
 Count:30
 ParentImage:Assets/Creatures/Creatures.png
 PathFile:MinerVirus.png
-Size:20.0
+Size:10.0
 HP:0
 Speed:0.0
 PlaySpeed:10.0
