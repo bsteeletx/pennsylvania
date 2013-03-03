@@ -10,7 +10,7 @@ PlaySpeed:10.0
 Attack:1
 AttackSpeed:1.0
 Cost:10
-Idle:1, 10
+Idle:1, 30
 IdleSpeed:10.0
 Move:1, 1
 MoveSpeed:10.0
