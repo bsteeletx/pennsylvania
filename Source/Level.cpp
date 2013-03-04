@@ -196,7 +196,7 @@ void Level::setAttackerMenu(void)
 		Attackers.back()->isExample = true;
 		//Alpha out the creature a bit and set in the pose state
 		//Attackers.back()->setColorAlpha(128);
-		Attackers.back()->setState(MENU_TOOMUCH); 
+		Attackers.back()->setState(MENU_HIDDEN); 
 	}
 }
 
