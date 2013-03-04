@@ -18,6 +18,6 @@ Highest Attacker Type:5
 Starting Data:10
 Data Required for Unlock:9
 Unlocked Attacker:2
+Unlocked Attacker:3
 Unlocked Attacker:4
-Unlocked Attacker:5
-Reward:15
+Reward:5

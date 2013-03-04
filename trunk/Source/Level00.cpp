@@ -285,6 +285,19 @@ void Level00::doPrompts(unsigned int creatureID)
 			}
 		}
 	}
+	else if (AlarmSystem.getActivated() && !shownCreature[DBLOCKER])
+	{
+		for (unsigned int i = 0; i < Attackers.size(); i++)
+		{
+			if (Attackers[i]->getCreatureType() == DBLOCKER)
+			{
+				//Attackers[BUG_VIRUS]->setVisible(true);
+				showCreature(Attackers[i]);
+				shownCreature[DBLOCKER] = true;
+				return;
+			}
+		}
+	}
 }
 
 void Level00::updateAttackers(void)
