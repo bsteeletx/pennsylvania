@@ -50,17 +50,23 @@ InformationNode::~InformationNode(void)
 //////////////////////////////////////////////////////
 void InformationNode::attack(Character *Target)
 {
-	//no Attacks for Informaiton Nodes
+	//no attacks from informaiton node
 }
 
-void InformationNode::damage(short amount)
+void InformationNode::damage(short amount, Character *Attacker)
 {
 	//nothing special
 	//hitPoints -= amount;
 
 	//if (hitPoints <= 0)
 	//	kill();
+	Character::damage(amount, Attacker);
 }
+
+void InformationNode::fireWeapon(void)
+{
+}
+
 
 void InformationNode::kill(Character *KilledBy)
 {
@@ -70,7 +76,7 @@ void InformationNode::kill(Character *KilledBy)
 void InformationNode::update(std::vector<Character*> Defenders)
 {
 	//nothing as of yet
-	if (getState() == FADEOUT)
+	/*if (getState() == FADEOUT)
 	{
 		short alpha = getColorAlpha() - 5;
 				
@@ -78,5 +84,6 @@ void InformationNode::update(std::vector<Character*> Defenders)
 			setColorAlpha(alpha);
 		else
 			setX(-15.0f);
-	}
+	}*/
+	Character::update(Defenders);
 }

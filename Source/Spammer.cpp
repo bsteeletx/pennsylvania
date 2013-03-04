@@ -22,16 +22,27 @@ Spammer::~Spammer(void)
 {
 }
 
-void Spammer::attack(Character &Target)
+void Spammer::attack(Character *Target)
 {
-	Target.damage(attackAmount);
+	Character::attack(Target);
 }
 
-void Spammer::damage(short amount)
+void Spammer::damage(short amount, Character *Attacker)
 {
-	hitPoints -= amount;
+	Character::damage(amount, Attacker);
 }
 
-void Spammer::update(void)
+void Spammer::fireWeapon(void)
 {
+}
+
+
+void Spammer::kill(Character *Killer)
+{
+	Character::kill(Killer);
+}
+
+void Spammer::update(std::vector<Character*> Defenders)
+{
+	Character::update(Defenders);
 }

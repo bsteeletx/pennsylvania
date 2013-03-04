@@ -10,10 +10,14 @@ public:
 
 	Spammer::Spammer(Point Location);
 
-	void attack(Character &Target);
+	void attack(Character *Target) override;
 	
-	void damage(short amount);
+	void damage(short amount, Character *Attacker) override;
 
-	void update(void);
+	void fireWeapon(void) override;
+
+	void kill(Character *Killer) override;
+	
+	void update(std::vector<Character*> Defenders) override;
 };
 

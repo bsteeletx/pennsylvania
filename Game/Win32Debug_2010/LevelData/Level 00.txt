@@ -1,8 +1,4 @@
 Background Image:Assets/Levels/Level 00/Level0 walls.jpg
-Left Wall:Assets/Levels/Level 00/backgroud0repeat.jpg
-Back Wall:Assets/Levels/Level 00/backgroud0repeat.jpg
-Right Wall:Assets/Levels/Level 00/backgroud0repeat.jpg
-Floor:Assets/Levels/Level 00/floor0repeat.jpg
 Creature Type:0
 Creature Location:0 0
 Creature Location:0 1
@@ -22,6 +18,6 @@ Highest Attacker Type:5
 Starting Data:10
 Data Required for Unlock:9
 Unlocked Attacker:2
-Data Required for Unlock:13
+Data Required for Unlock:35
 Unlocked Attacker:4
 Reward:15

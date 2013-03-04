@@ -58,10 +58,15 @@ void ThiefVirus::attack(Character *Target)
 // Input: Amount that the virus gets damaged
 // Result: Call the base class damage as there are no special needs here
 ///////////////////////////////////////
-void ThiefVirus::damage(short amount)
+void ThiefVirus::damage(short amount, Character *Attacker)
 {
-	Character::damage(amount);
+	Character::damage(amount, Attacker);
 }
+
+void ThiefVirus::fireWeapon(void)
+{
+}
+
 
 ///////////////////////////////////////////////
 // Kill (override of base kill)
@@ -80,5 +85,7 @@ void ThiefVirus::kill(Character *KilledBy)
 /////////////////////////////////////////////////////////////
 void ThiefVirus::update(std::vector<Character*> Defenders)
 {
-	Character::update(Defenders);
+
+	if (!this->isExample)
+		Character::update(Defenders);
 }

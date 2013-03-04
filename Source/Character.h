@@ -14,8 +14,10 @@ public:
 	//virtual void activateSpecial(AnimatedSprite Fog[8][5] = NULL, unsigned short *currency = 0);
 	virtual void attack(Character *Target);
 
-	virtual void damage(short amount);
+	virtual void damage(short amount, Character *Attacker);
 	bool didAttackThisTurn(void);
+
+	virtual void fireWeapon(void);
 
 	unsigned short getAttackAmount(void);	
 	unsigned short getCost(void);

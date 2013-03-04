@@ -207,6 +207,9 @@
     <ClCompile Include="Alarm.cpp">
       <Filter>Level Specific</Filter>
     </ClCompile>
+    <ClCompile Include="Projectile.cpp">
+      <Filter>Creatures\Weapons</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CoreForApp.h">
@@ -401,6 +404,9 @@
     <ClInclude Include="Alarm.h">
       <Filter>Level Specific</Filter>
     </ClInclude>
+    <ClInclude Include="Projectile.h">
+      <Filter>Creatures\Weapons</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\Game\Win32Debug_2010\CreatureData\InformationNode">
@@ -422,6 +428,9 @@
       <Filter>Creatures\Creature Text Files</Filter>
     </None>
     <None Include="..\Game\Win32Debug_2010\LevelData\Level 00.txt">
+      <Filter>Level Text Files</Filter>
+    </None>
+    <None Include="Level_00_Messages.txt">
       <Filter>Level Text Files</Filter>
     </None>
   </ItemGroup>

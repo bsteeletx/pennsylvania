@@ -25,9 +25,8 @@ Nort::Nort(Point GridLocation)
 {
 	setPosition(GridLocation.getNormalCoords());
 	Type = NORT;
-	Weapon = new Laser(GridLocation.getNormalCoords());
-	Weapon->setVisible(false);
-	Weapon->setPosition(getX() + 15.0f, getY() + 5.75f);
+	Weapon = new Laser(Vector(Point(100.0f/1000.0f, 0.0f)), attackAmount, this);
+	//Weapon->setPosition(getX() + 15.0f, getY() + 5.75f);
 	isExample = false;
 	setCollisionGroup((int) MORTALS);
 	hasRangedWeapon = true;
@@ -57,9 +56,20 @@ void Nort::attack(Character *Target)
 // Input: amound of damage to be taken
 // Result: Nothing special for Nort, use base damage
 ///////////////////////////////////
-void Nort::damage(short amount)
+void Nort::damage(short amount, Character *Attacker)
 {
-	Character::damage(amount);
+	Character::damage(amount, Attacker);
+}
+
+/////////////////////////////
+// Fire Weapon
+// Input: none
+// Result: ranged weapon fired
+//////////////////////////////
+void Nort::fireWeapon(void)
+{
+	if (getCurrentTarget() != NULL)
+		Weapon->fireWeapon();
 }
 
 ///////////////////////////////////////
@@ -78,18 +88,10 @@ void Nort::kill(Character *Killer)
 // Result: Move the Laser weapon to the appropriate location, and turn it on if attacking
 void Nort::update(std::vector<Character*> Defenders)
 {
-	if (getState() == ATTACKING)
-	{
-		if (getCurrentTarget() != NULL)
-		{
-			Weapon->setPosition(this->getX() + 10.0f, Weapon->getY());
-			Weapon->turnOn(this, getCurrentTarget());
-		}
-	}
-	else
-		Weapon->turnOff();
-
 	//do normal base update
 	if (getVisible())
+	{
+		Weapon->update(Defenders);
 		Character::update(Defenders);
+	}
 }

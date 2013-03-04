@@ -47,7 +47,7 @@ MinerVirus::~MinerVirus(void)
 ////////////////////////////////////////////////////////////
 void MinerVirus::update(std::vector<Character*> Defenders)
 {
-	Character::minerAttack();
+	Character::update(Defenders);
 }
 
 ///////////////////////////////////////////////////
@@ -56,6 +56,16 @@ void MinerVirus::update(std::vector<Character*> Defenders)
 // Result: Nothing, Miner Virii don't attack
 void MinerVirus::attack(Character *Target)
 {
+	if (agk::Timer() - timeFromLastAttack > attackSpeed)
+	{
+		if (getCreatureType() == MINER_VIRUS)
+		{
+			timeFromLastAttack = agk::Timer();
+			didDamage = true;
+		}
+	}
+	else
+		didDamage = false;
 }
 
 //Currently commented out because we aren't doing fog,
@@ -95,10 +105,15 @@ void MinerVirus::attack(Character *Target)
 // Damage (override base function)
 // Input: Damage amount
 // Result: Nothing, Miner Virii are immortal
-void MinerVirus::damage(short amount)
+void MinerVirus::damage(short amount, Character *Attacker)
 {
-	//Character::damageCharacter(amount);
+	Character::damage(amount, Attacker);
 }
+
+void MinerVirus::fireWeapon(void)
+{
+}
+
 
 ////////////////////////////////////////////
 // Kill (override base function)
@@ -106,4 +121,5 @@ void MinerVirus::damage(short amount)
 // Result: Nothing, Miner Virii are immortal
 void MinerVirus::kill(Character *Killer)
 {
+	Character::kill(Killer);
 }

@@ -16,9 +16,10 @@
 ////////////////////////////
 Level::Level(void)
 {
-	offsetSelector = false;
 	currencyAmount = 0;
 	reward = 0;
+	isPaused = false;
+	messageCounter = 0;
 }
 
 //////////////////////////
@@ -40,10 +41,11 @@ Level::~Level(void)
 //////////////////////////////////////////////////////////////////////////////////
 Level::Level(short levelNumber, std::vector<Creature> AttackerList)
 {
-	offsetSelector = false;
 	currencyAmount = 0;
 	reward = 0;
 	levelID = levelNumber;
+	isPaused = false;
+	messageCounter = 0;
 	
 	for (unsigned int i = 0; i < AttackerList.size(); i++)
 		AttackerInitList.push_back(AttackerList[i]);
@@ -54,7 +56,6 @@ Level::Level(short levelNumber, std::vector<Creature> AttackerList)
 // /////////////////////////////////////////////////
 Level& Level::operator= (const Level &NewLevel)
 {
-	this->offsetSelector = NewLevel.offsetSelector;
 	this->currencyAmount = NewLevel.currencyAmount;
 	this->reward = NewLevel.reward;
 	this->levelID = NewLevel.levelID;
@@ -82,16 +83,7 @@ void Level::init(void)
 	Image Texture[3] = {NULL, NULL, NULL};
 
 	//Take Default beginning...
-	Text LevelName = Text("LevelData/Level ");
-
-	Text NumberText = Text(agk::Str((float) levelID, 0));
-	
-	if (levelID < 10)
-		LevelName += "0";
-
-	//...Add Number to end to have the script file
-	LevelName += NumberText;
-	LevelName += Text(".txt");
+	Text LevelName = getLevelFilename();
 
 	//Open Script File for reading
 	File LevelSource = File(true, LevelName);
@@ -145,6 +137,49 @@ void Level::init(void)
 
 	LevelSource.close();
 
+	setAttackerMenu();
+
+	//Load in the Selector
+#if (PLATFORM == PC)
+	Selector = Sprite(Text("Assets/Common/selector.png"), false);
+	Selector.setOffset(Selector.getWidth()/2, Selector.getHeight()/2);
+	addSprite(Selector.getSpriteNumber());
+	Selector.setSize(12.5f);
+	Selector.setOffset(1.5f, 1.9f);
+#endif
+
+	displayCurrency();
+	
+	//Null out the Selected Creature
+	Selected = (Creature) NULL;
+
+	CreatureFrame = Sprite(); //Need an actual frame here
+	CreatureFrame.setVisible(false);
+	
+	Song.setSystemVolume(100);
+}
+
+void Level::displayCurrency(void)
+{
+	//Place the text for player's currency, set the color and position
+	CurrencyTitle = Text("Bytes: ", true);
+	CurrencyValue = Text(agk::Str(currencyAmount), true);
+
+	CurrencyTitle.setColor(RGBA(0, 0, 0));
+	CurrencyValue.setColor(RGBA(0, 0, 0));
+
+	CurrencyTitle.setPosition(Point(2.0f, 95.0f));
+	CurrencyValue.setPosition(Point(15.0f, 95.0f));
+
+}
+
+//////////////////////////////
+// Set Attacker Menu
+// Input None
+// Output Attackers placed
+//////////////////////////////
+void Level::setAttackerMenu(void)
+{
 	//set up attacker choice menu
 	for (unsigned int i = 0; i < AttackerInitList.size(); i++)
 	{
@@ -163,28 +198,26 @@ void Level::init(void)
 		//Attackers.back()->setColorAlpha(128);
 		Attackers.back()->setState(MENU_TOOMUCH); 
 	}
+}
 
-	//Load in the Selector
-	//NOTE (1/1/13): Needs to have a #if PC as you won't see the selector for other platforms
-	/////////////////Need to do a #if on the header file as well
-	Selector = Sprite(Text("Assets/Common/selector.png"), false);
-	Selector.setOffset(Selector.getWidth()/2, Selector.getHeight()/2);
-	addSprite(Selector.getSpriteNumber());
+///////////////////////////////
+// Get Level Filename
+// Input none
+// Output Text Object that contains filename of level
+//////////////////////////////
+Text Level::getLevelFilename(void)
+{
+	Text ReturnText = Text("LevelData/Level ");
+	Text NumberText = Text(agk::Str((float) levelID, 0));
+	
+	if (levelID < 10)
+		ReturnText += "0";
 
-	//Place the text for player's currency, set the color and position
-	CurrencyTitle = Text("Bytes: ", true);
-	CurrencyValue = Text(agk::Str(currencyAmount), true);
+	//...Add Number to end to have the script file
+	ReturnText += NumberText;
+	ReturnText += Text(".txt");
 
-	CurrencyTitle.setColor(RGBA(0, 0, 0));
-	CurrencyValue.setColor(RGBA(0, 0, 0));
-
-	CurrencyTitle.setPosition(Point(2.0f, 95.0f));
-	CurrencyValue.setPosition(Point(15.0f, 95.0f));
-
-	//Null out the Selected Creature
-	Selected = (Creature) NULL;
-
-	Song.setSystemVolume(100);
+	return ReturnText;
 }
 
 ////////////////////////////////
@@ -293,6 +326,55 @@ void Level::addCreatureType(Creature creatureNumber, Point Location)
 
 }
 
+////////////////////////////////////////////
+// get Paused
+// Input: none
+// output: returns whether the level is paused or not
+// ///////////////////////////////////////
+bool Level::getPaused(void)
+{
+	return isPaused;
+}
+
+void Level::togglePause(void)
+{
+	isPaused = !isPaused;
+}
+
+/////////////////////////////
+// Get OK Location
+// Input: Mouse Location
+// Output: If the location is a valid spot on the grid
+//////////////////////////////
+bool Level::getOKLocation(Point Location)
+{
+	bool valid = false;
+	Location.setCoordsAsGridCoords();
+	unsigned short gridX = (int) Location.getX();
+	short gridY = (int) Location.getY();
+	
+	//Check for Fog
+	//Limiting locations currently to the far right 3 columns, this isn't a game design mention, just following I, Zombie
+	if (gridX >= 5)
+	{
+		if (!fogEnabled)
+			valid = true;
+		else if (!getFog(Location))
+			valid = true;
+	}
+	else if (gridY < 0)
+	{
+		if (gridX >= 0)
+		{
+			//Check to see if player is selecting a creature to spawn
+			if (gridX <= AttackerInitList.size() - 1)
+				valid = true;
+		}
+	}
+
+	return valid;
+}
+
 //////////////////////////////
 // Handle UI
 // Input: None
@@ -304,86 +386,31 @@ void Level::handleUI(void)
 {
 	//Get actual pointer location
 	Point MouseLoc(agk::GetPointerX(), agk::GetPointerY());
-	/*agk::PrintC("Mouse Location: ");
-	agk::PrintC(MouseLoc.getX());
-	agk::PrintC(", ");
-	agk::Print(MouseLoc.getY());
-	//set MouseLoc as gridCoords
-	//MouseLoc.getGridCoords.setCoordsAsGridCoords();
-	agk::PrintC("Grid Location: ");
-	agk::PrintC(MouseLoc.getGridCoords().getX());
-	agk::PrintC(", ");
-	agk::Print(MouseLoc.getGridCoords().getY());*/
-
-	Selector.setSize(12.5f);
-	Selector.setOffset(1.1f, 1.5f);
 
 	//set the Green Selector to the Mouse's Grid Position
-	Selector.setPosition(MouseLoc.getGridCoords().getNormalCoords());
-
-	//Selector needs a slight offset, if it hasn't been done, do it
-	if (!offsetSelector)
+	if (!isPaused)
 	{
-		Selector.setOffset(0.4f, 0.4f);
-		offsetSelector = true;
+		Selector.setPositionByOffset(MouseLoc.getGridCoords().getNormalCoords());
+		Selector.setVisible(true);
 	}
-
-	//Get Coords back to normal Coords
-	MouseLoc.setCoords(Selector.getX(), Selector.getY());
-
-	//Apply the offset to the normal Coords
-	Selector.setPositionByOffset(MouseLoc);
-
-	//Need to have something turn the selector different colors for whether you can place something or not
-
+	else
+	{
+		Selector.setVisible(false);
+		return;
+	}
 
 	//Adding a creature
 	if (agk::GetPointerReleased())
 	{
-		MouseLoc.setCoordsAsGridCoords();
-		unsigned short gridX = (int) MouseLoc.getX();
-		short gridY = (int) MouseLoc.getY();
-		bool validLocation = false;
-
-		//Check for Fog
-		//Limiting locations currently to the far right 3 columns, this isn't a game design mention, just following I, Zombie
-		if (gridX >= 5)
-		{
-			if (!fogEnabled)
-				validLocation = true;
-			else if (!getFog(MouseLoc))
-				validLocation = true;
-		}
-		else if (gridY < 0)
-		{
-			if (gridX >= 0)
-			{
-				//Check to see if player is selecting a creature to spawn
-				if (gridX <= AttackerInitList.size() - 1)
-					validLocation = true;
-			}
-		}
-		
+		bool validLocation = getOKLocation(MouseLoc);
+		unsigned short gridX = (int) MouseLoc.getGridCoords().getX();
+		short gridY = (int) MouseLoc.getGridCoords().getY();
+				
 		if (validLocation)
 		{
 			if (gridY < 0)
-			{
-				//make sure the character is available, could check any color, not just blue
-				if (Attackers[gridX]->getState() == MENU_AVAILABLE)
-				{
-					//make sure the player has the currency to purchase it
-					if (Attackers[gridX]->getCost() <= currencyAmount)
-					{
-						Selected = Attackers[gridX]->getCreatureType();
-						addCreatureType(Selected, MouseLoc);
-						Attackers.back()->isExample = true;
-						//Set alpha to show that the creature isn't on the board yet, also set its group to GHOSTS to keep defenders from hitting it
-						//Attackers.back()->setColorAlpha(128);
-						//Attackers.back()->setCollisionGroup((int) GHOSTS);
-						Attackers.back()->setState(SELECTED);
-					}
-				}
-			}
+				selectCreature(gridX);
+				
 			//if a creature is already selected
 			else if (Selected != NULL)
 			{
@@ -402,78 +429,139 @@ void Level::handleUI(void)
 
 	//If the player has an attacker selected, set the attackers position to the Mouse Location
 	if (Selected != (Creature) NULL)
-		Attackers.back()->setPosition(MouseLoc);
+		Attackers.back()->setPosition(MouseLoc.getGridCoords().getNormalCoords());
 	
-	//Colorize characters player cannot afford
-	//have this working somewhere else
-	/*for (unsigned int i = 0; i < Attackers.size(); i++)
-	{
-		if (Attackers[i]->isExample)
-		{
-			//Don't need to check if the attacker is the last attacker if the player doesn't have anything selected
-			//Otherwise, need to make sure that we're not checking the creature the player is holding
-			if ((Selected == (Creature) NULL) || (Attackers[i] != Attackers.back()))
-			{
-				if (Attackers[i]->getCost() < currencyAmount)
-					Attackers[i]->setState(MENU_AVAILABLE);
-				else
-					Attackers[i]->setState(MENU_TOOMUCH);
-			}
-		}
-	}*/
-
 	//Display Currency
 	CurrencyValue.setString(agk::Str(currencyAmount));
 }
 
-/*////////////////////////////
-// Camera Specific update
-// input none
-// output none
-////////////////////////////////
-void Level::updateCamera(void)
+///////////////////////////////
+// Prompt
+// Input: Message to display
+// Output: Message displayed with a background
+//////////////////////////////////
+Text Level::getPrompt(void)
 {
-	float roll = 0.0f;
-	float xLoc = 0.0f;
-	float yLoc = 0.0f;
-	float zLoc = 0.0f;
-	float fov = 0.0f;
-	Point NewLocation = Point();
+	Text Filename = Text("LevelData/Level_");
+	Text PromptNumber = Text();
+	Prompt = Text("", true);
+	Text NewLine = Text();
 
-	switch (currentView)
+	if (levelID < 10)
+		Filename += Text("0");
+
+	Filename += Text(agk::Str(levelID));
+	Filename += Text("_Messages.txt");
+
+	File MessagePrompts = File(true, Filename);
+
+	while (!MessagePrompts.FileEOF())
 	{
-	case FRONT:
-		roll = 180.0f;
-		xLoc = 0.0f;
-		yLoc = 75.0f;
-		zLoc = 25.0f;
-		fov = 90.0f;
-		NewLocation = Point(Ground.getX(), Ground.getY() + 25.0f, Ground.getZ());
-		break;
-	case TOP:
-		roll = 180.0f;
-		xLoc = 0.0f;
-		yLoc = 25.0f;
-		zLoc = 100.0f;
-		fov = 45.0f;
-		NewLocation = Point(Ground.getX(), Ground.getY() + 25.0f, Ground.getZ());
-		break;
+		NewLine = MessagePrompts.getLine();
+			
+		NewLine.splitAtDelimeter(&PromptNumber, &Prompt, ':');
+
+		if (agk::Val(PromptNumber.getCString(), 10) == messageCounter)
+			break;
 	}
+
+	MessagePrompts.close();
+
+	Prompt.setVisible(false);
+	messageCounter++;
+
+	return Prompt;
+}
+
+void Level::selectCreature(unsigned short grid)
+{
+	//make sure the character is available, could check any color, not just blue
+	if (Attackers[grid]->getState() == MENU_AVAILABLE)
+	{
+		//make sure the player has the currency to purchase it
+		if (Attackers[grid]->getCost() <= currencyAmount)
+		{
+			Selected = Attackers[grid]->getCreatureType();
+			addCreatureType(Selected, Point(agk::GetPointerX(), agk::GetPointerY()));
+			Attackers.back()->isExample = true;
+			Attackers.back()->setState(SELECTED);
+		}
+	}
+}
+
+void Level::setFrameVisible(bool isVisible)
+{
+	CreatureFrame.setVisible(isVisible);
+	//Need more here...do we add the creature here? I don't think so,
+	//it looks like right now this is a one line code, kind of a waste
+}
+
+void Level::setPrompt(Text Prompt)
+{
+	if (!isPaused)
+		togglePause();
+
+	PromptBackground = Sprite();
+	PromptBackground.setColor(RGBA(0, 0, 255));
+	PromptBackground.setPosition(Point(85.0f, 25.0f));
+	PromptBackground.setSize(50.0f, 10.0f);
+
+	Prompt.setAlignment(Prompt.CENTER);
+	Prompt.setPosition(Point(50.0f, 50.0f));
+	Prompt.setVisible(true);
+}
+
+void Level::showCreature(Character *Example)
+{
+	ExampleChar = Example;
+	CreatureLoc = Point(ExampleChar->getPosition());
 	
-	LevelCam.setLookAt(NewLocation, roll);
-	LevelCam.setPosition(xLoc, yLoc, zLoc);
-	LevelCam.setFOV(fov);
-	//Walls[RIGHT_WALL].rotateGlobalY(30.0f);
-	//Walls[RIGHT_WALL].moveGlobalZ(-10.0f);
-	//Sky.setVisible(false);
-	//Ground.setPosition(0.0f, 0.0f, 0.0f);
-	//Walls[BACK_WALL].getLocation();
-	//Walls[RIGHT_WALL].getAngle();
-	//CameraControl.setVisible(true);
-	//CameraControl.setActive(true);
-	//CameraControl.setPosition(Point(50.0f, 50.0f));
-	//CameraControl.setSize(25.0f);
-}*/
+	ExampleChar->setPositionByOffset(50.0f, 50.0f);
+	originalSize = ExampleChar->getWidth();
+	ExampleChar->setSize(33.0f);
+	originalDepth = ExampleChar->getDepth();
+	ExampleChar->setDepth(1);
+
+	CreatureLoc.setX((ExampleChar->getX() - CreatureLoc.getX())/23.0f);
+	CreatureLoc.setY((ExampleChar->getY() - CreatureLoc.getY())/23.0f);
+
+	setFrameVisible(true);
+	setPrompt(getPrompt());
+}
+
+void Level::sizeDownCreature(void)
+{
+	setFrameVisible(false);
+	PromptBackground.setVisible(false);
+	Prompt.setVisible(false);
+
+	float sizeChange = (33.0f - originalSize)/23.0f;
+
+	for (int i = 0; i < 24; i++)
+	{
+		ExampleChar->setSize(33.0f - (sizeChange*i));
+		ExampleChar->setX(ExampleChar->getX() - CreatureLoc.getX());
+		ExampleChar->setY(ExampleChar->getY() - CreatureLoc.getY());
+
+		if (!ExampleChar->isExample)
+		{
+			if (ExampleChar->getY() < 17.5f)
+				ExampleChar->setY(17.5f);
+		}
+
+		agk::Sync();
+	}
+
+	Point Position = ExampleChar->getPosition();
+	Position.setX((float) agk::Ceil(Position.getX()));
+	Position.setY((float) agk::Ceil(Position.getY()));
+	ExampleChar->setPosition(Position);
+
+	ExampleChar->setPosition(ExampleChar->getPosition().getGridCoords().getNormalCoords());
+	ExampleChar->setDepth(originalDepth);
+
+	togglePause();
+}
 
 ////////////////////////////
 // Update Level
@@ -483,7 +571,15 @@ void Level::updateCamera(void)
 void Level::update(void)
 {
 	handleUI();
-	updateCharacters();
+
+	if (!isPaused)
+		updateCharacters();
+	else if (agk::GetPointerReleased() == 1)
+	{
+		if (ExampleChar->getWidth() >= 30.0f)
+			sizeDownCreature();
+	}
+
 	if (!Song.getPlaying())
 		Song.play();
 }
@@ -498,16 +594,32 @@ void Level::update(void)
 void Level::updateCharacters(void)
 {
 	//Start with attackers
+	updateAttackers();
+	//Update Defenders
+	updateDefenders();
+	
+	//Removing Creature if offscreen
+	creatureRemoval();
+	
+	//fade out dead attackers
+	setCreatureFadeout();
+}
+
+void Level::updateAttackers(void)
+{
 	for (unsigned int i = 0; i < Attackers.size(); i++)
 	{
 		//Ensure Example Attackers stay in pose
 		if (Attackers[i]->isExample)
 		{
-			if (Attackers[i]->getCost() > currencyAmount)
-				Attackers[i]->setState(MENU_TOOMUCH);
-			else
-				Attackers[i]->setState(MENU_AVAILABLE);
-			continue;
+			if (Attackers[i]->getVisible())
+			{
+				if (Attackers[i]->getCost() > currencyAmount)
+					Attackers[i]->setState(MENU_TOOMUCH);
+				else
+					Attackers[i]->setState(MENU_AVAILABLE);
+				continue;
+			}
 		}
 
 		//Non Examples need to update based on what defenders are doing
@@ -520,12 +632,16 @@ void Level::updateCharacters(void)
 				currencyAmount += Attackers[i]->getAttackAmount();
 		}
 	}
+}
 
-	//Update Defenders
+void Level::updateDefenders(void)
+{
 	for (unsigned int i = 0; i < Defenders.size(); i++)
 		Defenders[i]->update(Attackers);
+}
 
-	//Removing Creature if offscreen
+void Level::creatureRemoval(void)
+{
 	for (unsigned int i = 0; i < Attackers.size(); i++)
 	{
 		//check to see if offscreen--remember that sprite is measured at top left, so it has to be a bit off screen
@@ -542,8 +658,10 @@ void Level::updateCharacters(void)
 		else if (Defenders[i]->getX() > 110.0f)
 			Defenders.erase(Defenders.begin() + i--);
 	}
+}
 
-	//fade out dead attackers
+void Level::setCreatureFadeout(void)
+{
 	for (unsigned int i = 0; i < Attackers.size(); i++)
 	{
 		if (Attackers[i]->getState() == DEATH)

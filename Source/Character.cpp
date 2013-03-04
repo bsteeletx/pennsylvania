@@ -17,6 +17,7 @@ Character::Character(void)
 	: AnimatedSprite()
 {
 	maxHitPoints = hitPoints = 1;
+	oldY = 0.0f;
 }
 
 ////////////////////////////////////////////////
@@ -35,6 +36,8 @@ Character::Character(Text FilenamePath)
 	//setCollisionGroup((int)EXAMPLES);
 	hasRangedWeapon = false;
 	CurrentTarget = NULL;
+	isExample = false;
+	oldY = 0.0f;
 }
 
 ////////////////////////////////
@@ -59,20 +62,21 @@ void Character::attack(Character *Target)
 {
 	if (timeFromLastAttack == 0)
 	{
-		timeFromLastAttack = agk::Timer();
+		timeFromLastAttack = agk::Timer() + attackSpeed;
 		return;
 	}
 
 	if (agk::Timer() - timeFromLastAttack > attackSpeed)
 	{
-		Target->damage(attackAmount);
-		
-		if (Target->hitPoints <= 0)
+		if (this->hasRangedWeapon)
 		{
-			Target->kill(this);
-			setState(IDLE);
-			CurrentTarget = NULL;
+			fireWeapon();
+			CurrentTarget = Target;
+			timeFromLastAttack = agk::Timer();
+			return;
 		}
+
+		Target->damage(attackAmount, this);
 
 		timeFromLastAttack = agk::Timer();
 		didDamage = true;
@@ -110,9 +114,16 @@ void Character::minerAttack(void)
 // Input: amount to be damaged
 // Result: Character's hit points are reduced by the amount
 ///////////////////////////////////////
-void Character::damage(short amount)
+void Character::damage(short amount, Character *Attacker)
 {
 	hitPoints -= amount;
+
+	if (hitPoints <= 0)
+	{
+		kill(Attacker);
+		setState(DEATH);
+		Attacker->setState(MOVING);
+	}
 }
 
 /////////////////////////////////////////
@@ -124,6 +135,11 @@ bool Character::didAttackThisTurn(void)
 {
 	return didDamage;
 }
+
+void Character::fireWeapon(void)
+{
+}
+
 
 //////////////////////////////////////////////////////
 // Get Attack Amount
@@ -249,6 +265,9 @@ void Character::init(void)
 	timeFromLastAttack = 0.0f;
 	//Set Character in Pose to start, wait for commands for update
 	setState(MENU_TOOMUCH);
+
+	if (!this->getIsDefender())
+		isExample = true;
 }
 
 /////////////////////////////////////
@@ -330,7 +349,7 @@ void Character::setVisible(bool value)
 	if (value)
 		setY(oldY);
 	//Otherwise, store where the character is supposed to be, and move him to offscreen in the y direction (x direction will get him removed)
-	else
+	else if (!value && (oldY == 0.0f))
 	{
 		oldY = getY();
 		setY(115.0f);
@@ -360,6 +379,9 @@ void Character::update(std::vector<Character*> Defenders)
 	if (isExample)
 		return;
 
+	if (getCreatureType() == MINER_VIRUS)
+		attack(NULL);
+
 	if (getState() == FADEOUT)
 	{
 		short alpha = getColorAlpha() - 5;
@@ -374,6 +396,7 @@ void Character::update(std::vector<Character*> Defenders)
 
 	for (unsigned int j = 0; j < Defenders.size(); j++)
 	{
+		bool moved = false;
 		//Check each of the Defenders, as long as they aren't already dead
 		if (Defenders[j]->getState() != DEATH)
 		{
@@ -422,17 +445,16 @@ void Character::update(std::vector<Character*> Defenders)
 			}
 			
 			if (getState() != ATTACKING)
-			{	//not attacking, move
-				if (!getIsDefender())
+			{//not attacking, move
+				if (!moved)
 				{
+					//Dividing Move Speed by 1000 to make it easier for designers to tweak things
 					if (getMoveSpeed() > 0.0f)
-						//Dividing Move Speed by 1000 to make it easier for designers to tweak things
-						setX(getX() - (getMoveSpeed()/1000.0f));
-				}
-				else
-				{
-					if (getMoveSpeed() > 0.0f)
-						setX(getX() + getMoveSpeed()/1000.0f);
+					{
+						if (!this->getIsDefender())
+							moveX(-getMoveSpeed()/1000.0f);
+						moved = true;
+					}
 				}
 			}
 		}
@@ -531,6 +553,7 @@ void Character::setState(CharacterState State)
 		max = deathFrameMax;
 		break;
 	case FADEOUT:
+		setCollisionGroup((int) GODS);
 		break;
 		return;
 	}
