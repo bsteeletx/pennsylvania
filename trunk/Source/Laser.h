@@ -1,22 +1,29 @@
 #pragma once
 #include "Sprite.h"
-#include "..\Character.h"
+#include "Character.h"
 #include "LaserHit.h"
+#include "Projectile.h"
+#include "Vector.h"
+#include <vector>
 
 class Laser 
-	: public Sprite
+	: public Projectile
 {
 public:
 	Laser(void);
 	~Laser(void);
-	Laser(Point SparkleLocation);
+	Laser(Vector Speed, unsigned short damage, Character *Owner);
 
-	void turnOff(void);
-	void turnOn(Character *Attacker, Character *Target);
+	//float getWidth(Character *Attacker, Character *Target);
+	
+	void fireWeapon(void);
 
-	float getWidth(Character *Attacker, Character *Target);
+	void update(std::vector<Character*> Defenders);
 
 private:
 	LaserHit *Sparkle;
+	Character *Holder;
+
+	unsigned short damageAmount;
 };
 

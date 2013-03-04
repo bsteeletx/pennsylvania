@@ -12,11 +12,9 @@
 // Output: None
 ////////////////////////////
 Laser::Laser(void)
-	: Sprite()
+	: Projectile()
 {
-	setColor((RGBA(255, 0, 0, 192)));
-	Sparkle = new LaserHit();
-	setDepth(8000);
+	damageAmount = 0;
 }
 
 //////////////////////////
@@ -34,48 +32,25 @@ Laser::~Laser(void)
 // Output: None
 // Notes (1/2/13): Don't put functions in constructors! Save that for initialization!
 ///////////////////////////////////////
-Laser::Laser(Point SparkleLocation)
-	: Sprite()
+Laser::Laser(Vector Speed, unsigned short damage, Character *Owner)
+	: Projectile(Text("Assets/Creatures/NortLaser.jpg"), Speed, 5.0f)
 {
-	setColor((RGBA(255, 0, 0, 192)));
-	Sparkle = new LaserHit(SparkleLocation);
-	setDepth(8000);
+	//setColor((RGBA(255, 0, 0, 192)));
+	//setDepth(8000);
+	damageAmount = damage;
+	Holder = Owner;
 }
 
 ////////////////////////////////////////////////////////////////
 // Activate Laser
-// Input: Needs the Character where the laser begins and the Target where the laser hits
+// Input: Needs source of projectile
 // Output: None
 ////////////////////////////////////////////////////////////////
-void Laser::turnOn(Character *Attacker, Character *Target)
+void Laser::fireWeapon(void)
 {
-	//Get the position of the Target and assign it to SparklePos
-	Point SparklePos = Target->getPosition();
-
-	//Modify the value a bit to make it look better (this may not work for every game)
-	SparklePos.setY(SparklePos.getY() + 5.0f);
-	SparklePos.setX(SparklePos.getX() + 2.5f);
-
-	//Other initializing functions for laser weapon
-	setVisible(true);
-	setSize(getWidth(Attacker, Target), 0.1f);
-	//Other initializing functions for laser particle effect
-	Sparkle->setPosition(SparklePos);
-	Sparkle->setVisiblity(true);
-}
-
-
-/////////////////////////////
-// Shut off Laser
-// Input: None
-// Output: None
-// Turns off Laser
-////////////////////////////
-void Laser::turnOff(void)
-{
-	//Turn off the visibility for both the laser and the sparkle effect
-	setVisible(false);
-	Sparkle->setVisiblity(false);
+	Point Offset = Holder->getPosition();
+		
+	Projectile::clone(Offset.addPoint(Point(7.0f, 7.0f)));
 }
 
 ////////////////////////////////////////////////////////////////
@@ -84,7 +59,27 @@ void Laser::turnOff(void)
 // Output: Distance between those characters
 // Finds and returns the distance between two characters
 //////////////////////////////////////////////////////////////
-float Laser::getWidth(Character *Attacker, Character *Target)
+/*float Laser::getWidth(Character *Attacker, Character *Target)
 {
 	return Attacker->getDistanceFrom(*Target) - 5.0f;
+}*/
+
+void Laser::update(std::vector<Character*> Defenders)
+{
+	int targetHit = Projectile::update(Defenders);
+
+	if (targetHit != -1)
+	{
+		Point SparklePos = Defenders[targetHit]->getPosition();
+		//Get the position of the Target and assign it to SparklePos
+		
+		//Modify the value a bit to make it look better (this may not work for every game)
+		SparklePos.setY(SparklePos.getY() + 5.0f);
+		SparklePos.setX(SparklePos.getX() + 2.5f);
+
+		Sparkle = new LaserHit(SparklePos);
+		Sparkle->setVisible(true);
+
+		Defenders[targetHit]->damage(damageAmount, Holder);
+	}
 }

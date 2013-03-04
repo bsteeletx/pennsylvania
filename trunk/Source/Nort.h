@@ -12,8 +12,13 @@ public:
 	Nort::Nort(Point Location);
 
 	void attack(Character *Target) override;
-	void damage(short amount) override;
+	
+	void damage(short amount, Character *Attacker) override;
+	
+	void fireWeapon(void) override;
+
 	void kill(Character *Killer) override;
+	
 	void update(std::vector<Character*> Defenders) override;
 
 protected:

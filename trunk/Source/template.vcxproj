@@ -137,6 +137,7 @@
     <ClCompile Include="Level00.cpp" />
     <ClCompile Include="MinerVirus.cpp" />
     <ClCompile Include="Nort.cpp" />
+    <ClCompile Include="Projectile.cpp" />
     <ClCompile Include="Spammer.cpp" />
     <ClCompile Include="template.cpp" />
     <ClCompile Include="ThiefVirus.cpp" />
@@ -203,6 +204,7 @@
     <ClInclude Include="Levels.h" />
     <ClInclude Include="MinerVirus.h" />
     <ClInclude Include="Nort.h" />
+    <ClInclude Include="Projectile.h" />
     <ClInclude Include="Spammer.h" />
     <ClInclude Include="template.h" />
     <ClInclude Include="ThiefVirus.h" />
@@ -259,6 +261,7 @@
     <None Include="..\Game\Win32Debug_2010\CreatureData\Nort" />
     <None Include="..\Game\Win32Debug_2010\CreatureData\Thief" />
     <None Include="..\Game\Win32Debug_2010\LevelData\Level 00.txt" />
+    <None Include="Level_00_Messages.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

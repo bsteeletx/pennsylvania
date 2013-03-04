@@ -49,7 +49,7 @@ void Fog::initFog(void)
 	{
 		for (int j = 0; j < 5; j++)
 		{
-			Point Location(i, j);
+			Point Location((float) i, (float) j);
 
 			FogBank[i][j] = AnimatedSprite(64, 128, 11, FogSprite.getSpriteNumber());
 			FogBank[i][j].setDepth(10);

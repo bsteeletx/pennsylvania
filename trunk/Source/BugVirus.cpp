@@ -22,16 +22,26 @@ BugVirus::~BugVirus(void)
 {
 }
 
-void BugVirus::attack(Character &Target)
+void BugVirus::attack(Character *Target)
 {
-	Target.damage(attackAmount);
+	Character::attack(Target);
 }
 
-void BugVirus::damage(short amount)
+void BugVirus::damage(short amount, Character *Attacker)
 {
-	hitPoints -= amount;
+	Character::damage(amount, Attacker);
 }
 
-void BugVirus::update(void)
+void BugVirus::fireWeapon(void)
 {
+}
+
+void BugVirus::kill(Character *Killer)
+{
+	Character::kill(Killer);
+}
+
+void BugVirus::update(std::vector<Character*> Defenders)
+{
+	Character::update(Defenders);
 }

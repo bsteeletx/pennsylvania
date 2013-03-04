@@ -22,12 +22,27 @@ DBlocker::~DBlocker(void)
 {
 }
 
-void DBlocker::attack(Character &Target)
+void DBlocker::attack(Character *Target)
 {
-	Target.damage(attackAmount);
+	Character::attack(Target);
 }
 
-void DBlocker::damage(short amount)
+void DBlocker::damage(short amount, Character *Attacker)
 {
-	hitPoints -= amount;
+	Character::damage(amount, Attacker);
+}
+
+void DBlocker::fireWeapon(void)
+{
+}
+
+
+void DBlocker::kill(Character *Killer)
+{
+	Character::kill(Killer);
+}
+
+void DBlocker::update(std::vector<Character*> Defenders)
+{
+	Character::update(Defenders);
 }

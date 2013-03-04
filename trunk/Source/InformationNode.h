@@ -13,9 +13,14 @@ public:
 	InformationNode::InformationNode(Point Location, bool submerged = false, unsigned short bonusType = 0, unsigned short bonusAmount = 0);	
 
 	//member methods
-	virtual void attack(Character *Target) override;
-	virtual void damage(short amount) override;
-	virtual void kill(Character *KilledBy) override;
-	virtual void update(std::vector<Character*> Defenders) override;
+	void attack(Character *Target) override;
+	
+	void damage(short amount, Character *Attacker) override;
+
+	void fireWeapon(void) override;
+
+	void kill(Character *Killer) override;
+	
+	void update(std::vector<Character*> Defenders) override;
 };
 

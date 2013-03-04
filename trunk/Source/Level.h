@@ -20,12 +20,21 @@ public:
 	void addSprite(unsigned int image);
 		
 	virtual void deleteLevel(void);
-
-	virtual bool getFog(Point GridLocation) = 0;
 	
+	virtual bool getFog(Point GridLocation) = 0;
+	bool getPaused(void);
+	Text getPrompt(void);
+
 	void handleUI(void);
 
 	virtual void init(void);
+	
+	void setFrameVisible(bool visible);
+	void setPrompt(Text Prompt);
+	void showCreature(Character *Example);
+	void sizeDownCreature(void);
+
+	void togglePause(void);
 
 	virtual void update(void);
 	void updateCharacters(void);
@@ -33,14 +42,23 @@ public:
 	unsigned short currencyAmount;
 
 protected:
+#if (PLATFORM == OS)
 	Sprite Selector;
+#endif
 	Sprite Background;
+	Sprite PromptBackground;
+	Sprite CreatureFrame;
 	Music Song;
+	Text Prompt;
 
 	std::vector<Character*> Attackers;
 	std::vector<Character*> Defenders;
 
+	bool isPaused;
+	
 	unsigned short reward;
+
+	void selectCreature(unsigned short grid);
 
 private:
 	std::vector<unsigned int> imageStack;
@@ -50,14 +68,32 @@ private:
 
 	unsigned short levelID;
 
-	bool offsetSelector;
+	unsigned short messageCounter;
 
-	Point GridLocs[9][6];
+	unsigned short originalDepth;
+	float originalSize;
+
+	Character *ExampleChar;
+
+	Point CreatureLoc;
 
 	Text CurrencyTitle;
 	Text CurrencyValue;
 
 	Creature Selected;
 	std::vector<Creature> AttackerInitList;
+
+	void creatureRemoval(void);
+
+	void displayCurrency(void);
+
+	Text getLevelFilename(void);
+	bool getOKLocation(Point Location);
+
+	void setAttackerMenu(void);
+	void setCreatureFadeout(void);
+
+	void updateAttackers(void);
+	void updateDefenders(void);
 };
 

@@ -30,6 +30,10 @@ Level00::Level00(std::vector<Creature> attackerList)
 	unlockNum = 0;
 	unlockedDefenders = false;
 	currencyGained = 0;
+	isPaused = false;
+
+	for (int i = 0; i < 8; i++)
+		shownCreature[i] = false;
 }
 
 /////////////////////////////
@@ -115,6 +119,15 @@ void Level00::init(void)
 
 	AlarmSystem = Alarm(8); //length of alarm in seconds
 	Song = Music(Text("Assets/Sounds/Level 00.wav"));
+
+	Highlighter = Sprite(Text("Assets/Common/selector.png"), false);
+	Highlighter.setOffset(Selector.getWidth()/2, Selector.getHeight()/2);
+	addSprite(Highlighter.getSpriteNumber());
+	Highlighter.setSize(12.5f);
+	Highlighter.setOffset(1.5f, 1.9f);
+	Highlighter.setVisible(false);
+	Highlighter.setPosition(Point(0.0f, 0.0f).getNormalCoords());
+	Highlighter.setY(Highlighter.getY() - 15.0f);
 }
 
 /////////////////////////////////
@@ -143,6 +156,7 @@ bool Level00::getFog(Point GridLocation)
 	return false;
 }
 
+
 ///////////////////////////////////
 // Update Level
 // Input: None
@@ -150,10 +164,118 @@ bool Level00::getFog(Point GridLocation)
 /////////////////////////////
 void Level00::update(void)
 {
+	if (isPaused)
+	{
+		if (!Highlighter.getVisible())
+			Level::update();
+		else if ((agk::GetPointerReleased() == 1) && !shownCreature[THIEF_VIRUS])
+		{
+			Point MouseLoc = Point(agk::GetPointerX(), agk::GetPointerY());
+			
+			if (MouseLoc.getGridCoords() == Point(0.0f, -1.0f))
+			{
+				Highlighter.setVisible(false);
+				Highlighter.setX(-20.0f);
+				Prompt.setVisible(false);
+				PromptBackground.setVisible(false);
+				selectCreature(0);
+				togglePause();
+			}
+		}
+		return;
+	}
+
+	doPrompts();
+
 	if (AlarmSystem.getActivated())
 	{
 		AlarmSystem.update();
 	}
+
+	updateAttackers();
+	
+	//check on deaths for Thief Virus attack
+	if (checkForThiefKilling())
+	{
+		if (!unlockedDefenders)
+		{
+			//sound alarm!
+			AlarmSystem.activate();
+
+			while (hiddenDefenderStack.size() != 0)
+			{
+				//Unhide all of the defenders, play their animations, and delete them from the vector
+				Defenders[hiddenDefenderStack.back()]->Character::setVisible(true);
+				Defenders[hiddenDefenderStack.back()]->setState(IDLE);
+				hiddenDefenderStack.pop_back();
+			}
+
+			unlockedDefenders = true;
+		}
+	}
+	//Update the base level as well
+	Level::update();
+}
+
+void Level00::doPrompts(unsigned int creatureID)
+{
+	if (!shownCreature[INFORMATION_NODE])
+	{
+		for (unsigned int i = 0; i < Defenders.size(); i++)
+		{
+			if (Defenders[i]->getCreatureType() == INFORMATION_NODE)
+			{
+				showCreature(Defenders[i]);
+				shownCreature[INFORMATION_NODE] = true;
+				return;
+			}
+		}
+	}
+	else if (!shownCreature[MINER_VIRUS])
+	{
+		for (unsigned int i = 0; i < Attackers.size(); i++)
+		{
+			if (Attackers[i]->getCreatureType() == MINER_VIRUS)
+			{
+				showCreature(Attackers[i]);
+				shownCreature[MINER_VIRUS] = true;
+				return;
+			}
+		}
+	}
+	else if (Highlighter.getX() > 0.0f)
+	{
+		if (!Highlighter.getVisible())
+		{
+			setPrompt(getPrompt());
+			Highlighter.setVisible(true);
+			Attackers[0]->setState(MENU_AVAILABLE);
+			return;
+		}
+	}
+	else if (creatureID != 0)
+	{
+		Attackers[creatureID]->setVisible(true);
+		showCreature(Attackers[creatureID]);
+		shownCreature[Attackers[creatureID]->getCreatureType()] = true;
+		return;
+	}
+	else if (AlarmSystem.getActivated() && !shownCreature[NORT])
+	{
+		for (unsigned int i = 0; i < Defenders.size(); i++)
+		{
+			if (Defenders[i]->getCreatureType() == NORT)
+			{
+				showCreature(Defenders[i]);
+				shownCreature[NORT] = true;
+				return;
+			}
+		}
+	}
+}
+
+void Level00::updateAttackers(void)
+{
 	//Attackers first
 	for (unsigned int i = 0; i < Attackers.size(); i++)
 	{
@@ -166,7 +288,13 @@ void Level00::update(void)
 				{
 					//If the creature hasn't been unlocked, blacken him and alpha him
 					if (currencyGained < currencyForUnlock[j])
-						Attackers[i]->setColor(RGBA(0, 0, 0, 32));
+						Attackers[i]->setVisible(false);
+					else
+					{
+						doPrompts(i);
+						unlockedAttacker.erase(unlockedAttacker.begin() + j);
+						currencyForUnlock.erase(currencyForUnlock.begin() + j);
+					}
 				}
 			}
 		}
@@ -178,8 +306,10 @@ void Level00::update(void)
 				currencyGained += Attackers[i]->getAttackAmount();
 		}
 	}
+}
 
-	//check on deaths for Thief Virus attack
+bool Level00::checkForThiefKilling(void)
+{
 	for (unsigned int i = 0; i < Defenders.size(); i++)
 	{
 		if (Defenders[i]->getState() == FADEOUT)
@@ -188,27 +318,12 @@ void Level00::update(void)
 			{
 				if (Defenders[i]->getKilledBy()->getCreatureType() == THIEF_VIRUS)
 				{
-					if (!unlockedDefenders)
-					{
-						//This text should work if an Alarm system is set up
-						//sound alarm!
-						AlarmSystem.activate();
-
-						while (hiddenDefenderStack.size() != 0)
-						{
-							//Unhide all of the defenders, play their animations, and delete them from the vector
-							Defenders[hiddenDefenderStack.back()]->Character::setVisible(true);
-							Defenders[hiddenDefenderStack.back()]->setState(IDLE);
-							hiddenDefenderStack.pop_back();
-						}
-
-						unlockedDefenders = true;
-					}
+					if (Defenders[i]->getColorAlpha() < 5)
+						return true;
 				}
 			}
 		}
 	}
 
-	//Update the base level as well
-	Level::update();
+	return false;
 }

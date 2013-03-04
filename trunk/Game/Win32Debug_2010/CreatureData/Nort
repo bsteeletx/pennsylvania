@@ -7,8 +7,8 @@ Size:20.0
 HP:15
 Speed:2.0
 PlaySpeed:10.0
-Attack:0
-AttackSpeed:0.0
+Attack:3
+AttackSpeed:1
 Idle:1, 1
 IdleSpeed:10.0
 Move:1, 1
