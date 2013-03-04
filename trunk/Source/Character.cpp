@@ -508,13 +508,28 @@ void Character::setState(CharacterState State)
 		setFrame(1);
 		setGroup((int) EXAMPLES);
 		setColor(RGBA(255, 255, 255, 64));
-		return;
+		fps = 1;
+		loop = false;
+		min = 1;
+		max = 1;
 		break;
 	case MENU_AVAILABLE:
 		setFrame(1);
 		setColor(RGBA(255, 255, 255, 192));
 		setGroup((int) EXAMPLES);
-		return;
+		fps = 1;
+		loop = false;
+		min = 1;
+		max = 1;
+		break;
+	case MENU_HIDDEN:
+		setFrame(1);
+		setColor(RGBA(0, 0, 0, 64));
+		setGroup((int) EXAMPLES);
+		fps = 1;
+		loop = false;
+		min = 1;
+		max = 1;
 		break;
 	case SELECTED:
 		setFrame(1);
@@ -523,7 +538,7 @@ void Character::setState(CharacterState State)
 		return;
 		break;
 	case IDLE:
-		setColorAlpha(255);
+		setColor(RGBA(255, 255, 255, 255));
 		fps = idleFrameSpeed;
 		loop = true;
 		min = idleFrameMin;

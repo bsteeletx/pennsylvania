@@ -56,6 +56,7 @@ enum CharacterState
 {
 	MENU_TOOMUCH,
 	MENU_AVAILABLE,
+	MENU_HIDDEN,
 	SELECTED,
 	IDLE,
 	MOVING,
