@@ -272,6 +272,19 @@ void Level00::doPrompts(unsigned int creatureID)
 			}
 		}
 	}
+	else if (AlarmSystem.getActivated() && !shownCreature[BUG_VIRUS])
+	{
+		for (unsigned int i = 0; i < Attackers.size(); i++)
+		{
+			if (Attackers[i]->getCreatureType() == BUG_VIRUS)
+			{
+				//Attackers[BUG_VIRUS]->setVisible(true);
+				showCreature(Attackers[i]);
+				shownCreature[BUG_VIRUS] = true;
+				return;
+			}
+		}
+	}
 }
 
 void Level00::updateAttackers(void)
@@ -282,14 +295,14 @@ void Level00::updateAttackers(void)
 		if (Attackers[i]->isExample)
 		{
 			//Specific code for the 'Choose attacker' Menu
-			for (unsigned int j = 0; j < unlockedAttacker.size(); j++)
+			for (unsigned int j = 0; j < currencyForUnlock.size(); j++)
 			{
 				if (Attackers[i]->getCreatureType() == unlockedAttacker[j])
 				{
-					//If the creature hasn't been unlocked, blacken him and alpha him
-					if (currencyGained < currencyForUnlock[j])
-						Attackers[i]->setVisible(false);
-					else
+					//If the creature hasn't been unlocked, do not show him
+					//if (currencyGained < currencyForUnlock[j])
+					//	Attackers[i]->setVisible(false);
+					if (currencyGained > currencyForUnlock[j])
 					{
 						doPrompts(i);
 						unlockedAttacker.erase(unlockedAttacker.begin() + j);
@@ -297,6 +310,9 @@ void Level00::updateAttackers(void)
 					}
 				}
 			}
+
+			if (!shownCreature[Attackers[i]->getCreatureType()])
+				Attackers[i]->setState(MENU_HIDDEN);				
 		}
 
 		//handle attacks for the Miner_Virus

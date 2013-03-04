@@ -516,6 +516,7 @@ void Level::showCreature(Character *Example)
 	ExampleChar = Example;
 	CreatureLoc = Point(ExampleChar->getPosition());
 	
+	ExampleChar->setState(IDLE);
 	ExampleChar->setPositionByOffset(50.0f, 50.0f);
 	originalSize = ExampleChar->getWidth();
 	ExampleChar->setSize(33.0f);
@@ -559,6 +560,9 @@ void Level::sizeDownCreature(void)
 
 	ExampleChar->setPosition(ExampleChar->getPosition().getGridCoords().getNormalCoords());
 	ExampleChar->setDepth(originalDepth);
+
+	if (ExampleChar->isExample)
+		ExampleChar->setState(MENU_AVAILABLE);
 
 	togglePause();
 }
@@ -612,7 +616,7 @@ void Level::updateAttackers(void)
 		//Ensure Example Attackers stay in pose
 		if (Attackers[i]->isExample)
 		{
-			if (Attackers[i]->getVisible())
+			if (Attackers[i]->getColorBlue() != 0)
 			{
 				if (Attackers[i]->getCost() > currencyAmount)
 					Attackers[i]->setState(MENU_TOOMUCH);
