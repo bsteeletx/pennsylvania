@@ -81,6 +81,7 @@ void Level::init(void)
 	Creature Type = (Creature) 0;
 	Point Location = Point();
 	Image Texture[3] = {NULL, NULL, NULL};
+	Prompt = Text("", true);
 
 	//Take Default beginning...
 	Text LevelName = getLevelFilename();
@@ -110,6 +111,16 @@ void Level::init(void)
 			Location.setY((float) Value.getChar(2) - 48);
 			addCreatureType(Type, Location);
 		}
+		else if (Category == Text("Reward", false))
+		{
+			Text *NewCategory = new Text();
+			Text *NewValue = new Text();
+
+			Value.splitAtDelimeter(NewCategory, NewValue, ':');
+
+			if (*NewCategory == Text("Creature"))
+				reward = agk::Val(NewValue->getCString(), 10);
+		}
 		else
 		{
 			value = agk::Val(Value.getCString());
@@ -123,8 +134,6 @@ void Level::init(void)
 				Type = (Creature) value;
 			else if (Category == Text("Starting Data", false))
 				currencyAmount = value;
-			else if (Category == Text("Reward", false))
-				reward = value;
 			else if (Category == Text("Fog", false))
 			{
 				if (value == 1)
@@ -154,6 +163,7 @@ void Level::init(void)
 	Selected = (Creature) NULL;
 
 	CreatureFrame = Sprite(); //Need an actual frame here
+	CreatureFrame.setPosition(Point(33.3f, 33.3f));
 	CreatureFrame.setVisible(false);
 	
 	Song.setSystemVolume(100);
@@ -440,11 +450,10 @@ void Level::handleUI(void)
 // Input: Message to display
 // Output: Message displayed with a background
 //////////////////////////////////
-Text Level::getPrompt(void)
+void Level::getPrompt(void)
 {
 	Text Filename = Text("LevelData/Level_");
 	Text PromptNumber = Text();
-	Prompt = Text("", true);
 	Text NewLine = Text();
 
 	if (levelID < 10)
@@ -469,8 +478,6 @@ Text Level::getPrompt(void)
 
 	Prompt.setVisible(false);
 	messageCounter++;
-
-	return Prompt;
 }
 
 void Level::selectCreature(unsigned short grid)
@@ -496,19 +503,21 @@ void Level::setFrameVisible(bool isVisible)
 	//it looks like right now this is a one line code, kind of a waste
 }
 
-void Level::setPrompt(Text Prompt)
+void Level::setPrompt(void)
 {
 	if (!isPaused)
 		togglePause();
 
 	PromptBackground = Sprite();
 	PromptBackground.setColor(RGBA(0, 0, 255));
-	PromptBackground.setPosition(Point(85.0f, 25.0f));
-	PromptBackground.setSize(50.0f, 10.0f);
+	PromptBackground.setPosition(Point(25.0f, 80.0f));
+	PromptBackground.setSize(50.0f, 15.0f);
 
+	Prompt.setMaxWidth(50.0f);
 	Prompt.setAlignment(Prompt.CENTER);
-	Prompt.setPosition(Point(50.0f, 50.0f));
+	Prompt.setPosition(Point(50.0f, 80.0f));
 	Prompt.setVisible(true);
+	agk::Sync();
 }
 
 void Level::showCreature(Character *Example)
@@ -527,7 +536,8 @@ void Level::showCreature(Character *Example)
 	CreatureLoc.setY((ExampleChar->getY() - CreatureLoc.getY())/23.0f);
 
 	setFrameVisible(true);
-	setPrompt(getPrompt());
+	getPrompt();
+	setPrompt();
 }
 
 void Level::sizeDownCreature(void)
@@ -574,6 +584,8 @@ void Level::sizeDownCreature(void)
 ///////////////////////////////
 void Level::update(void)
 {
+	bool gameOver = true;
+
 	handleUI();
 
 	if (!isPaused)
@@ -586,6 +598,32 @@ void Level::update(void)
 
 	if (!Song.getPlaying())
 		Song.play();
+
+	for (unsigned int i = 0; i < Defenders.size(); i++)
+	{
+		if (Defenders[i]->getCreatureType() == INFORMATION_NODE)
+		{
+			gameOver = false;
+			break;
+		}
+	}
+
+	if (gameOver)
+		giveReward();
+}
+
+////////////////////////////////////
+// Give Reward
+// Input None
+// Output show player reward, end level
+///////////////////////////////////
+void Level::giveReward(void)
+{
+	//assuming it will always be a creature for now
+	//might already be rewarded due to replay, so need some way of
+	//checking that first
+	addCreatureType((Creature) reward, Point(0.0f, 0.0f));
+	showCreature(Attackers.back());
 }
 
 ///////////////////////////////////

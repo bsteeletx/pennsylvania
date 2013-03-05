@@ -23,14 +23,15 @@ public:
 	
 	virtual bool getFog(Point GridLocation) = 0;
 	bool getPaused(void);
-	Text getPrompt(void);
+	void getPrompt(void);
+	void giveReward(void);
 
 	void handleUI(void);
 
 	virtual void init(void);
 	
 	void setFrameVisible(bool visible);
-	void setPrompt(Text Prompt);
+	void setPrompt(void);
 	void showCreature(Character *Example);
 	void sizeDownCreature(void);
 

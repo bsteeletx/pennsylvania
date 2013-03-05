@@ -20,4 +20,4 @@ Data Required for Unlock:9
 Unlocked Attacker:2
 Unlocked Attacker:3
 Unlocked Attacker:4
-Reward:5
+Reward:Creature:5
