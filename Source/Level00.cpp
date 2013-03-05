@@ -182,6 +182,10 @@ void Level00::update(void)
 				togglePause();
 			}
 		}
+		else if ((agk::GetPointerPressed() == 1) && !shownCreature[SPAMMER])
+		{
+			//TODO: End Level to next level...how?
+		}
 		return;
 	}
 
@@ -247,7 +251,8 @@ void Level00::doPrompts(unsigned int creatureID)
 	{
 		if (!Highlighter.getVisible())
 		{
-			setPrompt(getPrompt());
+			getPrompt();
+			setPrompt();
 			Highlighter.setVisible(true);
 			Attackers[0]->setState(MENU_AVAILABLE);
 			return;

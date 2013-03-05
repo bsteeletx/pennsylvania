@@ -261,7 +261,7 @@
     <None Include="..\Game\Win32Debug_2010\CreatureData\Nort" />
     <None Include="..\Game\Win32Debug_2010\CreatureData\Thief" />
     <None Include="..\Game\Win32Debug_2010\LevelData\Level 00.txt" />
-    <None Include="Level_00_Messages.txt" />
+    <None Include="..\Game\Win32Debug_2010\LevelData\Level_00_Messages.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

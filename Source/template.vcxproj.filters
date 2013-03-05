@@ -430,7 +430,7 @@
     <None Include="..\Game\Win32Debug_2010\LevelData\Level 00.txt">
       <Filter>Level Text Files</Filter>
     </None>
-    <None Include="Level_00_Messages.txt">
+    <None Include="..\Game\Win32Debug_2010\LevelData\Level_00_Messages.txt">
       <Filter>Level Text Files</Filter>
     </None>
   </ItemGroup>
