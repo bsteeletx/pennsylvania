@@ -164,6 +164,7 @@ void Level::init(void)
 
 	CreatureFrame = Sprite(); //Need an actual frame here
 	CreatureFrame.setPosition(Point(33.3f, 33.3f));
+	CreatureFrame.setSize(40.0f, 70.0f);
 	CreatureFrame.setVisible(false);
 	
 	Song.setSystemVolume(100);
@@ -499,6 +500,7 @@ void Level::selectCreature(unsigned short grid)
 void Level::setFrameVisible(bool isVisible)
 {
 	CreatureFrame.setVisible(isVisible);
+	CreatureFrame.setSize(40.0f, 65.0f);
 	//Need more here...do we add the creature here? I don't think so,
 	//it looks like right now this is a one line code, kind of a waste
 }
@@ -517,7 +519,6 @@ void Level::setPrompt(void)
 	Prompt.setAlignment(Prompt.CENTER);
 	Prompt.setPosition(Point(50.0f, 80.0f));
 	Prompt.setVisible(true);
-	agk::Sync();
 }
 
 void Level::showCreature(Character *Example)
