@@ -27,7 +27,7 @@ MinerVirus::MinerVirus(Point GridLocation)
 	setPosition(GridLocation.getNormalCoords());
 	Type = MINER_VIRUS;
 	if (!isExample)
-		setState(ATTACKING);
+		setState(IDLE);
 }
 
 /////////////////////////////////
