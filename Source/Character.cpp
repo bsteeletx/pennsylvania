@@ -204,7 +204,7 @@ void Character::init(void)
 			idleFrameSpeed = agk::ValFloat(End.getCString());
 		else if (Start == Text("MoveSpeed"))
 			moveFrameSpeed = agk::ValFloat(End.getCString());
-		else if (Start == Text("AttackFrameSpeed"))
+		else if (Start == Text("AttackFramesSpeed"))
 			attackFrameSpeed = agk::ValFloat(End.getCString());
 		else if (Start == Text("DeathSpeed"))
 			deathFrameSpeed = agk::ValFloat(End.getCString());
@@ -559,7 +559,7 @@ void Character::setState(CharacterState State)
 		fps = attackFrameSpeed;
 		loop = true;
 		min = attackFrameMin;
-		max = moveFrameMax;
+		max = attackFrameMax;
 		break;
 	case DEATH:
 		fps = deathFrameSpeed;
