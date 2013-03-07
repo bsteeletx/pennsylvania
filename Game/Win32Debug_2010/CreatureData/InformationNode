@@ -1,13 +1,13 @@
-Height:279
-Width:240
-Count:12
+Height:273
+Width:265
+Count:15
 ParentImage:Assets/Creatures/Creatures.png
 PathFile:InformationNode.png
 Size:10.0
-HP:0
+HP:2
 Speed: 0.0
 PlaySpeed:10.0
-Idle:1, 7
+Idle:1, 15
 IdleSpeed:10.0
 Move:1, 1
 MoveSpeed:10.0

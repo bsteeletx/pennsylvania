@@ -8,7 +8,7 @@ HP:10
 Speed:3.0
 PlaySpeed:10.0
 Attack:3
-AttackSpeed:1.0
+AttackSpeed:7.0
 Cost:50
 Idle:1, 1
 IdleSpeed:10.0
