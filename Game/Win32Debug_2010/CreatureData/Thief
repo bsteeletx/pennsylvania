@@ -3,8 +3,8 @@ Width:273
 Count:30
 ParentImage:Assets/Creatures/Creatures.png
 PathFile:Thief.png
-Size:15.0
-HP:25
+Size:16.0
+HP:2
 Speed:5.0
 PlaySpeed:10.0
 Attack:10

@@ -3,12 +3,12 @@ Width:550
 Count:1
 ParentImage:Assets/Creatures/Creatures.png
 PathFile:Nort.png
-Size:18.0
+Size:17.0
 HP:10
 Speed:2.0
 PlaySpeed:10.0
 Attack:2
-AttackSpeed:10
+AttackSpeed:3
 Idle:1, 1
 IdleSpeed:10.0
 Move:1, 1
