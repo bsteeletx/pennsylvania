@@ -6,6 +6,7 @@
 
 #include "Spammer.h"
 
+unsigned short Spammer::count;
 
 Spammer::Spammer(void)
 {
@@ -16,6 +17,9 @@ Spammer::Spammer(Point GridLocation)
 {
 	this->setPosition(GridLocation.getNormalCoords());
 	Type = SPAMMER;
+
+	if (count == 0)
+		isExample = true;
 }
 
 Spammer::~Spammer(void)
@@ -36,6 +40,10 @@ void Spammer::fireWeapon(void)
 {
 }
 
+void Spammer::incrementCount(void)
+{
+	count++;
+}
 
 void Spammer::kill(Character *Killer)
 {
@@ -44,5 +52,8 @@ void Spammer::kill(Character *Killer)
 
 void Spammer::update(std::vector<Character*> Defenders)
 {
-	Character::update(Defenders);
+	if (!isExample)
+		Character::update(Defenders);
+	else
+		updateCost(count);
 }

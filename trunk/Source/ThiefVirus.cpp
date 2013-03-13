@@ -3,6 +3,8 @@
 //////////////////////////
 #include "ThiefVirus.h"
 
+unsigned short ThiefVirus::count;
+
 ///////////////////////////////
 // Default Constructor
 // Input: None
@@ -25,6 +27,9 @@ ThiefVirus::ThiefVirus(Point GridLocation)
 {
 	setPosition(GridLocation.getNormalCoords());
 	Type = THIEF_VIRUS;
+
+	if (count == 0)
+		isExample = true;
 }
 
 ///////////////////////////////////
@@ -67,6 +72,10 @@ void ThiefVirus::fireWeapon(void)
 {
 }
 
+void ThiefVirus::incrementCount(void)
+{
+	count++;
+}
 
 ///////////////////////////////////////////////
 // Kill (override of base kill)
@@ -85,7 +94,8 @@ void ThiefVirus::kill(Character *KilledBy)
 /////////////////////////////////////////////////////////////
 void ThiefVirus::update(std::vector<Character*> Defenders)
 {
-
-	if (!this->isExample)
+	if (!isExample)
 		Character::update(Defenders);
+	else
+		updateCost(count);
 }

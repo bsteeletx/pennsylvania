@@ -176,8 +176,8 @@ void Level::displayCurrency(void)
 	CurrencyTitle = Text("Bytes: ", true);
 	CurrencyValue = Text(agk::Str(currencyAmount), true);
 
-	CurrencyTitle.setColor(RGBA(0, 0, 0));
-	CurrencyValue.setColor(RGBA(0, 0, 0));
+	CurrencyTitle.setColor(RGBA(255, 255, 255));
+	CurrencyValue.setColor(RGBA(255, 255, 255));
 
 	CurrencyTitle.setPosition(Point(2.0f, 95.0f));
 	CurrencyValue.setPosition(Point(15.0f, 95.0f));
@@ -327,7 +327,7 @@ void Level::addCreatureType(Creature creatureNumber, Point Location)
 		//addSprite(Attackers.back()->getSpriteNumber());
 		
 		if (!Attackers.back()->isExample)
-			Attackers.back()->setState(IDLE);
+			Attackers.back()->setState(SELECTED);
 		else
 			Attackers.back()->setState(MENU_TOOMUCH);
 		//Give the game a sense of depth: The further to the bottom, depth should be less than top
@@ -433,6 +433,7 @@ void Level::handleUI(void)
 				Attackers.back()->isExample = false;
 				//Remove all Alpha and set creature as idle
 				Attackers.back()->setState(IDLE);
+				Attackers.back()->incrementCount();
 			}
 		}
 		
@@ -652,6 +653,9 @@ void Level::updateAttackers(void)
 {
 	for (unsigned int i = 0; i < Attackers.size(); i++)
 	{
+		//general update
+		Attackers[i]->update(Defenders);
+		
 		//Ensure Example Attackers stay in pose
 		if (Attackers[i]->isExample)
 		{
@@ -664,9 +668,6 @@ void Level::updateAttackers(void)
 				continue;
 			}
 		}
-
-		//Non Examples need to update based on what defenders are doing
-		Attackers[i]->update(Defenders);
 
 		//Miner Virus doesn't really attack, just gets a default amount of currency every now and then
 		if (Attackers[i]->getCreatureType() == MINER_VIRUS)

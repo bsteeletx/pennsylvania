@@ -29,6 +29,7 @@ public:
 	float getMoveSpeed(void);
 	CharacterState getState(void);
 
+	virtual void incrementCount(void) {};
 	void init(void);
 	
 	virtual void kill(Character *Killer);	
@@ -41,6 +42,7 @@ public:
 	void setVisible(bool visibility);
 
 	virtual void update(std::vector<Character*> Defenders);
+	void updateCost(unsigned short creatureCount);
 
 	bool isExample;
 
@@ -51,6 +53,10 @@ protected:
 	float attackSpeed;
 
 	unsigned short cost;
+	unsigned short costCurrent;
+	unsigned short costIncrease;
+	unsigned short costFactor;
+	unsigned short costPower;
 
 	unsigned short deathFrameMin, deathFrameMax;
 	float deathFrameSpeed;
