@@ -31,13 +31,17 @@ Character::Character(Text FilenamePath)
 	: AnimatedSprite(File (true, FilenamePath), Text ("Assets/Creatures/Creatures.png"))
 {
 	Data = File(true, FilenamePath);
-	init();
 	didDamage = false;
 	//setCollisionGroup((int)EXAMPLES);
 	hasRangedWeapon = false;
 	CurrentTarget = NULL;
 	isExample = false;
 	oldY = 0.0f;
+	costIncrease = 0;
+	costFactor = 1;
+	costPower = 1;
+
+	init();
 }
 
 ////////////////////////////////
@@ -199,7 +203,29 @@ void Character::init(void)
 		else if (Start == Text("AttackSpeed"))
 			attackSpeed = agk::ValFloat(End.getCString())/1.0f;
 		else if (Start == Text("Cost"))
-			cost = agk::Val(End.getCString());
+		{
+			int needleLocPlus = End.foundNeedle('+');
+			int needleLocX = End.foundNeedle('x');
+			int needleLocPower = End.foundNeedle('^');
+
+			if (needleLocPlus != -1)
+				costIncrease = agk::Val(End.mid(needleLocPlus + 2, 1).getCString(), 10);
+			
+			if (needleLocX != -1)
+				costFactor = agk::Val(End.mid(needleLocX + 2, 1).getCString(), 10);
+			
+			if (needleLocPower != -1)
+				costPower = agk::Val(End.mid(needleLocPower + 2, 1).getCString(), 10);
+
+			if (needleLocPlus != -1)
+				End.splitAtDelimeter(&End, &Text(), '+');
+			else if (needleLocX != -1)
+				End.splitAtDelimeter(&End, &Text(), 'x');
+			else if (needleLocPower != -1)
+				End.splitAtDelimeter(&End, &Text(), '^');
+			
+			costCurrent = cost = agk::Val(End.getCString());
+		}
 		else if (Start == Text("IdleSpeed"))
 			idleFrameSpeed = agk::ValFloat(End.getCString());
 		else if (Start == Text("MoveSpeed"))
@@ -265,9 +291,6 @@ void Character::init(void)
 	timeFromLastAttack = 0.0f;
 	//Set Character in Pose to start, wait for commands for update
 	setState(MENU_TOOMUCH);
-
-	if (!this->getIsDefender())
-		isExample = true;
 }
 
 /////////////////////////////////////
@@ -462,6 +485,22 @@ void Character::update(std::vector<Character*> Defenders)
 }
 
 ////////////////////////////////////////////
+// Update Cost
+// Input Number of creatures
+// Result Change cost value
+////////////////////////////////////////
+void Character::updateCost(unsigned short creatureCount)
+{
+	if (creatureCount == 0)
+		return;
+
+	unsigned short factor = (creatureCount*costFactor*cost);
+	unsigned short power = factor*(std::pow((float) costPower, (float) creatureCount));
+
+	costCurrent = power + (creatureCount*costIncrease);
+}
+
+////////////////////////////////////////////
 // Get Character State
 // Input: None
 // Output: The State the Character is in
@@ -583,7 +622,7 @@ void Character::setState(CharacterState State)
 ///////////////////////////////////////////////
 unsigned short Character::getCost(void)
 {
-	return cost;
+	return costCurrent;
 }
 
 /////////////////////////////////////////////

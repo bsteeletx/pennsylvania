@@ -5,6 +5,7 @@
 
 #include "DBlocker.h"
 
+unsigned short DBlocker::count;
 
 DBlocker::DBlocker(void)
 {
@@ -16,6 +17,9 @@ DBlocker::DBlocker(Point GridLocation)
 {
 	setPosition(GridLocation.getNormalCoords());
 	Type = DBLOCKER;
+
+	if (count == 0)
+		isExample = true;
 }
 
 DBlocker::~DBlocker(void)
@@ -36,6 +40,10 @@ void DBlocker::fireWeapon(void)
 {
 }
 
+void DBlocker::incrementCount(void)
+{
+	count++;
+}
 
 void DBlocker::kill(Character *Killer)
 {
@@ -44,5 +52,8 @@ void DBlocker::kill(Character *Killer)
 
 void DBlocker::update(std::vector<Character*> Defenders)
 {
-	Character::update(Defenders);
+	if (!isExample)
+		Character::update(Defenders);
+	else
+		updateCost(count);
 }

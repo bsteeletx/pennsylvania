@@ -5,6 +5,8 @@
 #include "MinerVirus.h"
 #include "agk.h"
 
+unsigned short MinerVirus::count;
+
 //////////////////////////////
 // Default Constructor
 // Inputs: None
@@ -26,8 +28,9 @@ MinerVirus::MinerVirus(Point GridLocation)
 {
 	setPosition(GridLocation.getNormalCoords());
 	Type = MINER_VIRUS;
-	if (!isExample)
-		setState(IDLE);
+
+	if (count == 0)
+		isExample = true;
 }
 
 /////////////////////////////////
@@ -47,7 +50,10 @@ MinerVirus::~MinerVirus(void)
 ////////////////////////////////////////////////////////////
 void MinerVirus::update(std::vector<Character*> Defenders)
 {
-	Character::update(Defenders);
+	if (!isExample)
+		Character::update(Defenders);
+	else
+		updateCost(count);
 }
 
 ///////////////////////////////////////////////////
@@ -56,13 +62,15 @@ void MinerVirus::update(std::vector<Character*> Defenders)
 // Result: Nothing, Miner Virii don't attack
 void MinerVirus::attack(Character *Target)
 {
-	if (agk::Timer() - timeFromLastAttack > attackSpeed)
+	if (timeFromLastAttack == 0)
 	{
-		if (getCreatureType() == MINER_VIRUS)
-		{
-			timeFromLastAttack = agk::Timer();
-			didDamage = true;
-		}
+		timeFromLastAttack = agk::Timer();
+		didDamage = false;
+	}
+	else if (agk::Timer() - timeFromLastAttack > attackSpeed)
+	{
+		timeFromLastAttack = agk::Timer();
+		didDamage = true;
 	}
 	else
 		didDamage = false;
@@ -114,6 +122,10 @@ void MinerVirus::fireWeapon(void)
 {
 }
 
+void MinerVirus::incrementCount(void)
+{
+	count++;
+}
 
 ////////////////////////////////////////////
 // Kill (override base function)

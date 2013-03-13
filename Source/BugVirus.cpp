@@ -5,6 +5,7 @@
 
 #include "BugVirus.h"
 
+unsigned short BugVirus::count;
 
 BugVirus::BugVirus(void)
 {
@@ -16,6 +17,9 @@ BugVirus::BugVirus(Point GridLocation)
 {
 	setPosition(GridLocation.getNormalCoords());
 	Type = BUG_VIRUS;
+
+	if (count == 0)
+		isExample = true;
 }
 
 BugVirus::~BugVirus(void)
@@ -36,6 +40,11 @@ void BugVirus::fireWeapon(void)
 {
 }
 
+void BugVirus::incrementCount(void)
+{
+	count++;
+}
+
 void BugVirus::kill(Character *Killer)
 {
 	Character::kill(Killer);
@@ -43,5 +52,8 @@ void BugVirus::kill(Character *Killer)
 
 void BugVirus::update(std::vector<Character*> Defenders)
 {
-	Character::update(Defenders);
+	if (!isExample)
+		Character::update(Defenders);
+	else
+		updateCost(count);
 }

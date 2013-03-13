@@ -14,6 +14,8 @@ public:
 	
 	void damage(short amount, Character *Attacker) override;
 
+	void incrementCount(void) override;
+
 	void fireWeapon(void) override;
 
 	void kill(Character *Killer) override;
@@ -22,5 +24,6 @@ public:
 
 private:
 
+	static unsigned short count;
 };
 

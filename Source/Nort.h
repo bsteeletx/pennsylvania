@@ -17,6 +17,8 @@ public:
 	
 	void fireWeapon(void) override;
 
+	void incrementCount(void) override {};
+
 	void kill(Character *Killer) override;
 	
 	void update(std::vector<Character*> Defenders) override;
