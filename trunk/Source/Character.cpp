@@ -38,8 +38,8 @@ Character::Character(Text FilenamePath)
 	isExample = false;
 	oldY = 0.0f;
 	costIncrease = 0;
-	costFactor = 1;
-	costPower = 1;
+	costFactor = 0;
+	costPower = 0;
 
 	init();
 }
@@ -491,13 +491,30 @@ void Character::update(std::vector<Character*> Defenders)
 ////////////////////////////////////////
 void Character::updateCost(unsigned short creatureCount)
 {
+	unsigned short factor = 0;
+	unsigned short power = 0;
+
 	if (creatureCount == 0)
 		return;
 
-	unsigned short factor = (creatureCount*costFactor*cost);
-	unsigned short power = factor*(std::pow((float) costPower, (float) creatureCount));
+	if (costFactor != 0)
+		factor = (creatureCount*costFactor*cost);
+	else
+		factor = 1;
+	
+	if (costPower != 0)
+		power = factor*(std::pow((float) costPower, (float) creatureCount));
+	else if (factor != 1)
+		power = factor;
+	else
+		power = 0;
 
-	costCurrent = power + (creatureCount*costIncrease);
+	if (costIncrease != 0)
+		costCurrent = power + (creatureCount*costIncrease);
+	else if (power != 0)
+		costCurrent = power;
+	else
+		costCurrent = cost;
 }
 
 ////////////////////////////////////////////

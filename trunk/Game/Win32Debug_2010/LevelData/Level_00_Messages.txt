@@ -1,5 +1,6 @@
 0:This is an Information Node, we MUST collect them all in order to pass on to the next system. (Click to continue)
 1:First deploy a Miner on the grid, far away from the system on the Data Stream as not to be detected by their scanners. Miners collect data from the net and store it in the Data Pool.(Click to continue)
+2:Place the Miner Virus to gain more data
 3:The Thief is a crutial part of our plan. He steals the Information Nodes that we need. You can place them in the Neutral Zone.(Click to continue) 
 4:Those are Norts. Thier sole purpose is to protect thier system. In order to get past them, we're going to need some kind of offense. Before that though, we'll need a faster stream of data. Place another Miner.(Click to continue)
 5:This little guy is the Bug. He's our grunt and will march into the system and snack on those defenders. These can also go in the Neutral Zone.(Click to continue)

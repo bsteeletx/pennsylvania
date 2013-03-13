@@ -34,6 +34,8 @@ Level00::Level00(std::vector<Creature> attackerList)
 
 	for (int i = 0; i < 8; i++)
 		shownCreature[i] = false;
+
+	bugDeath = false;
 }
 
 /////////////////////////////
@@ -199,7 +201,7 @@ void Level00::update(void)
 	updateAttackers();
 	
 	//check on deaths for Thief Virus attack
-	if (checkForThiefKilling())
+	if (checkForKilling(INFORMATION_NODE))
 	{
 		if (!unlockedDefenders)
 		{
@@ -217,6 +219,8 @@ void Level00::update(void)
 			unlockedDefenders = true;
 		}
 	}
+	
+
 	//Update the base level as well
 	Level::update();
 }
@@ -303,6 +307,11 @@ void Level00::doPrompts(unsigned int creatureID)
 			}
 		}
 	}
+	else if (!bugDeath && checkForKilling(BUG_VIRUS))
+	{
+		getPrompt();
+		setPrompt();
+	}
 }
 
 void Level00::updateAttackers(void)
@@ -342,19 +351,16 @@ void Level00::updateAttackers(void)
 	}
 }
 
-bool Level00::checkForThiefKilling(void)
+bool Level00::checkForKilling(Creature Type)
 {
 	for (unsigned int i = 0; i < Defenders.size(); i++)
 	{
 		if (Defenders[i]->getState() == FADEOUT)
 		{
-			if (Defenders[i]->getCreatureType() == INFORMATION_NODE)
+			if (Defenders[i]->getCreatureType() == Type)
 			{
-				if (Defenders[i]->getKilledBy()->getCreatureType() == THIEF_VIRUS)
-				{
-					if (Defenders[i]->getColorAlpha() < 5)
-						return true;
-				}
+				if (Defenders[i]->getColorAlpha() < 5)
+					return true;
 			}
 		}
 	}

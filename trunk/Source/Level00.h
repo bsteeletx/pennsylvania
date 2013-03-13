@@ -21,6 +21,7 @@ public:
 	void update(void);
 
 private:
+	bool bugDeath;
 	bool unlockedDefenders;
 	std::vector<unsigned int> hiddenDefenderStack;
 
@@ -35,7 +36,7 @@ private:
 	Alarm AlarmSystem;
 	Sprite Highlighter;
 
-	bool checkForThiefKilling(void);
+	bool checkForKilling(Creature Type);
 
 	void doPrompts(unsigned int creatureID = 0);
 
