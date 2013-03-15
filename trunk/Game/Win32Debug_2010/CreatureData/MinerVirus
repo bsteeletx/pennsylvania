@@ -19,4 +19,4 @@ AttackFramesSpeed:10.0
 Death:29, 30
 DeathSpeed:10.0
 HealthDrainAmount:1
-HealthDrainRate:10
+HealthDrainRate:10.0f
