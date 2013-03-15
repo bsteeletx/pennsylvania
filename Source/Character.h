@@ -12,7 +12,7 @@ public:
 	Character(Text FilenamePath);
 	
 	//virtual void activateSpecial(AnimatedSprite Fog[8][5] = NULL, unsigned short *currency = 0);
-	virtual void attack(Character *Target);
+	virtual void attack(float currentTime, Character *Target);
 
 	virtual void damage(short amount, Character *Attacker);
 	bool didAttackThisTurn(void);
@@ -41,7 +41,7 @@ public:
 	void setState(CharacterState State);
 	void setVisible(bool visibility);
 
-	virtual void update(std::vector<Character*> Defenders);
+	virtual void update(float currentTime, std::vector<Character*> Defenders);
 	void updateCost(unsigned short creatureCount);
 
 	bool isExample;
@@ -63,6 +63,8 @@ protected:
 	bool didDamage;
 
 	bool hasRangedWeapon;
+	unsigned short healthDrainAmount;
+	unsigned short healthDrainRate;
 	short hitPoints;
 
 	unsigned short idleFrameMin, idleFrameMax;
@@ -86,7 +88,7 @@ protected:
 		
 	void killCharacter(Character *Killer);
 	
-	void minerAttack(void);
+	void minerAttack(float currentTime);
 	
 	void normalAttack(Character *Target);
 protected:

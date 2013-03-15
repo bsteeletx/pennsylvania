@@ -1,7 +1,6 @@
 #pragma once
 #include "Character.h"
-
-#define FOG_COLUMN_REMOVAL_TIME 6
+#include "Timer.h"
 
 class MinerVirus :
 	public Character
@@ -12,9 +11,10 @@ public:
 	MinerVirus::MinerVirus(Point Location);
 
 	//member methods
-	void attack(Character *Target) override;
+	void attack(float currentTime, Character *Target) override;
 	
 	void damage(short amount, Character *Attacker) override;
+	void drainHealth(void);
 
 	void fireWeapon(void) override;
 
@@ -22,10 +22,18 @@ public:
 
 	void kill(Character *Killer) override;
 	
-	void update(std::vector<Character*> Defenders) override;
+	void toggleAlpha(void);
+
+	void update(float currentTime, std::vector<Character*> Defenders) override;
 
 private:
 
 	static unsigned short count;
+	static float time;
+	unsigned short ID;
+
+	float lastDrainTime;
+
+	float blinkTime;
 };
 

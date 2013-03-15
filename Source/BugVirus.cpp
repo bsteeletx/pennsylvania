@@ -26,9 +26,9 @@ BugVirus::~BugVirus(void)
 {
 }
 
-void BugVirus::attack(Character *Target)
+void BugVirus::attack(float currentTime, Character *Target)
 {
-	Character::attack(Target);
+	Character::attack(currentTime, Target);
 }
 
 void BugVirus::damage(short amount, Character *Attacker)
@@ -50,10 +50,10 @@ void BugVirus::kill(Character *Killer)
 	Character::kill(Killer);
 }
 
-void BugVirus::update(std::vector<Character*> Defenders)
+void BugVirus::update(float currentTime, std::vector<Character*> Defenders)
 {
 	if (!isExample)
-		Character::update(Defenders);
+		Character::update(currentTime, Defenders);
 	else
 		updateCost(count);
 }

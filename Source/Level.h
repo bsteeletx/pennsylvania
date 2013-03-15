@@ -1,7 +1,7 @@
 #pragma once
 #include "Character.h"
-#include "Vietnam/Image.h"
-#include "Vietnam/Sprite.h"
+#include "Image.h"
+#include "Sprite.h"
 #include "CreatureList.h"
 #include <vector>
 #include "Music.h"
@@ -38,7 +38,7 @@ public:
 	void togglePause(void);
 
 	virtual void update(void);
-	void updateCharacters(void);
+	void updateCharacters(float currentTime);
 
 	unsigned short currencyAmount;
 
@@ -94,7 +94,7 @@ private:
 	void setAttackerMenu(void);
 	void setCreatureFadeout(void);
 
-	void updateAttackers(void);
-	void updateDefenders(void);
+	void updateAttackers(float currentTime);
+	void updateDefenders(float currentTime);
 };
 

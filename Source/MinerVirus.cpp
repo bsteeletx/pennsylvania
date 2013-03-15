@@ -6,6 +6,7 @@
 #include "agk.h"
 
 unsigned short MinerVirus::count;
+float MinerVirus::time;
 
 //////////////////////////////
 // Default Constructor
@@ -30,7 +31,13 @@ MinerVirus::MinerVirus(Point GridLocation)
 	Type = MINER_VIRUS;
 
 	if (count == 0)
+	{
 		isExample = true;
+		ID = 0;
+	}
+	
+	lastDrainTime = 0.0f;
+	blinkTime = 0.0f;
 }
 
 /////////////////////////////////
@@ -48,28 +55,35 @@ MinerVirus::~MinerVirus(void)
 // Result: Do MinerAttack in base
 // Notes: Should the base Miner Attack be in the base?
 ////////////////////////////////////////////////////////////
-void MinerVirus::update(std::vector<Character*> Defenders)
+void MinerVirus::update(float currentTime, std::vector<Character*> Defenders)
 {
-	if (!isExample)
-		Character::update(Defenders);
+	if (ID)
+	{
+		Character::update(currentTime, Defenders);
+		if (hitPoints != 0)
+			drainHealth();
+	}
 	else
+	{
 		updateCost(count);
+		time = currentTime;
+	}
 }
 
 ///////////////////////////////////////////////////
 // Attack (override of base function)
 // Input: Pointer to Character who is the target
 // Result: Nothing, Miner Virii don't attack
-void MinerVirus::attack(Character *Target)
+void MinerVirus::attack(float currentTime, Character *Target)
 {
-	if (timeFromLastAttack == 0)
+	if (timeFromLastAttack == 0.0f)
 	{
-		timeFromLastAttack = agk::Timer();
+		timeFromLastAttack = time;
 		didDamage = false;
 	}
-	else if (agk::Timer() - timeFromLastAttack > attackSpeed)
+	else if (time - timeFromLastAttack > attackSpeed)
 	{
-		timeFromLastAttack = agk::Timer();
+		timeFromLastAttack = time;
 		didDamage = true;
 	}
 	else
@@ -118,6 +132,41 @@ void MinerVirus::damage(short amount, Character *Attacker)
 	Character::damage(amount, Attacker);
 }
 
+void MinerVirus::drainHealth(void)
+{
+	float healthPercent = (float)hitPoints/(float)maxHitPoints;
+	
+	if (lastDrainTime == 0.0f)
+		lastDrainTime = time;
+	else if (time - lastDrainTime > healthDrainRate)
+	{
+		damage(healthDrainAmount, this);
+		lastDrainTime = time;
+	}
+
+	if (healthPercent <= 0.25f)
+	{
+		if (time - blinkTime > 0.25f)
+		{
+			toggleAlpha();
+			blinkTime = time;
+		}
+	}
+	else if (healthPercent <= 0.5f)
+	{
+		if (blinkTime == 0.0f)
+		{
+			toggleAlpha();
+			blinkTime = time;
+		}
+		else if (time - blinkTime > 0.5f)
+		{
+			toggleAlpha();
+			blinkTime = time;
+		}
+	}
+}
+
 void MinerVirus::fireWeapon(void)
 {
 }
@@ -125,6 +174,7 @@ void MinerVirus::fireWeapon(void)
 void MinerVirus::incrementCount(void)
 {
 	count++;
+	ID = count;
 }
 
 ////////////////////////////////////////////
@@ -134,4 +184,12 @@ void MinerVirus::incrementCount(void)
 void MinerVirus::kill(Character *Killer)
 {
 	Character::kill(Killer);
+}
+
+void MinerVirus::toggleAlpha(void)
+{
+	if (getColorAlpha() > 200)
+		setColorAlpha(128);
+	else
+		setColorAlpha(255);
 }

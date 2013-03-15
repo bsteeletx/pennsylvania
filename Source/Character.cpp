@@ -40,6 +40,8 @@ Character::Character(Text FilenamePath)
 	costIncrease = 0;
 	costFactor = 0;
 	costPower = 0;
+	healthDrainAmount = 0;
+	healthDrainRate = 0;
 
 	init();
 }
@@ -62,27 +64,27 @@ Character::~Character(void)
 //       Another function should determine the time
 //       This function should just attack
 //////////////////////////////////////////
-void Character::attack(Character *Target)
+void Character::attack(float currentTime, Character *Target)
 {
 	if (timeFromLastAttack == 0)
 	{
-		timeFromLastAttack = agk::Timer() + attackSpeed;
+		timeFromLastAttack = currentTime + attackSpeed;
 		return;
 	}
 
-	if (agk::Timer() - timeFromLastAttack > attackSpeed)
+	if (currentTime - timeFromLastAttack > attackSpeed)
 	{
 		if (this->hasRangedWeapon)
 		{
 			fireWeapon();
 			CurrentTarget = Target;
-			timeFromLastAttack = agk::Timer();
+			timeFromLastAttack = currentTime;
 			return;
 		}
 
 		Target->damage(attackAmount, this);
 
-		timeFromLastAttack = agk::Timer();
+		timeFromLastAttack = currentTime;
 		didDamage = true;
 	}
 	else
@@ -99,13 +101,13 @@ void Character::attack(Character *Target)
 //       In fact, the gathering data should not be considered an attack as well
 //       It should be part of the update of the Miner class
 ////////////////////////////////////
-void Character::minerAttack(void)
+void Character::minerAttack(float currentTime)
 {
-	if (agk::Timer() - timeFromLastAttack > attackSpeed)
+	if (currentTime - timeFromLastAttack > attackSpeed)
 	{
 		if (getCreatureType() == MINER_VIRUS)
 		{
-			timeFromLastAttack = agk::Timer();
+			timeFromLastAttack = currentTime;
 			didDamage = true;
 		}
 	}
@@ -125,8 +127,8 @@ void Character::damage(short amount, Character *Attacker)
 	if (hitPoints <= 0)
 	{
 		kill(Attacker);
-		setState(DEATH);
-		Attacker->setState(MOVING);
+		if (Attacker != this) //done for MinerVirus which kills itself
+			Attacker->setState(MOVING);
 	}
 }
 
@@ -234,6 +236,10 @@ void Character::init(void)
 			attackFrameSpeed = agk::ValFloat(End.getCString());
 		else if (Start == Text("DeathSpeed"))
 			deathFrameSpeed = agk::ValFloat(End.getCString());
+		else if (Start == Text("HealthDrainAmount"))
+			healthDrainAmount = agk::Val(End.getCString());
+		else if (Start == Text("HealthDrainRate"))
+			healthDrainRate = agk::Val(End.getCString());
 		else
 		{
 			//Setting up Animation Frame Values
@@ -337,7 +343,9 @@ void Character::kill(Character *Killer)
 {
 	KilledBy = Killer;
 	hitPoints = 0;
-	setState(DEATH);
+
+	if ((getState() != DEATH) && (getState() != FADEOUT))
+		setState(DEATH);
 }
 
 ////////////////////////////////////////////
@@ -397,13 +405,13 @@ Character *Character::getCurrentTarget(void)
 // Input: List of Defenders--Note if the Character IS a defender, this will be a list of attackers
 // Result: Function checks for collision, moves the character, and determines whether the character should be attacking
 ///////////////////////////////////////////////////////////
-void Character::update(std::vector<Character*> Defenders)
+void Character::update(float currentTime, std::vector<Character*> Defenders)
 {
 	if (isExample)
 		return;
 
 	if (getCreatureType() == MINER_VIRUS)
-		attack(NULL);
+		attack(currentTime, NULL);
 
 	if (getState() == FADEOUT)
 	{
@@ -447,7 +455,7 @@ void Character::update(std::vector<Character*> Defenders)
 						if (getX() - Defenders[j]->getX() <= 2.0f)
 						{
 							setState(ATTACKING);
-							attack(Defenders[j]);
+							attack(currentTime, Defenders[j]);
 						}
 					}
 				}
@@ -462,7 +470,7 @@ void Character::update(std::vector<Character*> Defenders)
 					if (getY() == Defenders[j]->getY())
 					{
 						setState(ATTACKING);
-						attack(Defenders[j]);
+						attack(currentTime, Defenders[j]);
 					}
 				}
 			}

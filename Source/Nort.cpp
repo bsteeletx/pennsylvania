@@ -46,9 +46,9 @@ Nort::~Nort(void)
 // Input: Pointer to Character that is the target of the attack
 // Result: Nothing special for Nort, use base attack
 /////////////////////////////////////
-void Nort::attack(Character *Target)
+void Nort::attack(float currentTime, Character *Target)
 {
-	Character::attack(Target);
+	Character::attack(currentTime, Target);
 }
 
 ///////////////////////////////////
@@ -86,12 +86,12 @@ void Nort::kill(Character *Killer)
 // Nort Update (override from base)
 // Input: Vector of Defenders--in this case, attackers as Norts are defenders
 // Result: Move the Laser weapon to the appropriate location, and turn it on if attacking
-void Nort::update(std::vector<Character*> Defenders)
+void Nort::update(float currentTime, std::vector<Character*> Defenders)
 {
 	//do normal base update
 	if (getVisible())
 	{
 		Weapon->update(Defenders);
-		Character::update(Defenders);
+		Character::update(currentTime, Defenders);
 	}
 }

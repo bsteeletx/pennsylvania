@@ -26,9 +26,9 @@ Spammer::~Spammer(void)
 {
 }
 
-void Spammer::attack(Character *Target)
+void Spammer::attack(float currentTime, Character *Target)
 {
-	Character::attack(Target);
+	Character::attack(currentTime, Target);
 }
 
 void Spammer::damage(short amount, Character *Attacker)
@@ -50,10 +50,10 @@ void Spammer::kill(Character *Killer)
 	Character::kill(Killer);
 }
 
-void Spammer::update(std::vector<Character*> Defenders)
+void Spammer::update(float currentTime, std::vector<Character*> Defenders)
 {
 	if (!isExample)
-		Character::update(Defenders);
+		Character::update(currentTime, Defenders);
 	else
 		updateCost(count);
 }

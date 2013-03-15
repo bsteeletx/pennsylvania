@@ -47,11 +47,11 @@ ThiefVirus::~ThiefVirus(void)
 // Result: Check to see if the target is an information node
 //         If it isn't (thieves can only attack information nodes) disregard the attack
 ////////////////////////////////////////////
-void ThiefVirus::attack(Character *Target)
+void ThiefVirus::attack(float currentTime, Character *Target)
 {
 	if (Target->getCreatureType() == INFORMATION_NODE)
 	{
-		Character::attack(Target);
+		Character::attack(currentTime, Target);
 
 		if (didDamage)
 			this->kill((Character *) this);
@@ -92,10 +92,10 @@ void ThiefVirus::kill(Character *KilledBy)
 // Input: List of Defenders in level
 // Result: Call the base update as nothing special needs to happen here
 /////////////////////////////////////////////////////////////
-void ThiefVirus::update(std::vector<Character*> Defenders)
+void ThiefVirus::update(float currentTime, std::vector<Character*> Defenders)
 {
 	if (!isExample)
-		Character::update(Defenders);
+		Character::update(currentTime, Defenders);
 	else
 		updateCost(count);
 }

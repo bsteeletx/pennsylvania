@@ -113,13 +113,13 @@ void Level::init(void)
 		}
 		else if (Category == Text("Reward", false))
 		{
-			Text *NewCategory = new Text();
-			Text *NewValue = new Text();
+			Text NewCategory = Text();
+			Text NewValue = Text();
 
-			Value.splitAtDelimeter(NewCategory, NewValue, ':');
+			Value.splitAtDelimeter(&NewCategory, &NewValue, ':');
 
-			if (*NewCategory == Text("Creature"))
-				reward = agk::Val(NewValue->getCString(), 10);
+			if (NewCategory == Text("Creature"))
+				reward = agk::Val(NewValue.getCString(), 10);
 		}
 		else
 		{
@@ -588,10 +588,12 @@ void Level::update(void)
 {
 	bool gameOver = true;
 
+	float time = agk::Timer();
+
 	handleUI();
 
 	if (!isPaused)
-		updateCharacters();
+		updateCharacters(time);
 	else if (agk::GetPointerReleased() == 1)
 	{
 		if (ExampleChar->getWidth() >= 30.0f)
@@ -635,12 +637,12 @@ void Level::giveReward(void)
 //
 // Giving each character a frame to update logic, movement, etc.
 /////////////////////////////////////
-void Level::updateCharacters(void)
+void Level::updateCharacters(float currentTime)
 {
 	//Start with attackers
-	updateAttackers();
+	updateAttackers(currentTime);
 	//Update Defenders
-	updateDefenders();
+	updateDefenders(currentTime);
 	
 	//Removing Creature if offscreen
 	creatureRemoval();
@@ -649,12 +651,12 @@ void Level::updateCharacters(void)
 	setCreatureFadeout();
 }
 
-void Level::updateAttackers(void)
+void Level::updateAttackers(float currentTime)
 {
 	for (unsigned int i = 0; i < Attackers.size(); i++)
 	{
 		//general update
-		Attackers[i]->update(Defenders);
+		Attackers[i]->update(currentTime, Defenders);
 		
 		//Ensure Example Attackers stay in pose
 		if (Attackers[i]->isExample)
@@ -678,10 +680,10 @@ void Level::updateAttackers(void)
 	}
 }
 
-void Level::updateDefenders(void)
+void Level::updateDefenders(float currentTime)
 {
 	for (unsigned int i = 0; i < Defenders.size(); i++)
-		Defenders[i]->update(Attackers);
+		Defenders[i]->update(currentTime, Attackers);
 }
 
 void Level::creatureRemoval(void)
