@@ -239,7 +239,7 @@ void Character::init(void)
 		else if (Start == Text("HealthDrainAmount"))
 			healthDrainAmount = agk::Val(End.getCString());
 		else if (Start == Text("HealthDrainRate"))
-			healthDrainRate = agk::Val(End.getCString());
+			healthDrainRate = agk::ValFloat(End.getCString());
 		else
 		{
 			//Setting up Animation Frame Values
