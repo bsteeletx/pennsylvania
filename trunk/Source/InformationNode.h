@@ -13,7 +13,7 @@ public:
 	InformationNode::InformationNode(Point Location, bool submerged = false, unsigned short bonusType = 0, unsigned short bonusAmount = 0);	
 
 	//member methods
-	void attack(Character *Target) override;
+	void attack(float currentTime, Character *Target) override;
 	
 	void damage(short amount, Character *Attacker) override;
 
@@ -23,6 +23,6 @@ public:
 
 	void kill(Character *Killer) override;
 	
-	void update(std::vector<Character*> Defenders) override;
+	void update(float currentTime, std::vector<Character*> Defenders) override;
 };
 

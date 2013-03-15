@@ -48,7 +48,7 @@ InformationNode::~InformationNode(void)
 ///////////////////////////////////////////////////
 // Overridden functions, nothing special for Information Node
 //////////////////////////////////////////////////////
-void InformationNode::attack(Character *Target)
+void InformationNode::attack(float currentTime, Character *Target)
 {
 	//no attacks from informaiton node
 }
@@ -73,7 +73,7 @@ void InformationNode::kill(Character *KilledBy)
 	Character::kill(KilledBy);
 }
 
-void InformationNode::update(std::vector<Character*> Defenders)
+void InformationNode::update(float currentTime, std::vector<Character*> Defenders)
 {
 	//nothing as of yet
 	/*if (getState() == FADEOUT)
@@ -85,5 +85,5 @@ void InformationNode::update(std::vector<Character*> Defenders)
 		else
 			setX(-15.0f);
 	}*/
-	Character::update(Defenders);
+	Character::update(currentTime, Defenders);
 }

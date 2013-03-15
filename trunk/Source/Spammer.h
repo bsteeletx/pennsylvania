@@ -10,7 +10,7 @@ public:
 
 	Spammer::Spammer(Point Location);
 
-	void attack(Character *Target) override;
+	void attack(float currentTime, Character *Target) override;
 	
 	void damage(short amount, Character *Attacker) override;
 
@@ -20,7 +20,7 @@ public:
 
 	void kill(Character *Killer) override;
 	
-	void update(std::vector<Character*> Defenders) override;
+	void update(float currentTime, std::vector<Character*> Defenders) override;
 
 private:
 	static unsigned short count;

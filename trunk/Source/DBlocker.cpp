@@ -26,9 +26,9 @@ DBlocker::~DBlocker(void)
 {
 }
 
-void DBlocker::attack(Character *Target)
+void DBlocker::attack(float currentTime, Character *Target)
 {
-	Character::attack(Target);
+	Character::attack(currentTime, Target);
 }
 
 void DBlocker::damage(short amount, Character *Attacker)
@@ -50,10 +50,10 @@ void DBlocker::kill(Character *Killer)
 	Character::kill(Killer);
 }
 
-void DBlocker::update(std::vector<Character*> Defenders)
+void DBlocker::update(float currentTime, std::vector<Character*> Defenders)
 {
 	if (!isExample)
-		Character::update(Defenders);
+		Character::update(currentTime, Defenders);
 	else
 		updateCost(count);
 }
