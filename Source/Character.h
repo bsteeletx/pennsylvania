@@ -64,7 +64,7 @@ protected:
 
 	bool hasRangedWeapon;
 	unsigned short healthDrainAmount;
-	unsigned short healthDrainRate;
+	float healthDrainRate;
 	short hitPoints;
 
 	unsigned short idleFrameMin, idleFrameMax;
