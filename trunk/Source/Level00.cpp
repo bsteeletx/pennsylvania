@@ -320,6 +320,7 @@ void Level00::doPrompts(unsigned int creatureID)
 	{
 		getPrompt();
 		setPrompt();
+		bugDeath = true;
 	}
 }
 
