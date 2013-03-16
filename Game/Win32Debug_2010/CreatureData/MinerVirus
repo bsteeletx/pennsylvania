@@ -4,7 +4,7 @@ Count:30
 ParentImage:Assets/Creatures/Creatures.png
 PathFile:MinerVirus.png
 Size:10.0
-HP:10
+HP:12
 Speed:0.0
 PlaySpeed:10.0
 Attack:1
@@ -19,4 +19,4 @@ AttackFramesSpeed:10.0
 Death:29, 30
 DeathSpeed:10.0
 HealthDrainAmount:1
-HealthDrainRate:10.0f
+HealthDrainRate:5.03f
