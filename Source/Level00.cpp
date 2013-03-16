@@ -169,7 +169,16 @@ void Level00::update(void)
 	if (isPaused)
 	{
 		if (!Highlighter.getVisible())
-			Level::update();
+		{
+			if ((agk::GetPointerReleased() == 1) && bugDeath)
+			{
+				Prompt.setVisible(false);
+				PromptBackground.setVisible(false);
+				togglePause();
+			}
+			else 
+				Level::update();
+		}
 		else if ((agk::GetPointerReleased() == 1) && !shownCreature[THIEF_VIRUS])
 		{
 			Point MouseLoc = Point(agk::GetPointerX(), agk::GetPointerY());
@@ -360,6 +369,18 @@ bool Level00::checkForKilling(Creature Type)
 			if (Defenders[i]->getCreatureType() == Type)
 			{
 				if (Defenders[i]->getColorAlpha() < 5)
+					return true;
+			}
+		}
+	}
+
+	for (unsigned int j = 0; j < Attackers.size(); j++)
+	{
+		if (Attackers[j]->getState() == FADEOUT)
+		{
+			if (Attackers[j]->getCreatureType() == Type)
+			{
+				if (Attackers[j]->getColorAlpha() < 5)
 					return true;
 			}
 		}
