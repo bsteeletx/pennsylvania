@@ -331,6 +331,8 @@ void Level00::updateAttackers(void)
 	{
 		if (Attackers[i]->isExample)
 		{
+			if (Attackers[i]->getState() == SELECTED)
+				continue;
 			//Specific code for the 'Choose attacker' Menu
 			for (unsigned int j = 0; j < currencyForUnlock.size(); j++)
 			{
