@@ -373,13 +373,36 @@ bool Level::getOKLocation(Point Location)
 		else if (!getFog(Location))
 			valid = true;
 	}
-	else if (gridY < 0)
+	
+	if (gridY < 0)
 	{
 		if (gridX >= 0)
 		{
-			//Check to see if player is selecting a creature to spawn
-			if (gridX <= AttackerInitList.size() - 1)
-				valid = true;
+			//check to see if there has already been a creature selected
+			if (Selected == NULL)
+			{
+				//Check to see if player is selecting a creature to spawn
+				if (gridX <= AttackerInitList.size() - 1)
+					valid = true;
+			}
+			else
+				return false;
+		}
+		else
+			return false;
+	}
+
+	if (Selected != NULL)
+	{
+		for (unsigned int i = 0; i < Attackers.size(); i++)
+		{
+			if (Attackers[i]->getCreatureType() == MINER_VIRUS)
+			{
+				if (Attackers[i]->getState() == SELECTED)
+					continue;
+				if (Attackers[i]->getPosition().getGridCoords() == Location)
+					return false;
+			}
 		}
 	}
 
@@ -661,13 +684,16 @@ void Level::updateAttackers(float currentTime)
 		//Ensure Example Attackers stay in pose
 		if (Attackers[i]->isExample)
 		{
-			if (Attackers[i]->getColorBlue() != 0)
+			if (Attackers[i]->getState() != SELECTED)
 			{
-				if (Attackers[i]->getCost() > currencyAmount)
-					Attackers[i]->setState(MENU_TOOMUCH);
-				else
-					Attackers[i]->setState(MENU_AVAILABLE);
-				continue;
+				if (Attackers[i]->getColorBlue() != 0)
+				{
+					if (Attackers[i]->getCost() > currencyAmount)
+						Attackers[i]->setState(MENU_TOOMUCH);
+					else
+						Attackers[i]->setState(MENU_AVAILABLE);
+					continue;
+				}
 			}
 		}
 
