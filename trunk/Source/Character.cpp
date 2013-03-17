@@ -42,6 +42,7 @@ Character::Character(Text FilenamePath)
 	costPower = 0;
 	healthDrainAmount = 0;
 	healthDrainRate = 0;
+	shield = shieldMax = 0;
 
 	init();
 }
@@ -122,7 +123,18 @@ void Character::minerAttack(float currentTime)
 ///////////////////////////////////////
 void Character::damage(short amount, Character *Attacker)
 {
-	hitPoints -= amount;
+	if (shield != 0)
+	{
+		if (amount <= shield)
+			shield -= amount;
+		else
+		{
+			hitPoints -= (amount - shield);
+			shield = 0;
+		}
+	}
+	else
+		hitPoints -= amount;
 
 	if (hitPoints <= 0)
 		kill(Attacker);
@@ -236,6 +248,8 @@ void Character::init(void)
 			healthDrainAmount = agk::Val(End.getCString());
 		else if (Start == Text("HealthDrainRate"))
 			healthDrainRate = agk::ValFloat(End.getCString());
+		else if (Start == Text("Shield"))
+			shieldMax = shield = agk::Val(End.getCString());
 		else
 		{
 			//Setting up Animation Frame Values
