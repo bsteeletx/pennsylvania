@@ -303,7 +303,7 @@ void Level00::doPrompts(unsigned int creatureID)
 			}
 		}
 	}
-	else if (AlarmSystem.getActivated() && !shownCreature[DBLOCKER])
+	/*else if (AlarmSystem.getActivated() && !shownCreature[DBLOCKER])
 	{
 		for (unsigned int i = 0; i < Attackers.size(); i++)
 		{
@@ -315,7 +315,7 @@ void Level00::doPrompts(unsigned int creatureID)
 				return;
 			}
 		}
-	}
+	}*/
 	else if (!bugDeath && checkForKilling(BUG_VIRUS))
 	{
 		getPrompt();

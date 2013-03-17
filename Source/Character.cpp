@@ -125,11 +125,7 @@ void Character::damage(short amount, Character *Attacker)
 	hitPoints -= amount;
 
 	if (hitPoints <= 0)
-	{
 		kill(Attacker);
-		if (Attacker != this) //done for MinerVirus which kills itself
-			Attacker->setState(MOVING);
-	}
 }
 
 /////////////////////////////////////////
@@ -346,6 +342,14 @@ void Character::kill(Character *Killer)
 
 	if ((getState() != DEATH) && (getState() != FADEOUT))
 		setState(DEATH);
+
+	//MinerVirus kills itself, and Thief kills itself
+	if (Killer != this) 
+	{
+		if (Killer->Type != THIEF_VIRUS)
+			Killer->setState(MOVING);
+	}
+
 }
 
 ////////////////////////////////////////////
@@ -470,7 +474,13 @@ void Character::update(float currentTime, std::vector<Character*> Defenders)
 					}
 				}
 				else
-					setState(MOVING);
+				{
+					if (getState() == ATTACKING)
+					{
+						if (getCurrentFrame() == attackFrameMax)
+							setState(MOVING);
+					}
+				}
 			}
 			//Following section is for ranged attacks
 			else
@@ -575,6 +585,13 @@ void Character::setState(CharacterState State)
 
 	if (CurrentState == State)
 		return;
+
+	/*if (CurrentState == DEATH)
+	{
+		if (State < CurrentState)
+			return;
+	}*/
+
 
 	CurrentState = State;
 

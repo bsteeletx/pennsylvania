@@ -14,10 +14,9 @@ Creature Location:2 3
 Creature Location:2 4
 Hidden Defenders:6, 7, 8, 9, 10, 11
 Unhide Defenders:Data:12
-Highest Attacker Type:5
+Highest Attacker Type:4
 Starting Data:10
 Data Required for Unlock:9
 Unlocked Attacker:2
 Unlocked Attacker:3
-Unlocked Attacker:4
 Reward:Creature:5
