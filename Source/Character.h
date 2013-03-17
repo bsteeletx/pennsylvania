@@ -77,6 +77,9 @@ protected:
 	
 	float oldY;
 	
+	unsigned short shieldMax;
+	unsigned short shield;
+
 	float timeFromLastAttack;
 	
 	Character *CurrentTarget;
