@@ -436,17 +436,25 @@ void Character::update(float currentTime, std::vector<Character*> Defenders)
 			{
 				if (collidedWith(Defenders[j]->getSpriteNumber()))
 				{	//can't move, attacking	
+					
+					//check to see if they are in the same collision group
 					bool actualCollision = (getCollisionGroup() == Defenders[j]->getCollisionGroup());
 
-					//special Thief section as it can collide with multiple groups
-					if (!actualCollision && getCreatureType() == THIEF_VIRUS)
-						actualCollision = true;
+					if (getY() == Defenders[j]->getY())
+					{
 
-					//If this character is dead, don't worry about collisions, he has bigger issues to deal with
-					if (getState() == DEATH)
-						actualCollision = false;
-					//Same thing for if the Defender is dead
-					else if (Defenders[j]->getState() == DEATH)
+						//special Thief section as it can collide with multiple groups
+						if (!actualCollision && getCreatureType() == THIEF_VIRUS)
+							actualCollision = true;
+
+						//If this character is dead, don't worry about collisions, he has bigger issues to deal with
+						if (getState() == DEATH)
+							actualCollision = false;
+						//Same thing for if the Defender is dead
+						else if (Defenders[j]->getState() == DEATH)
+							actualCollision = false;
+					}
+					else
 						actualCollision = false;
 
 					if (actualCollision)
