@@ -413,7 +413,7 @@ void Character::update(float currentTime, std::vector<Character*> Defenders)
 	if (getCreatureType() == MINER_VIRUS)
 		attack(currentTime, NULL);
 
-	if (getState() == FADEOUT)
+	if (CurrentState == FADEOUT)
 	{
 		short alpha = getColorAlpha() - 5;
 				
@@ -424,6 +424,8 @@ void Character::update(float currentTime, std::vector<Character*> Defenders)
 
 		return;
 	}
+	else if (CurrentState == DEATH)
+		return;
 
 	for (unsigned int j = 0; j < Defenders.size(); j++)
 	{
@@ -467,6 +469,8 @@ void Character::update(float currentTime, std::vector<Character*> Defenders)
 						}
 					}
 				}
+				else
+					setState(MOVING);
 			}
 			//Following section is for ranged attacks
 			else
@@ -616,7 +620,7 @@ void Character::setState(CharacterState State)
 		min = idleFrameMin;
 		max = this->idleFrameMax;
 		//As long as the attacker is not a MINER_VIRUS, set its group to MORTALS
-		if (getCreatureType() != MINER_VIRUS)
+		if ((Type != MINER_VIRUS) && (Type != INFORMATION_NODE))
 			setCollisionGroup((int)(MORTALS));
 		else
 			setCollisionGroup((int) GODS);
@@ -638,6 +642,7 @@ void Character::setState(CharacterState State)
 		loop = false;
 		min = deathFrameMin;
 		max = deathFrameMax;
+		setCollisionGroup((int) GODS);
 		break;
 	case FADEOUT:
 		setCollisionGroup((int) GODS);
