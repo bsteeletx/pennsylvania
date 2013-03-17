@@ -17,6 +17,7 @@ BugVirus::BugVirus(Point GridLocation)
 {
 	setPosition(GridLocation.getNormalCoords());
 	Type = BUG_VIRUS;
+	setCollisionGroup((int) MORTALS);
 
 	if (count == 0)
 		isExample = true;
