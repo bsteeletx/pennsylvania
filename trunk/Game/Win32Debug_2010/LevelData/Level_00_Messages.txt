@@ -5,4 +5,4 @@
 4:Those are Norts. Thier sole purpose is to protect thier system. In order to get past them, we're going to need some kind of offense. Before that though, we'll need a faster stream of data. Place another Miner.(Click to continue)
 5:This little guy is the Bug. He's our grunt and will march into the system and snack on those defenders. These can also go in the Neutral Zone.(Click to continue)
 6:
-7:In most cases a single Bug wont do the job, try placing multiple Bugs in a single row.   
+7:In most cases a single Bug wont do the job, try placing multiple Bugs in a single row. In order to pick up the pace of attack you may want to deploy one more Miner, just keep in mind for every Miner on the field the price of the next is doubled. (Click to continue) 
