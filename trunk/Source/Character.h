@@ -26,6 +26,7 @@ public:
 	bool getIsFinishedDying(void);
 	bool getIsDefender(void);	
 	Character *getKilledBy(void);
+	unsigned short getMenuSize(void);
 	float getMoveSpeed(void);
 	CharacterState getState(void);
 
@@ -71,6 +72,7 @@ protected:
 	float idleFrameSpeed;
 
 	unsigned short maxHitPoints;
+	unsigned short menuSize;
 	unsigned short moveFrameMin, moveFrameMax;
 	float moveFrameSpeed;
 	float moveSpeed;

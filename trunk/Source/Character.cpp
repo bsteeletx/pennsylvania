@@ -175,6 +175,16 @@ Creature Character::getCreatureType(void)
 	return Type;
 }
 
+//////////////////////////////////////////////
+// Get Menu Size
+// Input: None
+// Output: returns menu size
+////////////////////////////////////////
+unsigned short Character::getMenuSize(void)
+{
+	return menuSize;
+}
+
 //////////////////////////////////////////
 // Get Character's Move Speed
 // Input: None
@@ -250,6 +260,8 @@ void Character::init(void)
 			healthDrainRate = agk::ValFloat(End.getCString());
 		else if (Start == Text("Shield"))
 			shieldMax = shield = agk::Val(End.getCString());
+		else if (Start == Text("MenuSize"))
+			menuSize = agk::Val(End.getCString());
 		else
 		{
 			//Setting up Animation Frame Values

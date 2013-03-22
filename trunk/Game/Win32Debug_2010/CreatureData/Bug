@@ -18,3 +18,4 @@ AttackFrames:1, 1
 AttackFramesSpeed:10.0
 Death:1, 1
 DeathSpeed:10.0
+MenuSize:70
