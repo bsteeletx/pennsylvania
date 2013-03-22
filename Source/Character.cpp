@@ -532,7 +532,10 @@ void Character::update(float currentTime, std::vector<Character*> Defenders)
 			if (!this->getIsDefender())
 				moveX(-getMoveSpeed()/100.0f);
 			else
-				moveX(getMoveSpeed()/100.0f);
+			{
+				if (getPosition().getGridCoords().getX() < 5.0f)
+					moveX(getMoveSpeed()/100.0f);
+			}
 		}
 	}
 }
