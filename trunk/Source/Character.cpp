@@ -459,7 +459,10 @@ void Character::update(float currentTime, std::vector<Character*> Defenders)
 
 	for (unsigned int j = 0; j < Defenders.size(); j++)
 	{
-		bool moved = false;
+		//check to make sure we're looking at the same aisle
+		if (Defenders[j]->getPosition().getGridCoords().getY() != getPosition().getGridCoords().getY())
+			continue;
+
 		//Check each of the Defenders, as long as they aren't already dead
 		if (Defenders[j]->getState() != DEATH)
 		{
@@ -500,7 +503,7 @@ void Character::update(float currentTime, std::vector<Character*> Defenders)
 					}
 				}
 				else
-				{
+				{//no longer colliding
 					if (getState() == ATTACKING)
 					{
 						if (getCurrentFrame() == attackFrameMax)
@@ -514,28 +517,22 @@ void Character::update(float currentTime, std::vector<Character*> Defenders)
 				//Make sure they are in the same group
 				if (getCollisionGroup() == Defenders[j]->getCollisionGroup())
 				{
-					//Make sure they are on the same row
-					if (getY() == Defenders[j]->getY())
-					{
-						setState(ATTACKING);
-						attack(currentTime, Defenders[j]);
-					}
+					setState(ATTACKING);
+					attack(currentTime, Defenders[j]);
 				}
 			}
-			
-			if (getState() != ATTACKING)
-			{//not attacking, move
-				if (!moved)
-				{
-					//Dividing Move Speed by 1000 to make it easier for designers to tweak things
-					if (getMoveSpeed() > 0.0f)
-					{
-						if (!this->getIsDefender())
-							moveX(-getMoveSpeed()/1000.0f);
-						moved = true;
-					}
-				}
-			}
+		}
+	}
+
+	if (getState() != ATTACKING)
+	{//not attacking, move
+		//Dividing Move Speed by 1000 to make it easier for designers to tweak things
+		if (getMoveSpeed() > 0.0f)
+		{
+			if (!this->getIsDefender())
+				moveX(-getMoveSpeed()/1000.0f);
+			else
+				moveX(getMoveSpeed()/1000.0f);
 		}
 	}
 }
