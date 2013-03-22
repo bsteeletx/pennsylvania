@@ -530,9 +530,9 @@ void Character::update(float currentTime, std::vector<Character*> Defenders)
 		if (getMoveSpeed() > 0.0f)
 		{
 			if (!this->getIsDefender())
-				moveX(-getMoveSpeed()/1000.0f);
+				moveX(-getMoveSpeed()/100.0f);
 			else
-				moveX(getMoveSpeed()/1000.0f);
+				moveX(getMoveSpeed()/100.0f);
 		}
 	}
 }
