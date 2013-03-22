@@ -386,7 +386,7 @@ bool Level::getOKLocation(Point Location)
 	
 	//Check for Fog
 	//Limiting locations currently to the far right 3 columns, this isn't a game design mention, just following I, Zombie
-	if (gridX >= 5)
+	if (gridX >= 7)
 	{
 		if (!fogEnabled)
 			valid = true;
