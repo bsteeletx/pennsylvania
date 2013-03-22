@@ -35,7 +35,10 @@ void app::Begin( void )
     agk::SetOrientationAllowed(0, 0, 1, 1);
 
 	//set the border color, if displayed
-	agk::SetBorderColor(0, 128, 0);
+	agk::SetBorderColor(41, 56, 63);
+
+	//set the background color
+	agk::SetClearColor(41, 56, 63);
 
 	//set the sync rate to 60 for loading purposes
 	agk::SetSyncRate(60, 0);
@@ -44,7 +47,7 @@ void app::Begin( void )
     agk::SetTransitionMode(1);
 
 	//set the default font
-	agk::SetTextDefaultFontImage(agk::LoadImage("Arial.png"));
+	agk::SetTextDefaultFontImage(Image(Text("Assets/Common/Default.png", false), false).getID());
 
 	//Forgot what this means
     agk::SetResolutionMode(1);

@@ -158,6 +158,7 @@ void Level::init(void)
 #endif
 
 	displayCurrency();
+	initCreatureCosts();
 	
 	//Null out the Selected Creature
 	Selected = (Creature) NULL;
@@ -168,6 +169,22 @@ void Level::init(void)
 	CreatureFrame.setVisible(false);
 	
 	Song.setSystemVolume(100);
+}
+
+///////////////////////////////////
+// Init Creature Costs
+// Input: none
+// Output: Texts are initialized and ready to be displayed for creature costs
+///////////////////////////////////
+void Level::initCreatureCosts(void)
+{
+	for (unsigned int i = 0; i < Attackers.size(); i++)
+	{
+		CreatureCosts[i] = Text(agk::Str(Attackers[i]->getCost()), true);
+		CreatureCosts[i].setPosition(Point((float) (115 + (100*i))/10.24f, (float) 44/7.68f));
+		CreatureCosts[i].setAlignment(CreatureCosts[i].CENTER);
+		CreatureCosts[i].setVisible(false);
+	}
 }
 
 void Level::displayCurrency(void)
@@ -202,11 +219,13 @@ void Level::setAttackerMenu(void)
 		//Add creature normally
 		addCreatureType(AttackerInitList[i], AssignedLocation);
 		//subtrack 15 from the y to place the creature in the selection area as opposed to the game board
+		Attackers.back()->setSize((float) Attackers.back()->getMenuSize()/10.24f); //1024 / 100 to get %
 		NormalCoords.setY(NormalCoords.getY() - 15.0f);
 		Attackers.back()->setY(NormalCoords.getY());
 		Attackers.back()->isExample = true;
 		//Alpha out the creature a bit and set in the pose state
 		//Attackers.back()->setColorAlpha(128);
+		creatureCost[i] = Attackers.back()->getCost();
 		Attackers.back()->setState(MENU_HIDDEN); 
 	}
 }
@@ -271,7 +290,8 @@ void Level::addBackground(Text PathFilename)
 {
 	Background = Sprite(PathFilename, false);
 	addSprite(Background.getSpriteNumber());
-	Background.setSize(100.0f);
+	Background.setPosition(Point(6.25f, 18.619792f));
+	Background.setSize(87.633885f);
 	Background.setDepth(10000);
 	Background.setVisible(true);
 }
@@ -468,6 +488,8 @@ void Level::handleUI(void)
 	
 	//Display Currency
 	CurrencyValue.setString(agk::Str(currencyAmount));
+
+	//Display costs for creatures
 }
 
 ///////////////////////////////
@@ -554,6 +576,10 @@ void Level::showCreature(Character *Example)
 	ExampleChar->setPositionByOffset(50.0f, 50.0f);
 	originalSize = ExampleChar->getWidth();
 	ExampleChar->setSize(33.0f);
+
+	//if (!ExampleChar->getIsDefender())
+	//	menuSize = (float) ExampleChar->getMenuSize()/10.24f; //1024 divided by 100
+
 	originalDepth = ExampleChar->getDepth();
 	ExampleChar->setDepth(1);
 
@@ -572,6 +598,9 @@ void Level::sizeDownCreature(void)
 	Prompt.setVisible(false);
 
 	float sizeChange = (33.0f - originalSize)/23.0f;
+
+	//if (!ExampleChar->getIsDefender())
+	//	sizeChange = (33.0f - menuSize)/23.0f; 
 
 	for (int i = 0; i < 24; i++)
 	{
@@ -597,7 +626,10 @@ void Level::sizeDownCreature(void)
 	ExampleChar->setDepth(originalDepth);
 
 	if (ExampleChar->isExample)
+	{
 		ExampleChar->setState(MENU_AVAILABLE);
+		CreatureCosts[(int) ExampleChar->getPosition().getGridCoords().getX()].setVisible(true);
+	}
 
 	togglePause();
 }
@@ -703,6 +735,9 @@ void Level::updateAttackers(float currentTime)
 			if (Attackers[i]->didAttackThisTurn())
 				currencyAmount += Attackers[i]->getAttackAmount();
 		}
+
+		//update cost
+		creatureCost[i] = Attackers[i]->getCost();
 	}
 }
 

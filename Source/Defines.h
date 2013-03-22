@@ -81,6 +81,9 @@ enum CollisionGroup
 	#define SPOT_WIDTH 10.0f
 	#define SPOT_HEIGHT 12.5f
 	#define SPOT_BORDER 0.0f
+	#define MENU_WIDTH 70/10.24f
+	#define MENU_HEIGHT 54/7.68f
+	#define MENU_BORDER_WIDTH 100/10.24f
 #endif
 /////////////////Facebook download states
 enum DownloadState

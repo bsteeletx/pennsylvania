@@ -29,6 +29,7 @@ public:
 	void handleUI(void);
 
 	virtual void init(void);
+	void initCreatureCosts(void);
 	
 	void setFrameVisible(bool visible);
 	void setPrompt(void);
@@ -65,11 +66,14 @@ private:
 	std::vector<unsigned int> imageStack;
 	std::vector<unsigned int> spriteStack;
 	
+	unsigned short creatureCost[9];
+
 	bool fogEnabled;
 
 	unsigned short levelID;
 
 	unsigned short messageCounter;
+	float menuSize;
 
 	unsigned short originalDepth;
 	float originalSize;
@@ -77,6 +81,7 @@ private:
 	Character *ExampleChar;
 
 	Point CreatureLoc;
+	Text CreatureCosts[9];
 
 	Text CurrencyTitle;
 	Text CurrencyValue;
