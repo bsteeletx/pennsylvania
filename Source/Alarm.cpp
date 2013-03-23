@@ -15,10 +15,9 @@ Alarm::~Alarm(void)
 
 Alarm::Alarm(unsigned short alarmTime)
 {
-	VisualAlert = Sprite();
+	VisualAlert = Sprite(RGBA(255, 0, 0, 128));
 	AudioAlert = Sound(Text("Assets/Sounds/gqold.wav"));
 	VisualAlert.setSize(100.0f);
-	VisualAlert.setColor(RGBA(255, 0, 0, 128));
 	VisualAlert.setVisible(false);
 	VisualAlert.setDepth(1);
 	lengthOfTime = alarmTime;
