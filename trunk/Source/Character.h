@@ -32,6 +32,7 @@ public:
 	CharacterState getState(void);
 
 	virtual void incrementCount(void) {};
+	virtual void incrementTime(float currentTime) {};
 	void init(void);
 	
 	virtual void kill(Character *Killer);	

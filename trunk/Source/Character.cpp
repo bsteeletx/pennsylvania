@@ -555,7 +555,7 @@ void Character::update(float currentTime, std::vector<Character*> Defenders)
 void Character::updateCost(unsigned short creatureCount)
 {
 	unsigned short factor = 0;
-	unsigned short power = 0;
+	float power = 0;
 
 	if (creatureCount == 0)
 		return;
@@ -573,9 +573,9 @@ void Character::updateCost(unsigned short creatureCount)
 		power = 0;
 
 	if (costIncrease != 0)
-		costCurrent = power + (creatureCount*costIncrease);
+		costCurrent =  (unsigned short) (power + (creatureCount*costIncrease));
 	else if (power != 0)
-		costCurrent = power * cost;
+		costCurrent = (unsigned short) (power * cost);
 	else
 		costCurrent = cost;
 }

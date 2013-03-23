@@ -38,6 +38,7 @@ MinerVirus::MinerVirus(Point GridLocation)
 	
 	lastDrainTime = 0.0f;
 	blinkTime = 0.0f;
+	difference = 0.0f;
 }
 
 /////////////////////////////////
@@ -136,6 +137,15 @@ void MinerVirus::drainHealth(void)
 {
 	float healthPercent = (float)hitPoints/(float)maxHitPoints;
 	
+	if (getState() == SELECTED)
+		return;
+
+	if (difference != 0.0f)
+	{
+		lastDrainTime += difference;
+		difference = 0.0f;
+	}
+
 	if (lastDrainTime == 0.0f)
 		lastDrainTime = time;
 	else if (time - lastDrainTime > healthDrainRate)
@@ -175,6 +185,17 @@ void MinerVirus::incrementCount(void)
 {
 	count++;
 	ID = count;
+}
+
+//////////////////
+// Increment Time
+// Input None
+// Output/Result Time is added to the self-damaging value. Used when game is paused
+//				Or when virus is selected
+
+void MinerVirus::incrementTime(float currentTime)
+{
+	difference = currentTime - time;
 }
 
 ////////////////////////////////////////////
