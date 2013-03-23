@@ -184,6 +184,7 @@ void MinerVirus::incrementCount(void)
 void MinerVirus::kill(Character *Killer)
 {
 	Character::kill(Killer);
+	count--;
 }
 
 void MinerVirus::toggleAlpha(void)

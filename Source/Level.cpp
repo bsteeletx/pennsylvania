@@ -749,6 +749,10 @@ void Level::updateAttackers(float currentTime)
 						Attackers[i]->setState(MENU_TOOMUCH);
 					else
 						Attackers[i]->setState(MENU_AVAILABLE);
+
+					//update cost
+					creatureCost[i] = Attackers[i]->getCost();
+					CreatureCosts[i].setString(agk::Str(creatureCost[i]));
 					continue;
 				}
 			}
@@ -760,10 +764,6 @@ void Level::updateAttackers(float currentTime)
 			if (Attackers[i]->didAttackThisTurn())
 				currencyAmount += Attackers[i]->getAttackAmount();
 		}
-
-		//update cost
-		creatureCost[i] = Attackers[i]->getCost();
-		CreatureCosts[i] = agk::Str(creatureCost[i]);
 	}
 }
 

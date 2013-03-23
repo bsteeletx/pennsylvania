@@ -575,7 +575,7 @@ void Character::updateCost(unsigned short creatureCount)
 	if (costIncrease != 0)
 		costCurrent = power + (creatureCount*costIncrease);
 	else if (power != 0)
-		costCurrent = power;
+		costCurrent = power * cost;
 	else
 		costCurrent = cost;
 }
