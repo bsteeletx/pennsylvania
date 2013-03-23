@@ -18,6 +18,7 @@ public:
 	void fireWeapon(void) override;
 
 	void incrementCount(void) override {};
+	void incrementTime(float currentTime) override {};
 
 	void kill(Character *Killer) override;
 	

@@ -679,6 +679,17 @@ void Level::update(void)
 		if (ExampleChar->getWidth() >= 30.0f)
 			sizeDownCreature();
 	}
+	else
+	{
+		for (unsigned int i = 0; i < Attackers.size(); i++)
+		{
+			if (!Attackers[i]->isExample)
+			{
+				if (Attackers[i]->getCreatureType() == MINER_VIRUS)
+					Attackers[i]->incrementTime(time);
+			}
+		}
+	}
 
 	if (!Song.getPlaying())
 		Song.play();

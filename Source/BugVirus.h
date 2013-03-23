@@ -15,6 +15,7 @@ public:
 	void damage(short amount, Character *Attacker) override;
 
 	void incrementCount(void) override;
+	void incrementTime(float currentTime) override {};
 
 	void fireWeapon(void) override;
 
