@@ -173,7 +173,7 @@ void app::loadLevel(unsigned short level)
 		//For this section we are only worried about attakers (for some reason that I can no longer remember)
 		//Push the attackers onto the attackerCount vector
 		if (Category == Text("Unlocked Attacker"))
-			attackerCount.push_back((Creature) value);
+			attackerCount.push_back(CurrentLevel->getCreatureTypeFromString(Value));
 	}
 
 	//Copy level to the global, CurrentLevel

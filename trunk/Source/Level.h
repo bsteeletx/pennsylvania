@@ -21,6 +21,7 @@ public:
 		
 	virtual void deleteLevel(void);
 	
+	Creature getCreatureTypeFromString(Text CreatureString);
 	virtual bool getFog(Point GridLocation) = 0;
 	bool getPaused(void);
 	void getPrompt(void);

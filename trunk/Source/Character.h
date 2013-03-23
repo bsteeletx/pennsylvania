@@ -15,6 +15,7 @@ public:
 	virtual void attack(float currentTime, Character *Target);
 
 	virtual void damage(short amount, Character *Attacker);
+	void destroy(void);
 	bool didAttackThisTurn(void);
 
 	virtual void fireWeapon(void);

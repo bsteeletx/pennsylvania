@@ -1,12 +1,12 @@
 Background Image:Assets/Levels/Level 00/Level0 walls.jpg
-Creature Type:0
+Creature Type:INFORMATION_NODE
 Creature Location:0 0
 Creature Location:0 1
 Creature Location:0 2
 Creature Location:0 3
 Creature Location:0 4
 Creature Location:5 2
-Creature Type:6
+Creature Type:NORT
 Creature Location:2 0
 Creature Location:2 1
 Creature Location:2 2
@@ -14,9 +14,9 @@ Creature Location:2 3
 Creature Location:2 4
 Hidden Defenders:6, 7, 8, 9, 10, 11
 Unhide Defenders:Data:12
-Highest Attacker Type:4
+Highest Attacker Type:BUG_VIRUS
 Starting Data:10
 Data Required for Unlock:9
-Unlocked Attacker:2
-Unlocked Attacker:3
-Reward:Creature:5
+Unlocked Attacker:THIEF_VIRUS
+Unlocked Attacker:BUG_VIRUS
+Reward:Creature:SPAMMER

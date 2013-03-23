@@ -43,6 +43,7 @@ enum GameStates
 ///////////////////CREATURE TYPES
 enum Creature
 {
+	NO_CREATURE,
 	INFORMATION_NODE,
 	MINER_VIRUS,
 	THIEF_VIRUS,

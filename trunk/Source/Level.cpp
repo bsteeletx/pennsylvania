@@ -79,7 +79,7 @@ Level& Level::operator= (const Level &NewLevel)
 void Level::init(void)
 {
 	//Local Vars
-	Creature Type = (Creature) 0;
+	Creature Type = NO_CREATURE;
 	Point Location = Point();
 	Image Texture[3] = {NULL, NULL, NULL};
 	Prompt = Text("", true);
@@ -112,6 +112,8 @@ void Level::init(void)
 			Location.setY((float) Value.getChar(2) - 48);
 			addCreatureType(Type, Location);
 		}
+		else if (Category == Text("Creature Type", false))
+			Type = getCreatureTypeFromString(Text(Value));
 		else if (Category == Text("Reward", false))
 		{
 			Text NewCategory = Text();
@@ -131,9 +133,7 @@ void Level::init(void)
 			//Load initial defenders offscreen, then clone and place them in the 
 			//correct location
 			//NOTE (1/1/13): We may just load all creatures ahead of time, making part of this unnecessary
-			if (Category == Text("Creature Type", false))
-				Type = (Creature) value;
-			else if (Category == Text("Starting Data", false))
+			if (Category == Text("Starting Data", false))
 				currencyAmount = value;
 			else if (Category == Text("Fog", false))
 			{
@@ -229,6 +229,31 @@ void Level::setAttackerMenu(void)
 		creatureCost[i] = Attackers.back()->getCost();
 		Attackers.back()->setState(MENU_HIDDEN); 
 	}
+}
+
+///////////////////////////////
+// Get Creature Type from String
+// Input: Text Object that has creature's name in it
+// Output: returns creature enum value associated with the text
+///////////////////////////////
+Creature Level::getCreatureTypeFromString(Text CreatureString)
+{
+	if (CreatureString == Text("INFORMATION_NODE"))
+		return INFORMATION_NODE;
+	else if (CreatureString == Text("MINER_VIRUS"))
+		return MINER_VIRUS;
+	else if (CreatureString == Text("THIEF_VIRUS"))
+		return THIEF_VIRUS;
+	else if (CreatureString == Text("BUG_VIRUS"))
+		return BUG_VIRUS;
+	else if (CreatureString == Text("DBLOCKER"))
+		return DBLOCKER;
+	else if (CreatureString == Text("SPAMMER"))
+		return SPAMMER;
+	else if (CreatureString == Text("NORT"))
+		return NORT;
+	else
+		return NO_CREATURE;
 }
 
 ///////////////////////////////
@@ -399,30 +424,25 @@ bool Level::getOKLocation(Point Location)
 	{
 		if (gridX >= 0)
 		{
-			//check to see if there has already been a creature selected
-			if (Selected == NULL)
-			{
-				//Check to see if player is selecting a creature to spawn
-				if (gridX <= AttackerInitList.size() - 1)
-					valid = true;
-			}
-			else
-				return false;
+			//Check to see if player is selecting a creature to spawn
+			if (gridX <= AttackerInitList.size() - 1)
+				valid = true;
 		}
 		else
 			return false;
 	}
 
-	if (Selected != NULL)
+	if (Selected == MINER_VIRUS)
 	{
 		for (unsigned int i = 0; i < Attackers.size(); i++)
 		{
 			if (Attackers[i]->getCreatureType() == MINER_VIRUS)
-			{
+			{//checking to make sure you cannot place a miner virus on top of another miner virus
+				//skipping the actual selected miner virus
 				if (Attackers[i]->getState() == SELECTED)
 					continue;
 				if (Attackers[i]->getPosition().getGridCoords() == Location)
-					return false;
+					return false; //disallow placement on another miner virus
 			}
 		}
 	}
@@ -467,7 +487,7 @@ void Level::handleUI(void)
 				selectCreature(gridX);
 				
 			//if a creature is already selected
-			else if (Selected != NULL)
+			else if (Selected != NO_CREATURE)
 			{
 				//subtract the cost of the attacker
 				currencyAmount -= Attackers.back()->getCost();
@@ -530,12 +550,15 @@ void Level::getPrompt(void)
 
 void Level::selectCreature(unsigned short grid)
 {
-	//make sure the character is available, could check any color, not just blue
+	//make sure the character is available
 	if (Attackers[grid]->getState() == MENU_AVAILABLE)
 	{
 		//make sure the player has the currency to purchase it
 		if (Attackers[grid]->getCost() <= currencyAmount)
 		{
+			if (Selected != NO_CREATURE)
+				Attackers.back()->destroy();
+
 			Selected = Attackers[grid]->getCreatureType();
 			addCreatureType(Selected, Point(agk::GetPointerX(), agk::GetPointerY()));
 			Attackers.back()->isExample = true;
@@ -740,6 +763,7 @@ void Level::updateAttackers(float currentTime)
 
 		//update cost
 		creatureCost[i] = Attackers[i]->getCost();
+		CreatureCosts[i] = agk::Str(creatureCost[i]);
 	}
 }
 
@@ -753,8 +777,12 @@ void Level::creatureRemoval(void)
 {
 	for (unsigned int i = 0; i < Attackers.size(); i++)
 	{
+		float x = Attackers[i]->getX();
+		float y = Attackers[i]->getY();
 		//check to see if offscreen--remember that sprite is measured at top left, so it has to be a bit off screen
-		if (Attackers[i]->getX() < -10.0f)
+		if ((x < -10.0f) || (x > 110.0f))
+			Attackers.erase(Attackers.begin() + i--);
+		else if ((y < -10.0f) || (y > 110.0f))
 			Attackers.erase(Attackers.begin() + i--);
 	}
 
