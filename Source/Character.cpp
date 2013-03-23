@@ -140,6 +140,13 @@ void Character::damage(short amount, Character *Attacker)
 		kill(Attacker);
 }
 
+void Character::destroy(void)
+{
+	setX(200.0f);
+	setY(200.0f);
+	setState(FADEOUT);
+}
+
 /////////////////////////////////////////
 // Did the character attack this turn?
 // Input: None

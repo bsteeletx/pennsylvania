@@ -105,6 +105,8 @@ void Level00::init(void)
 			{
 			}
 		}
+		else if (Category == Text("Unlocked Attacker"))
+			unlockedAttacker.push_back(getCreatureTypeFromString(Value));
 		//This section sets up how creatures get unlocked for the player
 		else
 		{
@@ -114,8 +116,6 @@ void Level00::init(void)
 			//Check the category and apply the value to the correct variable
 			if (Category == Text("Data Required for Unlock"))
 				currencyForUnlock.push_back(value);
-			else if (Category == Text("Unlocked Attacker"))
-				unlockedAttacker.push_back((Creature) value);
 		}
 	}
 
