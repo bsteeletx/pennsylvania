@@ -427,6 +427,8 @@ bool Level::getOKLocation(Point Location)
 			//Check to see if player is selecting a creature to spawn
 			if (gridX <= AttackerInitList.size() - 1)
 				valid = true;
+			else
+				valid = false;
 		}
 		else
 			return false;
