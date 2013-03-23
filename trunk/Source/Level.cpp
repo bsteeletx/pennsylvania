@@ -61,6 +61,7 @@ Level& Level::operator= (const Level &NewLevel)
 	this->levelID = NewLevel.levelID;
 	this->Attackers = NewLevel.Attackers;
 	this->Defenders = NewLevel.Defenders;
+	this->Background = NewLevel.Background;
 	//this->objectStack = NewLevel.objectStack;
 	//this->imageStack = NewLevel.imageStack;
 	//this->spriteStack = NewLevel.spriteStack;
@@ -163,7 +164,7 @@ void Level::init(void)
 	//Null out the Selected Creature
 	Selected = (Creature) NULL;
 
-	CreatureFrame = Sprite(); //Need an actual frame here
+	CreatureFrame = Sprite(RGBA(0, 0, 0)); //Need an actual frame here
 	CreatureFrame.setPosition(Point(33.3f, 33.3f));
 	CreatureFrame.setSize(40.0f, 70.0f);
 	CreatureFrame.setVisible(false);
@@ -556,14 +557,15 @@ void Level::setPrompt(void)
 	if (!isPaused)
 		togglePause();
 
-	PromptBackground = Sprite();
-	PromptBackground.setColor(RGBA(0, 0, 255));
+	PromptBackground = Sprite(RGBA(0, 0, 255));
 	PromptBackground.setPosition(Point(25.0f, 80.0f));
 	PromptBackground.setSize(50.0f, 15.0f);
 
 	Prompt.setMaxWidth(50.0f);
+	Prompt.setSpacing(0.0f);
 	Prompt.setAlignment(Prompt.CENTER);
 	Prompt.setPosition(Point(50.0f, 80.0f));
+	Prompt.setSize(3.0f);
 	Prompt.setVisible(true);
 }
 
