@@ -83,6 +83,7 @@ protected:
 	unsigned short moveFrameMin, moveFrameMax;
 	float moveFrameSpeed;
 	float moveSpeed;
+	bool movingUp;
 	
 	Point OffsetAmounts[2];
 	float oldY;

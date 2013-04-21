@@ -326,6 +326,9 @@ void Character::init(void)
 	timeFromLastAttack = 0.0f;
 	//Set Character in Pose to start, wait for commands for update
 	setState(MENU_TOOMUCH);
+	
+	//all creatures are placed in the bottom location
+	movingUp = true;
 }
 
 /////////////////////////////////////
@@ -550,6 +553,31 @@ void Character::update(float currentTime, std::vector<Character*> Defenders)
 			{
 				if (getPosition().getGridCoords().getX() < 5.0f)
 					moveX(getMoveSpeed()/100.0f);
+			}
+
+			//if current x location = current grid x location, then we
+			//need to start moving up
+			if (movingUp)
+			{
+				if (getX() - getPosition().getGridCoords().getNormalCoords().getX() < 0.0f)
+				{
+					moveY(getMoveSpeed()/100.0f);
+					movingUp = false;
+				}
+				else
+					moveY(-getMoveSpeed()/100.0f);
+			}
+			//else if the current y location >= current grid y location + 5.0f
+			//then we need to start moving down
+			else
+			{
+				if (getX() - getPosition().getGridCoords().getNormalCoords().getX() >= 0.0f)
+				{
+					moveY(-getMoveSpeed()/100.0f);
+					movingUp = true;
+				}
+				else
+					moveY(getMoveSpeed()/100.0f);
 			}
 		}
 	}
