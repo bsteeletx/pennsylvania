@@ -23,6 +23,7 @@ public:
 	unsigned short getAttackAmount(void);	
 	unsigned short getCost(void);
 	Creature getCreatureType(void);
+	virtual unsigned short getCurrentCost(void);
 	Character *getCurrentTarget(void);
 	bool getIsFinishedDying(void);
 	bool getIsDefender(void);	

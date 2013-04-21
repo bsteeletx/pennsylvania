@@ -559,7 +559,7 @@ void Level::handleUI(void)
 			else if (Selected != NO_CREATURE)
 			{
 				//subtract the cost of the attacker
-				currencyAmount -= Attackers.back()->getCost();
+				currencyAmount -= Attackers.back()->getCurrentCost();
 				//reset selected to Null
 				Selected = (Creature) NULL;
 				//remove isExample flag
