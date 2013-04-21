@@ -35,6 +35,7 @@ private:
 
 	Alarm AlarmSystem;
 	Sprite Highlighter;
+	Sprite ZoneHighlighter;
 
 	bool checkForKilling(Creature Type);
 
