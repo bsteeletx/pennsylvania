@@ -129,13 +129,19 @@ void Level00::init(void)
 	Song = Music(Text("Assets/Sounds/Level 00.wav"));
 
 	Highlighter = Sprite(Text("Assets/Common/selector.png"), false);
-	Highlighter.setOffset(Selector.getWidth()/2, Selector.getHeight()/2);
+	//Highlighter.setOffset(Selector.getWidth()/2, Selector.getHeight()/2);
 	addSprite(Highlighter.getSpriteNumber());
 	Highlighter.setSize(SPOT_WIDTH, SPOT_HEIGHT);
-	Highlighter.setOffset(1.5f, 1.9f);
+	//Highlighter.setOffset(1.5f, 1.9f);
 	Highlighter.setVisible(false);
-	Highlighter.setPosition(Point(0.0f, 0.0f).getNormalCoords());
-	Highlighter.setY(Highlighter.getY() - 15.0f);
+	Highlighter.setPosition(Point(0.0f, -1.0f).getNormalCoords());
+	//Highlighter.setY(Highlighter.getY() - 15.0f);
+
+	ZoneHighlighter = Sprite(RGBA(0.0f, 0.0f, 128.0f, 128.0f));
+	addSprite(ZoneHighlighter.getSpriteNumber());
+	ZoneHighlighter.setSize(20.0f, 67.5f);
+	ZoneHighlighter.setVisible(false);
+	ZoneHighlighter.setPosition(Point(75.0f, 20.0f));
 }
 
 /////////////////////////////////
@@ -204,6 +210,11 @@ void Level00::update(void)
 			//TODO: End Level to next level...how?
 		}
 		return;
+	}
+	else if (ZoneHighlighter.getVisible())
+	{
+		if (Attackers.back()->getState() != SELECTED)
+			ZoneHighlighter.setVisible(false);
 	}
 
 	doPrompts();
@@ -274,11 +285,18 @@ void Level00::doPrompts(unsigned int creatureID)
 			setPrompt();
 			Highlighter.setVisible(true);
 			Attackers[0]->setState(MENU_AVAILABLE);
+			ZoneHighlighter.setVisible(true);
 			return;
 		}
 	}
 	else if (creatureID != 0)
 	{
+		if (creatureID == 1) //the thief
+		{
+			ZoneHighlighter.setSize(10.0f, 67.5f);
+			ZoneHighlighter.setPosition(Point(65.0f, 20.0f));
+			ZoneHighlighter.setVisible(true);
+		}
 		Attackers[creatureID]->setVisible(true);
 		showCreature(Attackers[creatureID]);
 		shownCreature[Attackers[creatureID]->getCreatureType()] = true;
@@ -292,6 +310,12 @@ void Level00::doPrompts(unsigned int creatureID)
 			{
 				showCreature(Defenders[i]);
 				shownCreature[NORT] = true;
+				if (!ZoneHighlighter.getVisible())
+				{
+					ZoneHighlighter.setSize(60.0f, 67.5f);
+					ZoneHighlighter.setPosition(Point(5.0f, 20.0f));
+					ZoneHighlighter.setVisible(true);
+				}
 				return;
 			}
 		}
