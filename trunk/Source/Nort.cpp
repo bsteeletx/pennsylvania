@@ -30,6 +30,10 @@ Nort::Nort(Point GridLocation)
 	isExample = false;
 	setCollisionGroup((int) MORTALS);
 	hasRangedWeapon = true;
+
+	OffsetAmounts[MENU_BAR] = Point(getWidth()/4.0f, getHeight()/4.0f);
+	OffsetAmounts[IN_GAME] = Point(getWidth()/4.0f, getHeight()/4.0f);
+	OffsetAmounts[INTRO] = Point(getWidth()/4.0f, getHeight()/4.0f);
 }
 
 //////////////////////////

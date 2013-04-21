@@ -29,6 +29,8 @@ public:
 	Character *getKilledBy(void);
 	unsigned short getMenuSize(void);
 	float getMoveSpeed(void);
+	Point getOffsetAmount(OffsetStates State);
+	//Point getPosition(void);
 	CharacterState getState(void);
 
 	virtual void incrementCount(void) {};
@@ -41,6 +43,7 @@ public:
 
 	void setAlphaOut(bool isAlphaOut, CollisionGroup Group = GHOSTS);
 	void setBluedOut(bool isBluedOut);
+	//void setPosition(Point Location);
 	void setState(CharacterState State);
 	void setVisible(bool visibility);
 
@@ -74,11 +77,13 @@ protected:
 	float idleFrameSpeed;
 
 	unsigned short maxHitPoints;
+	float menuOffset;
 	unsigned short menuSize;
 	unsigned short moveFrameMin, moveFrameMax;
 	float moveFrameSpeed;
 	float moveSpeed;
 	
+	Point OffsetAmounts[2];
 	float oldY;
 	
 	unsigned short shieldMax;
@@ -99,7 +104,5 @@ protected:
 	
 	void normalAttack(Character *Target);
 protected:
-
-	Point OffsetAmount;
 };
 

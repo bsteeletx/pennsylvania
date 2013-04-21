@@ -29,7 +29,14 @@ ThiefVirus::ThiefVirus(Point GridLocation)
 	Type = THIEF_VIRUS;
 
 	if (count == 0)
+	{
 		isExample = true;
+		count++;
+	}
+
+	OffsetAmounts[MENU_BAR] = Point(-0.01f, -0.01f);
+	OffsetAmounts[IN_GAME] = Point(getWidth()/4.0f + 0.5f, getHeight()/4.0f + 3.0f);
+	OffsetAmounts[INTRO] = Point(10.0f, 7.5f);
 }
 
 ///////////////////////////////////

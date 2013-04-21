@@ -34,12 +34,6 @@ void app::Begin( void )
 	//set the Orientation allowed
     agk::SetOrientationAllowed(0, 0, 1, 1);
 
-	//set the border color, if displayed
-	agk::SetBorderColor(41, 56, 63);
-
-	//set the background color
-	agk::SetClearColor(41, 56, 63);
-
 	//set the sync rate to 60 for loading purposes
 	agk::SetSyncRate(60, 0);
     

@@ -20,4 +20,4 @@ Death:29, 30
 DeathSpeed:10.0
 HealthDrainAmount:1
 HealthDrainRate:5.033f
-MenuSize:70
+MenuSize:50

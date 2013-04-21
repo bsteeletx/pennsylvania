@@ -62,6 +62,12 @@ void Level00::init(void)
 	//Initialize base object
 	Level::init();
 
+	//set the border color, if displayed
+	agk::SetBorderColor(41, 56, 63);
+
+	//set the background color
+	agk::SetClearColor(41, 56, 63);
+
 	//Find everything we need in the Level Source file
 	while (!LevelSource.FileEOF())
 	{
@@ -125,7 +131,7 @@ void Level00::init(void)
 	Highlighter = Sprite(Text("Assets/Common/selector.png"), false);
 	Highlighter.setOffset(Selector.getWidth()/2, Selector.getHeight()/2);
 	addSprite(Highlighter.getSpriteNumber());
-	Highlighter.setSize(12.5f);
+	Highlighter.setSize(SPOT_WIDTH, SPOT_HEIGHT);
 	Highlighter.setOffset(1.5f, 1.9f);
 	Highlighter.setVisible(false);
 	Highlighter.setPosition(Point(0.0f, 0.0f).getNormalCoords());

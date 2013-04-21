@@ -447,6 +447,9 @@ void Character::update(float currentTime, std::vector<Character*> Defenders)
 	if (isExample)
 		return;
 
+	if (shield > shieldMax)
+		shield = shieldMax;
+
 	if (getCreatureType() == MINER_VIRUS)
 		attack(currentTime, NULL);
 
@@ -467,7 +470,8 @@ void Character::update(float currentTime, std::vector<Character*> Defenders)
 	for (unsigned int j = 0; j < Defenders.size(); j++)
 	{
 		//check to make sure we're looking at the same aisle
-		if (Defenders[j]->getPosition().getGridCoords().getY() != getPosition().getGridCoords().getY())
+		if (Defenders[j]->getPosition().getGridCoords().getY() != getPosition().getGridCoords().getY()) 
+			//getPosition().getGridCoords().getY() != getPosition().getGridCoords().getY())
 			continue;
 
 		//Check each of the Defenders, as long as they aren't already dead
@@ -482,23 +486,17 @@ void Character::update(float currentTime, std::vector<Character*> Defenders)
 					//check to see if they are in the same collision group
 					bool actualCollision = (getCollisionGroup() == Defenders[j]->getCollisionGroup());
 
-					if (getY() == Defenders[j]->getY())
-					{
+					//special Thief section as it can collide with multiple groups
+					if (!actualCollision && getCreatureType() == THIEF_VIRUS)
+						actualCollision = true;
 
-						//special Thief section as it can collide with multiple groups
-						if (!actualCollision && getCreatureType() == THIEF_VIRUS)
-							actualCollision = true;
-
-						//If this character is dead, don't worry about collisions, he has bigger issues to deal with
-						if (getState() == DEATH)
-							actualCollision = false;
-						//Same thing for if the Defender is dead
-						else if (Defenders[j]->getState() == DEATH)
-							actualCollision = false;
-					}
-					else
+					//If this character is dead, don't worry about collisions, he has bigger issues to deal with
+					if (getState() == DEATH)
 						actualCollision = false;
-
+					//Same thing for if the Defender is dead
+					else if (Defenders[j]->getState() == DEATH)
+						actualCollision = false;
+					
 					if (actualCollision)
 					{
 						//Collision distance is 2.0f, probably can be tweaked to get the actual collision
@@ -561,24 +559,44 @@ void Character::updateCost(unsigned short creatureCount)
 		return;
 
 	if (costFactor != 0)
-		factor = (creatureCount*costFactor*cost);
+		factor = ((creatureCount - 1)*costFactor*cost);
 	else
 		factor = 1;
 	
 	if (costPower != 0)
-		power = factor*(std::pow((float) costPower, (float) creatureCount));
+		power = factor*(std::pow((float) costPower, (float) creatureCount - 1));
 	else if (factor != 1)
 		power = factor;
 	else
 		power = 0;
 
 	if (costIncrease != 0)
-		costCurrent =  (unsigned short) (power + (creatureCount*costIncrease));
+		costCurrent =  (unsigned short) (power + ((creatureCount - 1)*costIncrease));
 	else if (power != 0)
 		costCurrent = (unsigned short) (power * cost);
 	else
 		costCurrent = cost;
 }
+
+/////////////////////////////////////////////////////
+// Get Offset Amount
+// Input OffsetStates value
+// Output Returns current offset amount for the state
+//////////////////////////////////////////////////////
+Point Character::getOffsetAmount(OffsetStates State)
+{
+	return OffsetAmounts[(int) State];
+}
+
+/*////////////////////////////////////////////
+// Get Position
+// Input None
+// Output: Offsetted Point Location of creature
+//////////////////////////////////////////////////
+Point Character::getPosition(void)
+{
+	return getPositionByOffset();
+}*/
 
 ////////////////////////////////////////////
 // Get Character State
@@ -602,6 +620,17 @@ bool Character::getIsFinishedDying(void)
 
 	return false;
 }
+
+////////////////////////////////////////////////////
+// Set Position
+// Input Point Location to move to
+// Translate position to feet of character
+////////////////////////////////////////////////////
+/*void Character::setPosition(Point Location)
+{
+	setPositionByOffset(Location);
+}*/
+//Wasn't working correctly, more problems than it was worth
 
 //////////////////////////////////////////////////
 // Set Character State

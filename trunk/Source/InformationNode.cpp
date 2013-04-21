@@ -26,14 +26,15 @@ InformationNode::InformationNode(Point GridLocation, bool submerged, unsigned sh
 	: Character(Text("CreatureData/InformationNode"))
 {
 	setPosition(GridLocation.getNormalCoords());
-	//setZ(5.0f);
+
 	oldY = getY();
 	Type = INFORMATION_NODE;
 	Character::setVisible(!submerged);
 	setCollisionGroup((int) GODS);
 	setState(IDLE);
 
-	setSize(10.0f);
+	OffsetAmounts[IN_GAME] = Point(getWidth()/4.0f - 1.5f, getHeight()/4.0f - 2.5f);
+	OffsetAmounts[INTRO] = Point(10.0f, 7.5f);
 }
 
 //////////////////////////////////////////
