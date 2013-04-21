@@ -18,6 +18,8 @@ public:
 
 	void fireWeapon(void) override;
 
+	unsigned short getCurrentCost(void) override;
+
 	void incrementCount(void) override;
 	void incrementTime(float currentTime) override;
 
@@ -30,6 +32,7 @@ public:
 private:
 
 	static unsigned short count;
+	static unsigned short cost;
 	static float time;
 
 	float difference;

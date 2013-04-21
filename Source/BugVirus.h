@@ -19,6 +19,8 @@ public:
 
 	void fireWeapon(void) override;
 
+	unsigned short getCurrentCost(void) override;
+
 	void kill(Character *Killer) override;
 
 	void update(float currentTime, std::vector<Character*> Defenders) override;
@@ -26,5 +28,6 @@ public:
 private:
 
 	static unsigned short count;
+	static unsigned short cost;
 };
 

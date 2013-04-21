@@ -427,6 +427,16 @@ void Character::setVisible(bool value)
 	Sprite::setVisible(value);
 }
 
+////////////////////////////////////////////
+// Get Character's Current Cost
+// Input None
+// Output Return current cost
+/////////////////////////////////////////////
+unsigned short Character::getCurrentCost(void)
+{
+	return costCurrent;
+}
+
 //////////////////////////////////////////////
 // Get Character's Current Target
 // Input: None

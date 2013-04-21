@@ -7,6 +7,7 @@
 
 unsigned short MinerVirus::count;
 float MinerVirus::time;
+unsigned short MinerVirus::cost;
 
 //////////////////////////////
 // Default Constructor
@@ -77,6 +78,7 @@ void MinerVirus::update(float currentTime, std::vector<Character*> Defenders)
 	{
 		updateCost(count);
 		time = currentTime;
+		MinerVirus::cost = Character::costCurrent;
 	}
 }
 
@@ -188,6 +190,11 @@ void MinerVirus::drainHealth(void)
 
 void MinerVirus::fireWeapon(void)
 {
+}
+
+unsigned short MinerVirus::getCurrentCost(void)
+{
+	return MinerVirus::cost;
 }
 
 void MinerVirus::incrementCount(void)

@@ -6,6 +6,7 @@
 #include "BugVirus.h"
 
 unsigned short BugVirus::count;
+unsigned short BugVirus::cost;
 
 BugVirus::BugVirus(void)
 {
@@ -48,6 +49,11 @@ void BugVirus::fireWeapon(void)
 {
 }
 
+unsigned short BugVirus::getCurrentCost(void)
+{
+	return BugVirus::cost;
+}
+
 void BugVirus::incrementCount(void)
 {
 	count++;
@@ -63,5 +69,8 @@ void BugVirus::update(float currentTime, std::vector<Character*> Defenders)
 	if (!isExample)
 		Character::update(currentTime, Defenders);
 	else
+	{
 		updateCost(count);
+		BugVirus::cost = Character::costCurrent;
+	}
 }

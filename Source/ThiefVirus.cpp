@@ -4,6 +4,7 @@
 #include "ThiefVirus.h"
 
 unsigned short ThiefVirus::count;
+unsigned short ThiefVirus::cost;
 
 ///////////////////////////////
 // Default Constructor
@@ -79,6 +80,11 @@ void ThiefVirus::fireWeapon(void)
 {
 }
 
+unsigned short ThiefVirus::getCurrentCost(void)
+{
+	return ThiefVirus::cost;
+}
+
 void ThiefVirus::incrementCount(void)
 {
 	count++;
@@ -104,5 +110,8 @@ void ThiefVirus::update(float currentTime, std::vector<Character*> Defenders)
 	if (!isExample)
 		Character::update(currentTime, Defenders);
 	else
+	{
 		updateCost(count);
+		ThiefVirus::cost = Character::costCurrent;
+	}
 }

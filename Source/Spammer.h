@@ -16,6 +16,8 @@ public:
 
 	void fireWeapon(void) override;
 
+	unsigned short getCurrentCost(void) override {return 0;};
+
 	void incrementCount(void) override;
 	void incrementTime(float currentTime) override {};
 
