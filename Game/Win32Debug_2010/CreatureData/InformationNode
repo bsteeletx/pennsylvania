@@ -3,7 +3,7 @@ Width:273
 Count:15
 ParentImage:Assets/Creatures/Creatures.png
 PathFile:InformationNode.png
-Size:2.0
+Size:6.0
 HP:2
 Speed: 0.0
 PlaySpeed:10.0
@@ -15,3 +15,4 @@ AttackFrames:1, 1
 AttackFramesSpeed:10.0
 Death:1, 1
 DeathSpeed:10.0
+Shield:0

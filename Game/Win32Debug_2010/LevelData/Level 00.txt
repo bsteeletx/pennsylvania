@@ -1,4 +1,4 @@
-Background Image:Assets/Levels/Level 00/Level0 walls.jpg
+Background Image:Assets/Levels/Level 00/Background.png
 Creature Type:INFORMATION_NODE
 Creature Location:0 0
 Creature Location:0 1

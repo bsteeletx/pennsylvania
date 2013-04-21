@@ -51,7 +51,8 @@ void Fog::initFog(void)
 		{
 			Point Location((float) i, (float) j);
 
-			FogBank[i][j] = AnimatedSprite(64, 128, 11, FogSprite.getSpriteNumber());
+			//NEED SOMETHING TO CLONE THE FOG, I HAD TO TAKE THE BELOW FUNCTIONALTY OUT
+			//FogBank[i][j] = AnimatedSprite(64, 128, 11, FogSprite.getSpriteNumber());
 			FogBank[i][j].setDepth(10);
 			FogBank[i][j].setSize(10.0f);
 			FogBank[i][j].setPosition(Location.getNormalCoords());

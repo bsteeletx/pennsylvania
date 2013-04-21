@@ -18,4 +18,4 @@ AttackFrames:16, 30
 AttackFramesSpeed:10.0
 Death:10, 10
 DeathSpeed:10.0
-MenuSize:90
+MenuSize:70

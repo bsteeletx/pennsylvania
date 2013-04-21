@@ -34,11 +34,16 @@ MinerVirus::MinerVirus(Point GridLocation)
 	{
 		isExample = true;
 		ID = 0;
+		count++;
 	}
 	
 	lastDrainTime = 0.0f;
 	blinkTime = 0.0f;
 	difference = 0.0f;
+
+	OffsetAmounts[MENU_BAR] = Point(-0.01f, -0.01f);
+	OffsetAmounts[IN_GAME] = Point(getWidth()/4.0f - 0.5f, getHeight()/4.0f + 2.5f);
+	OffsetAmounts[INTRO] = Point(10.0f, 7.5f);	
 }
 
 /////////////////////////////////
@@ -61,8 +66,12 @@ void MinerVirus::update(float currentTime, std::vector<Character*> Defenders)
 	if (ID)
 	{
 		Character::update(currentTime, Defenders);
-		if (hitPoints != 0)
-			drainHealth();
+		
+		if (getState() != SELECTED)
+		{
+			if (hitPoints != 0)
+				drainHealth();
+		}
 	}
 	else
 	{

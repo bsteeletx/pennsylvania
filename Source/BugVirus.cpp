@@ -20,7 +20,14 @@ BugVirus::BugVirus(Point GridLocation)
 	setCollisionGroup((int) MORTALS);
 
 	if (count == 0)
+	{
 		isExample = true;
+		count++;
+	}
+
+	OffsetAmounts[MENU_BAR] = Point(getWidth()/4.0f, getHeight()/4.0f);
+	OffsetAmounts[IN_GAME] = Point(getWidth()/4.0f, getHeight()/4.0f);
+	OffsetAmounts[INTRO] = Point(getWidth()/4.0f, getHeight()/4.0f);
 }
 
 BugVirus::~BugVirus(void)

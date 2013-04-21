@@ -77,14 +77,19 @@ enum CollisionGroup
 #if (GRIDGAME)
 	#define XMAX 8
 	#define YMAX 4
-	#define XBEG 5.0f
-	#define YBEG 17.5f
+	#define XBEG 7.0f
+	#define YBEG 23.0f
 	#define SPOT_WIDTH 10.0f
-	#define SPOT_HEIGHT 12.5f
-	#define SPOT_BORDER 0.0f
-	#define MENU_WIDTH 70/10.24f
-	#define MENU_HEIGHT 54/7.68f
+	#define SPOT_HEIGHT 13.6f
+	#define SPOT_BORDER_Y 0.0f
+	#define SPOT_BORDER_X 0.0f
+	#define MENU_BORDER 2.0f
+	#define XBEG_MENU 7.25f
+	#define MENU_Y 7.5f
+	#define MENU_WIDTH 10.0f//70/10.24f
+	#define MENU_HEIGHT 12.5f //54/7.68f
 	#define MENU_BORDER_WIDTH 100/10.24f
+	#define MENU_CREATURE_WIDTH 5.5875263f
 #endif
 /////////////////Facebook download states
 enum DownloadState
@@ -155,5 +160,12 @@ enum RayCastMode
 	SPRITE_GROUP,
 	SPRITE_SINGLE
 };
+/////////////////Offset States
+enum OffsetStates
+{
+	MENU_BAR,
+	IN_GAME,
+	INTRO
+}; 
 //////////////////App Store Game ID
 #define IOS_GAME_ID ""

@@ -79,16 +79,118 @@ Level& Level::operator= (const Level &NewLevel)
 void Level::init(void)
 {
 	//Local Vars
-	Creature Type = NO_CREATURE;
-	Point Location = Point();
 	Image Texture[3] = {NULL, NULL, NULL};
 	Prompt = Text("", true);
+	LevelPieces = Image(Text("Assets/Levels/LevelPieces.png"), false);
 
 	//Take Default beginning...
 	Text LevelName = getLevelFilename();
 
+	initFromFile(LevelName);
+
+	setAttackerMenu();
+
+	//Load in the Selector
+#if (PLATFORM == PC)
+	Selector = Sprite(Text("Assets/Common/selector.png"), false);
+	Selector.setOffset(Selector.getWidth()/2, Selector.getHeight()/2);
+	addSprite(Selector.getSpriteNumber());
+	Selector.setSize(SPOT_WIDTH, SPOT_HEIGHT);
+	Selector.setOffset(1.5f, 1.9f);
+#endif
+
+	displayCurrency();
+	initCreatureCosts();
+	
+	//Null out the Selected Creature
+	Selected = (Creature) NULL;
+
+	CreatureFrame = Sprite(RGBA(0, 0, 0)); //Need an actual frame here
+	CreatureFrame.setPosition(Point(33.3f, 33.3f));
+	CreatureFrame.setSize(40.0f, 70.0f);
+	CreatureFrame.setVisible(false);
+	
+	Song.setSystemVolume(100);
+
+	BottomFrame = Sprite(LevelPieces.getID(), Text("Lower Screen Area.png"));
+	BottomFrame.setSize(89.6f);
+	BottomFrame.setPosition(Point(5.0f, 85.0f));
+	
+	DataStream[ELBOW] = Sprite(LevelPieces.getID(), Text("Data Stream Elbow Link.png"));
+	DataStream[ELBOW].setSize(-1.0f, 50.0f/7.68f);
+	DataStream[ELBOW].setPosition(Point(929.0f/10.24f, 648.0f/7.68f));
+
+	for (int i = (int) MAIN1; i < (int) MAIN5 + 1; i++)
+	{
+		if (i == (int) MAIN1)
+			DataStream[i] = Sprite(LevelPieces.getID(), Text("Data Stream Section.png"));
+		else
+			DataStream[i] = DataStream[MAIN1].clone();
+
+		/*if (i == (int) MAIN1)
+		{
+			DataStream[i].setSize(-1.0f, 13.0f);
+			DataStream[i].setPosition(Point(78.5f, 19.5f));
+		}
+		else
+		{*/
+		DataStream[i].setSize(-1.0f, 13.5f); 
+		DataStream[i].setPosition(Point(75.75f, (19.0f + (13.6f*(i - 1)))));
+	}
+	
+	for (int i = (int) TERMINAL00; i < (int) TERMINAL41 + 1; i++)
+	{
+		if (i == (int) TERMINAL00)
+			DataStream[i] = Sprite(LevelPieces.getID(), Text("Data Stream Terminal.png"));
+		else
+			DataStream[i] = DataStream[TERMINAL00].clone();
+
+		DataStream[i].setSize(53.0f/10.24f);
+
+		int coin = (i - (int) TERMINAL00) % 2;
+		
+		DataStream[i].setPosition(Point(7.0f + coin, (i - (int) TERMINAL00)/2).getNormalCoords() + Point(0.0f, 3.5f));
+	}
+	
+	for (int i = 0; i < 9; i++)
+	{
+		if (i == 0)
+			MenuHex[0] = Sprite(LevelPieces.getID(), Text("Hex.png"));
+		else
+			MenuHex[i] = MenuHex[0].clone();
+
+		MenuHex[i].setSize(10.0f);
+		MenuHex[i].setPosition(Point((5.0f + (i*10.0f)), 24.0f/7.68f));
+	}
+
+	Ad = new Advert(0, 2, true);
+	Ad->setPosition(5.0f, 92.0f, 40.0f);
+}
+
+///////////////////////////////////
+// Init Creature Costs
+// Input: none
+// Output: Texts are initialized and ready to be displayed for creature costs
+///////////////////////////////////
+void Level::initCreatureCosts(void)
+{
+	for (unsigned int i = 0; i < Attackers.size(); i++)
+	{
+		CreatureCosts[i] = Text(agk::Str(Attackers[i]->getCost()), true);
+		CreatureCosts[i].setPosition(Point(SPOT_WIDTH*i + XBEG_MENU + 3.0f, MENU_Y - 3.5f));
+		CreatureCosts[i].setAlignment(CreatureCosts[i].CENTER);
+		CreatureCosts[i].setColor(RGBA(151, 255, 255));
+		CreatureCosts[i].setVisible(false);
+	}
+}
+
+void Level::initFromFile(Text Filename)
+{
+	Creature Type = NO_CREATURE;
+	Point Location = Point();
+
 	//Open Script File for reading
-	File LevelSource = File(true, LevelName);
+	File LevelSource = File(true, Filename);
 	//End Local Vars
 
 	//Keep reading until at end of file
@@ -146,46 +248,6 @@ void Level::init(void)
 	}
 
 	LevelSource.close();
-
-	setAttackerMenu();
-
-	//Load in the Selector
-#if (PLATFORM == PC)
-	Selector = Sprite(Text("Assets/Common/selector.png"), false);
-	Selector.setOffset(Selector.getWidth()/2, Selector.getHeight()/2);
-	addSprite(Selector.getSpriteNumber());
-	Selector.setSize(12.5f);
-	Selector.setOffset(1.5f, 1.9f);
-#endif
-
-	displayCurrency();
-	initCreatureCosts();
-	
-	//Null out the Selected Creature
-	Selected = (Creature) NULL;
-
-	CreatureFrame = Sprite(RGBA(0, 0, 0)); //Need an actual frame here
-	CreatureFrame.setPosition(Point(33.3f, 33.3f));
-	CreatureFrame.setSize(40.0f, 70.0f);
-	CreatureFrame.setVisible(false);
-	
-	Song.setSystemVolume(100);
-}
-
-///////////////////////////////////
-// Init Creature Costs
-// Input: none
-// Output: Texts are initialized and ready to be displayed for creature costs
-///////////////////////////////////
-void Level::initCreatureCosts(void)
-{
-	for (unsigned int i = 0; i < Attackers.size(); i++)
-	{
-		CreatureCosts[i] = Text(agk::Str(Attackers[i]->getCost()), true);
-		CreatureCosts[i].setPosition(Point((float) (115 + (100*i))/10.24f, (float) 44/7.68f));
-		CreatureCosts[i].setAlignment(CreatureCosts[i].CENTER);
-		CreatureCosts[i].setVisible(false);
-	}
 }
 
 void Level::displayCurrency(void)
@@ -194,11 +256,14 @@ void Level::displayCurrency(void)
 	CurrencyTitle = Text("Bytes: ", true);
 	CurrencyValue = Text(agk::Str(currencyAmount), true);
 
-	CurrencyTitle.setColor(RGBA(255, 255, 255));
-	CurrencyValue.setColor(RGBA(255, 255, 255));
+	CurrencyTitle.setColor(RGBA(151, 255, 255));
+	CurrencyValue.setColor(RGBA(151, 255, 255));
 
-	CurrencyTitle.setPosition(Point(2.0f, 95.0f));
-	CurrencyValue.setPosition(Point(15.0f, 95.0f));
+	CurrencyTitle.setPosition(Point(54.0f, 92.0f));
+	CurrencyTitle.setAlignment(CurrencyTitle.LEFT);
+	CurrencyValue.setPosition(Point(90.0f, 90.0f));
+	CurrencyValue.setAlignment(CurrencyValue.RIGHT);
+	CurrencyValue.setSize(6.5f);
 
 }
 
@@ -213,7 +278,7 @@ void Level::setAttackerMenu(void)
 	for (unsigned int i = 0; i < AttackerInitList.size(); i++)
 	{
 		//Assign Grid Location to Location Value
-		Point AssignedLocation((float) i, 0.0f);
+		Point AssignedLocation((float) i, -1.0f);
 		//Create another Location for Normal Coords
 		Point NormalCoords = AssignedLocation.getNormalCoords();
 
@@ -221,8 +286,8 @@ void Level::setAttackerMenu(void)
 		addCreatureType(AttackerInitList[i], AssignedLocation);
 		//subtrack 15 from the y to place the creature in the selection area as opposed to the game board
 		Attackers.back()->setSize((float) Attackers.back()->getMenuSize()/10.24f); //1024 / 100 to get %
-		NormalCoords.setY(NormalCoords.getY() - 15.0f);
-		Attackers.back()->setY(NormalCoords.getY());
+		//NormalCoords.setY(NormalCoords.getY() - 10.0f);
+		//Attackers.back()->setY(NormalCoords.getY());
 		Attackers.back()->isExample = true;
 		//Alpha out the creature a bit and set in the pose state
 		//Attackers.back()->setColorAlpha(128);
@@ -316,8 +381,8 @@ void Level::addBackground(Text PathFilename)
 {
 	Background = Sprite(PathFilename, false);
 	addSprite(Background.getSpriteNumber());
-	Background.setPosition(Point(6.25f, 18.619792f));
-	Background.setSize(87.633885f);
+	Background.setPosition(Point(-1.5f, 34.0f/7.68f));
+	Background.setSize(102.0f, 95.0f);
 	Background.setDepth(10000);
 	Background.setVisible(true);
 }
@@ -463,6 +528,8 @@ void Level::handleUI(void)
 {
 	//Get actual pointer location
 	Point MouseLoc(agk::GetPointerX(), agk::GetPointerY());
+	agk::PrintC(MouseLoc.getX());
+	agk::PrintC(MouseLoc.getY());
 
 	//set the Green Selector to the Mouse's Grid Position
 	if (!isPaused)
@@ -506,8 +573,31 @@ void Level::handleUI(void)
 	}
 
 	//If the player has an attacker selected, set the attackers position to the Mouse Location
-	if (Selected != (Creature) NULL)
-		Attackers.back()->setPosition(MouseLoc.getGridCoords().getNormalCoords());
+	if (Selected != NO_CREATURE)
+	{
+		/*Point CreaturePoint = MouseLoc.getGridCoords();
+		CreaturePoint.setX(CreaturePoint.getX() + 1.0f);
+		CreaturePoint = CreaturePoint.getNormalCoords();
+		CreaturePoint.setY(CreaturePoint.getY() + Selector.getHeight()/2.0f);*/
+
+		//Attackers.back()->setSize(Attackers.back()->getWidth(), Attackers.back()->getHeight()/2.0f);
+
+
+		Attackers.back()->setOffset(Attackers.back()->getOffsetAmount(IN_GAME).getX(), Attackers.back()->getOffsetAmount(IN_GAME).getY());
+		//Attackers.back()->setOffset(0.0f, 0.0f);
+		Point AdjustedPos = Point(MouseLoc.getGridCoords().getNormalCoords());
+		//AdjustedPos.addPoint(Point(0.0f, Attackers.back()->getHeight()/2.0f));
+
+		Attackers.back()->setPositionByOffset(AdjustedPos);
+
+		//Defenders.front()->setOffset(Defenders.front()->getWidth()/4.0f - 1.5f, Defenders.front()->getHeight()/4.0f - 2.5f);
+		//Attackers.back()->move(Point(Attackers.back()->getWidth()/2.0f, Attackers.back()->getHeight()));
+		//Attackers.back()->getXByOffset();
+		//Attackers.back()->getX();
+		//Attackers.back()->getYByOffset();
+		//Attackers.back()->getY();
+		//Attackers.back()->getHeight();
+	}
 	
 	//Display Currency
 	CurrencyValue.setString(agk::Str(currencyAmount));
@@ -599,19 +689,28 @@ void Level::showCreature(Character *Example)
 	ExampleChar = Example;
 	CreatureLoc = Point(ExampleChar->getPosition());
 	
+	OriginalGridLoc = CreatureLoc.getGridCoords();
 	ExampleChar->setState(IDLE);
-	ExampleChar->setPositionByOffset(50.0f, 50.0f);
-	originalSize = ExampleChar->getWidth();
-	ExampleChar->setSize(33.0f);
+	ExampleChar->setPositionByOffset(Point(50.0f, 50.0f));
+	
+	if (ExampleChar->getWidth() >= ExampleChar->getHeight())
+	{
+		originalSize = ExampleChar->getWidth();
+		ExampleChar->setSize(33.0f);
+	}
+	else
+	{
+		originalSize = ExampleChar->getHeight();
+		ExampleChar->setSize(-1.0f, 33.0f);
+	}
 
-	//if (!ExampleChar->getIsDefender())
-	//	menuSize = (float) ExampleChar->getMenuSize()/10.24f; //1024 divided by 100
+	//ExampleChar->setOffset(ExampleChar->getOffsetAmount(INTRO).getX(), ExampleChar->getOffsetAmount(INTRO).getY());
 
 	originalDepth = ExampleChar->getDepth();
 	ExampleChar->setDepth(1);
 
-	CreatureLoc.setX((ExampleChar->getX() - CreatureLoc.getX())/23.0f);
-	CreatureLoc.setY((ExampleChar->getY() - CreatureLoc.getY())/23.0f);
+	CreatureLoc.setX((ExampleChar->getX() - CreatureLoc.getX())/24.0f);
+	CreatureLoc.setY((ExampleChar->getY() - CreatureLoc.getY())/24.0f);
 
 	setFrameVisible(true);
 	getPrompt();
@@ -624,36 +723,74 @@ void Level::sizeDownCreature(void)
 	PromptBackground.setVisible(false);
 	Prompt.setVisible(false);
 
-	float sizeChange = (33.0f - originalSize)/23.0f;
+	Point OffsetChange;
+	float sizeChange = (33.0f - originalSize)/24.0f;
 
-	//if (!ExampleChar->getIsDefender())
-	//	sizeChange = (33.0f - menuSize)/23.0f; 
+	/*if (OriginalGridLoc.getY() < 0.0f)
+		//ExampleChar->setOffset(ExampleChar->getOffsetAmount(MENU_BAR).getX(), ExampleChar->getOffsetAmount(MENU_BAR).getY());
+		OffsetChange = ExampleChar->getOffset() - ExampleChar->getOffsetAmount(MENU_BAR);
+	else
+		//OffsetChange = ExampleChar->setOffset(ExampleChar->getOffsetAmount(IN_GAME).getX(), ExampleChar->getOffsetAmount(IN_GAME).getY());
+		OffsetChange = ExampleChar->getOffset() - ExampleChar->getOffsetAmount(IN_GAME);*/
+
+	//OffsetChange.setCoords(OffsetChange.getX()/24.0f, OffsetChange.getY()/24.0f);
 
 	for (int i = 0; i < 24; i++)
 	{
-		ExampleChar->setSize(33.0f - (sizeChange*i));
-		ExampleChar->setX(ExampleChar->getX() - CreatureLoc.getX());
-		ExampleChar->setY(ExampleChar->getY() - CreatureLoc.getY());
+		if (ExampleChar->getWidth() >= ExampleChar->getHeight())
+			ExampleChar->setSize(33.0f - (sizeChange*i));
+		else
+			ExampleChar->setSize(-1.0f, 33.0f - (sizeChange*i));
 
-		if (!ExampleChar->isExample)
+		//ExampleChar->setOffset(OffsetChange.getX()*i, OffsetChange.getY()*i);
+
+		ExampleChar->setPosition(Point(ExampleChar->getX() - CreatureLoc.getX(), ExampleChar->getY() - CreatureLoc.getY()));
+
+		//creature is moving in a positive direction on the x axis
+		if (CreatureLoc.getX() < 0.0f)
 		{
-			if (ExampleChar->getY() < 17.5f)
-				ExampleChar->setY(17.5f);
+			if (ExampleChar->getX() > OriginalGridLoc.getNormalCoords().getX())
+				ExampleChar->setX(OriginalGridLoc.getNormalCoords().getX());
+		}
+		else
+		{
+			if (ExampleChar->getX() < OriginalGridLoc.getNormalCoords().getX())
+				ExampleChar->setX(OriginalGridLoc.getNormalCoords().getX());
+		}
+
+		//creature is moving in a positive direction on the y axis
+		if (CreatureLoc.getY() < 0.0f)
+		{
+			if (ExampleChar->getY() > OriginalGridLoc.getNormalCoords().getY())
+				ExampleChar->setY(OriginalGridLoc.getNormalCoords().getY());
+		}
+		else
+		{
+			if (ExampleChar->getY() < OriginalGridLoc.getNormalCoords().getY())
+				ExampleChar->setY(OriginalGridLoc.getNormalCoords().getY());
 		}
 
 		agk::Sync();
 	}
 
-	Point Position = ExampleChar->getPosition();
-	Position.setX((float) agk::Ceil(Position.getX()));
-	Position.setY((float) agk::Ceil(Position.getY()));
-	ExampleChar->setPosition(Position);
+	if (ExampleChar->getWidth() > ExampleChar->getHeight())
+	{
+		if (originalSize != ExampleChar->getWidth())
+			ExampleChar->setSize(originalSize);
+	}
+	else
+	{
+		if (originalSize != ExampleChar->getHeight())
+			ExampleChar->setSize(-1.0f, originalSize);
+	}
+	
+	ExampleChar->setPosition(OriginalGridLoc.getNormalCoords());
 
-	ExampleChar->setPosition(ExampleChar->getPosition().getGridCoords().getNormalCoords());
 	ExampleChar->setDepth(originalDepth);
 
 	if (ExampleChar->isExample)
 	{
+		ExampleChar->moveX((MENU_CREATURE_WIDTH - ExampleChar->getWidth())/2.0f);
 		ExampleChar->setState(MENU_AVAILABLE);
 		CreatureCosts[(int) ExampleChar->getPosition().getGridCoords().getX()].setVisible(true);
 	}
@@ -678,7 +815,9 @@ void Level::update(void)
 		updateCharacters(time);
 	else if (agk::GetPointerReleased() == 1)
 	{
-		if (ExampleChar->getWidth() >= 30.0f)
+		if (ExampleChar->getWidth() >= 33.0f)
+			sizeDownCreature();
+		else if (ExampleChar->getHeight() >= 33.0f)
 			sizeDownCreature();
 	}
 	else
@@ -691,6 +830,7 @@ void Level::update(void)
 					Attackers[i]->incrementTime(time);
 			}
 		}
+
 	}
 
 	if (!Song.getPlaying())
@@ -707,6 +847,11 @@ void Level::update(void)
 
 	if (gameOver)
 		giveReward();
+
+	/*Ad->setVisible(true);
+	Ad->requestRefresh();
+	Ad->setPosition(25.0f, 50.0f, 320.0f);*/
+
 }
 
 ////////////////////////////////////
@@ -759,9 +904,17 @@ void Level::updateAttackers(float currentTime)
 				if (Attackers[i]->getColorBlue() != 0)
 				{
 					if (Attackers[i]->getCost() > currencyAmount)
+					{
 						Attackers[i]->setState(MENU_TOOMUCH);
+						CreatureCosts[i].setColor(RGBA(255, 151, 151));
+						MenuHex[i].setColor(RGBA(128, 128, 128, 128));
+					}
 					else
+					{
 						Attackers[i]->setState(MENU_AVAILABLE);
+						CreatureCosts[i].setColor(RGBA(151, 255, 255));
+						MenuHex[i].setColor(RGBA(255, 255, 255, 255));
+					}
 
 					//update cost
 					creatureCost[i] = Attackers[i]->getCost();
@@ -793,9 +946,9 @@ void Level::creatureRemoval(void)
 		float x = Attackers[i]->getX();
 		float y = Attackers[i]->getY();
 		//check to see if offscreen--remember that sprite is measured at top left, so it has to be a bit off screen
-		if ((x < -10.0f) || (x > 110.0f))
+		if ((x + Attackers[i]->getWidth() < 0.0f) || (x > 100.0f))
 			Attackers.erase(Attackers.begin() + i--);
-		else if ((y < -10.0f) || (y > 110.0f))
+		else if ((y + Attackers[i]->getHeight() < 0.0f) || (y > 100.0f))
 			Attackers.erase(Attackers.begin() + i--);
 	}
 
@@ -803,9 +956,11 @@ void Level::creatureRemoval(void)
 	//off screen to right)
 	for (unsigned int i = 0; i < Defenders.size(); i++)
 	{
-		if (Defenders[i]->getX() < -10.0f)
-			Defenders.erase(Defenders.begin() + i--);
-		else if (Defenders[i]->getX() > 110.0f)
+		float x = Defenders[i]->getX();
+		float y = Defenders[i]->getY();
+
+		//defenders only go left to right (so far)
+		if ((x + Defenders[i]->getWidth() < 0.0f) || (x > 100.0f))
 			Defenders.erase(Defenders.begin() + i--);
 	}
 }

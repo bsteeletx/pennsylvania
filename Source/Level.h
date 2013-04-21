@@ -1,4 +1,5 @@
 #pragma once
+#include "Advert.h"
 #include "Character.h"
 #include "Image.h"
 #include "Sprite.h"
@@ -28,9 +29,10 @@ public:
 	void giveReward(void);
 
 	void handleUI(void);
-
+	
 	virtual void init(void);
 	void initCreatureCosts(void);
+	void initFromFile(Text Filename);
 	
 	void setFrameVisible(bool visible);
 	void setPrompt(void);
@@ -49,11 +51,20 @@ protected:
 	Sprite Selector;
 #endif
 	Sprite Background;
-	Sprite PromptBackground;
+	Sprite BottomFrame;
+	
 	Sprite CreatureFrame;
-	Music Song;
-	Text Prompt;
 
+	Sprite DataStream[16];
+
+	Sprite MenuHex[9];
+	
+	Image LevelPieces;
+	Text Prompt;
+	Sprite PromptBackground;
+	
+	Music Song;
+	
 	std::vector<Character*> Attackers;
 	std::vector<Character*> Defenders;
 
@@ -62,6 +73,26 @@ protected:
 	unsigned short reward;
 
 	void selectCreature(unsigned short grid);
+
+	enum DataStreamParts
+	{
+		ELBOW,
+		MAIN1,
+		MAIN2,
+		MAIN3,
+		MAIN4,
+		MAIN5,
+		TERMINAL00,
+		TERMINAL01,
+		TERMINAL10,
+		TERMINAL11,
+		TERMINAL20,
+		TERMINAL21,
+		TERMINAL30,
+		TERMINAL31,
+		TERMINAL40,
+		TERMINAL41
+	};
 
 private:
 	std::vector<unsigned int> imageStack;
@@ -78,6 +109,9 @@ private:
 
 	unsigned short originalDepth;
 	float originalSize;
+	Point OriginalGridLoc;
+
+	Advert *Ad;
 
 	Character *ExampleChar;
 
