@@ -118,8 +118,8 @@ void Level::init(void)
 	BottomFrame.setPosition(Point(5.0f, 85.0f));
 	
 	DataStream[ELBOW] = Sprite(LevelPieces.getID(), Text("Data Stream Elbow Link.png"));
-	DataStream[ELBOW].setSize(-1.0f, 50.0f/7.68f);
-	DataStream[ELBOW].setPosition(Point(929.0f/10.24f, 648.0f/7.68f));
+	DataStream[ELBOW].setSize(-1.0f, 7.5f);
+	DataStream[ELBOW].setPosition(Point(91.2f, 86.8f));
 
 	for (int i = (int) MAIN1; i < (int) MAIN5 + 1; i++)
 	{
