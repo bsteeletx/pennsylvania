@@ -1,6 +1,5 @@
-MinerVirus.png:0:0:4096:620
-Thief.png:0:620:4096:430
-InformationNode.png:0:1050:4096:265
-Nort.png:0:1315:550:400
-Bug.png:0:1715:550:400
-DBlocker.png:0:2115:57:560
+Nort.png:0:0:4095:2030
+MinerVirus.png:0:2030:4096:620
+Thief.png:0:2650:4096:430
+InformationNode.png:0:3080:4096:265
+Bug.png:0:3345:550:400

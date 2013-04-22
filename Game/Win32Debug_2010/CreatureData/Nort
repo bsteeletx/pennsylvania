@@ -1,6 +1,6 @@
-Height:400
-Width:550
-Count:1
+Height:290
+Width:273
+Count:105
 ParentImage:Assets/Creatures/Creatures.png
 PathFile:Nort.png
 Size:17.0
@@ -9,11 +9,11 @@ Speed:2.0
 PlaySpeed:10.0
 Attack:2
 AttackSpeed:3
-Idle:1, 1
+Idle:1, 15
 IdleSpeed:10.0
-Move:1, 1
+Move:31, 45
 MoveSpeed:10.0
-AttackFrames:1, 1
+AttackFrames:76, 90
 AttackFramesSpeed:0.0
 Death:1, 1
 DeathSpeed:10.0

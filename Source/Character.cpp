@@ -547,6 +547,12 @@ void Character::update(float currentTime, std::vector<Character*> Defenders)
 		//Dividing Move Speed by 1000 to make it easier for designers to tweak things
 		if (getMoveSpeed() > 0.0f)
 		{
+			if (getState() < DEATH)
+			{
+				if (getState() != MOVING)
+					setState(MOVING);		
+			}
+
 			if (!this->getIsDefender())
 				moveX(-getMoveSpeed()/100.0f);
 			else
@@ -554,7 +560,10 @@ void Character::update(float currentTime, std::vector<Character*> Defenders)
 				if (getPosition().getGridCoords().getX() < 5.0f)
 					moveX(getMoveSpeed()/100.0f);
 				else //reached neutral zone
+				{
+					setState(IDLE);
 					return;
+				}
 			}
 
 			//if current x location = current grid x location, then we
