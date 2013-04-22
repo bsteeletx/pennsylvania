@@ -95,8 +95,9 @@ void Level::init(void)
 	Selector = Sprite(Text("Assets/Common/selector.png"), false);
 	Selector.setOffset(Selector.getWidth()/2, Selector.getHeight()/2);
 	addSprite(Selector.getSpriteNumber());
-	Selector.setSize(SPOT_WIDTH, SPOT_HEIGHT);
-	Selector.setOffset(1.5f, 1.9f);
+	Selector.setSize(SPOT_WIDTH + 0.5f, SPOT_HEIGHT);
+	Selector.setOffset(2.5f, 4.4f);
+	Selector.setVisible(false);
 #endif
 
 	displayCurrency();
@@ -530,6 +531,11 @@ void Level::handleUI(void)
 	Point MouseLoc(agk::GetPointerX(), agk::GetPointerY());
 	agk::PrintC(MouseLoc.getX());
 	agk::PrintC(MouseLoc.getY());
+
+#if (PLATFORM == PC)
+	if (!Selector.getVisible())
+		Selector.setVisible(true);
+#endif
 
 	//set the Green Selector to the Mouse's Grid Position
 	if (!isPaused)
