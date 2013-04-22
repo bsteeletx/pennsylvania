@@ -510,7 +510,10 @@ bool Level::getOKLocation(Point Location)
 				if (Attackers[i]->getState() == SELECTED)
 					continue;
 				if (Attackers[i]->getPosition().getGridCoords() == Location)
-					return false; //disallow placement on another miner virus
+				{
+					if (!Attackers[i]->isExample) //make sure we're not just re-clicking the example
+						return false; //disallow placement on another miner virus
+				}
 			}
 		}
 	}
@@ -540,7 +543,17 @@ void Level::handleUI(void)
 	//set the Green Selector to the Mouse's Grid Position
 	if (!isPaused)
 	{
-		Selector.setPositionByOffset(MouseLoc.getGridCoords().getNormalCoords());
+		/*if (Selected != NO_CREATURE)
+		{
+			Point TempPoint = MouseLoc;
+			TempPoint.setCoordsAsGridCoords();
+			if (TempPoint.getY() < 0.0f)
+				TempPoint.setY(0.0f);
+			Selector.setPositionByOffset(TempPoint.getNormalCoords());
+		}
+		else*/
+			Selector.setPositionByOffset(MouseLoc.getGridCoords().getNormalCoords());
+
 		Selector.setVisible(true);
 	}
 	else
@@ -581,28 +594,15 @@ void Level::handleUI(void)
 	//If the player has an attacker selected, set the attackers position to the Mouse Location
 	if (Selected != NO_CREATURE)
 	{
-		/*Point CreaturePoint = MouseLoc.getGridCoords();
-		CreaturePoint.setX(CreaturePoint.getX() + 1.0f);
-		CreaturePoint = CreaturePoint.getNormalCoords();
-		CreaturePoint.setY(CreaturePoint.getY() + Selector.getHeight()/2.0f);*/
-
-		//Attackers.back()->setSize(Attackers.back()->getWidth(), Attackers.back()->getHeight()/2.0f);
-
-
 		Attackers.back()->setOffset(Attackers.back()->getOffsetAmount(IN_GAME).getX(), Attackers.back()->getOffsetAmount(IN_GAME).getY());
-		//Attackers.back()->setOffset(0.0f, 0.0f);
 		Point AdjustedPos = Point(MouseLoc.getGridCoords().getNormalCoords());
-		//AdjustedPos.addPoint(Point(0.0f, Attackers.back()->getHeight()/2.0f));
-
+		if (AdjustedPos.getGridCoords().getY() < 0.0f)
+		{
+			AdjustedPos.setCoordsAsGridCoords();
+			AdjustedPos.setY(0.0f);
+			AdjustedPos = AdjustedPos.getNormalCoords();
+		}
 		Attackers.back()->setPositionByOffset(AdjustedPos);
-
-		//Defenders.front()->setOffset(Defenders.front()->getWidth()/4.0f - 1.5f, Defenders.front()->getHeight()/4.0f - 2.5f);
-		//Attackers.back()->move(Point(Attackers.back()->getWidth()/2.0f, Attackers.back()->getHeight()));
-		//Attackers.back()->getXByOffset();
-		//Attackers.back()->getX();
-		//Attackers.back()->getYByOffset();
-		//Attackers.back()->getY();
-		//Attackers.back()->getHeight();
 	}
 	
 	//Display Currency
@@ -655,7 +655,16 @@ void Level::selectCreature(unsigned short grid)
 		if (Attackers[grid]->getCost() <= currencyAmount)
 		{
 			if (Selected != NO_CREATURE)
-				Attackers.back()->destroy();
+			{
+				if (Selected == Attackers.back()->getCreatureType())
+				{
+					Attackers.back()->destroy();
+					Selected = NO_CREATURE;
+					return;
+				}
+				else
+					Attackers.back()->destroy();
+			}
 
 			Selected = Attackers[grid]->getCreatureType();
 			addCreatureType(Selected, Point(agk::GetPointerX(), agk::GetPointerY()));
