@@ -420,7 +420,7 @@ void Character::setVisible(bool value)
 	if (value)
 		setY(oldY);
 	//Otherwise, store where the character is supposed to be, and move him to offscreen in the y direction (x direction will get him removed)
-	else if (!value && (oldY == 0.0f))
+	else //if (!value && (oldY == 0.0f))
 	{
 		oldY = getY();
 		setY(115.0f);
@@ -553,6 +553,8 @@ void Character::update(float currentTime, std::vector<Character*> Defenders)
 			{
 				if (getPosition().getGridCoords().getX() < 5.0f)
 					moveX(getMoveSpeed()/100.0f);
+				else //reached neutral zone
+					return;
 			}
 
 			//if current x location = current grid x location, then we

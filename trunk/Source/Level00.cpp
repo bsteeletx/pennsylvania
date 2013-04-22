@@ -225,6 +225,9 @@ void Level00::update(void)
 	}
 
 	updateAttackers();
+
+	if (Defenders.back()->getPosition().getGridCoords().getY() < 0.0f)
+		agk::Print("BLAH!");
 	
 	//check on deaths for Thief Virus attack
 	if (checkForKilling(INFORMATION_NODE))
@@ -240,6 +243,7 @@ void Level00::update(void)
 				Defenders[hiddenDefenderStack.back()]->Character::setVisible(true);
 				Defenders[hiddenDefenderStack.back()]->setState(IDLE);
 				hiddenDefenderStack.pop_back();
+				Defenders.back()->getPosition().getGridCoords().getY();
 			}
 
 			unlockedDefenders = true;

@@ -420,7 +420,7 @@ void Level::addCreatureType(Creature creatureNumber, Point Location)
 		Attackers.push_back(new Spammer(Location));
 		break;
 	case NORT:
-		defender = true;
+ 		defender = true;
 		Defenders.push_back(new Nort(Location));
 		break;
 	}
