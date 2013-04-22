@@ -131,10 +131,10 @@ void Level00::init(void)
 	Highlighter = Sprite(Text("Assets/Common/selector.png"), false);
 	//Highlighter.setOffset(Selector.getWidth()/2, Selector.getHeight()/2);
 	addSprite(Highlighter.getSpriteNumber());
-	Highlighter.setSize(SPOT_WIDTH, SPOT_HEIGHT);
-	//Highlighter.setOffset(1.5f, 1.9f);
+	Highlighter.setSize(SPOT_WIDTH + 0.5f, SPOT_HEIGHT);
+	Highlighter.setOffset(2.5f, 4.4f);
 	Highlighter.setVisible(false);
-	Highlighter.setPosition(Point(0.0f, -1.0f).getNormalCoords());
+	Highlighter.setPositionByOffset(Point(0.0f, -1.0f).getNormalCoords());
 	//Highlighter.setY(Highlighter.getY() - 15.0f);
 
 	ZoneHighlighter = Sprite(RGBA(0.0f, 0.0f, 128.0f, 128.0f));
