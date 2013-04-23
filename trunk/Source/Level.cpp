@@ -573,19 +573,26 @@ void Level::handleUI(void)
 		{
 			if (gridY < 0)
 				selectCreature(gridX);
-				
+
 			//if a creature is already selected
 			else if (Selected != NO_CREATURE)
 			{
-				//subtract the cost of the attacker
-				currencyAmount -= Attackers.back()->getCurrentCost();
-				//reset selected to Null
-				Selected = (Creature) NULL;
-				//remove isExample flag
-				Attackers.back()->isExample = false;
-				//Remove all Alpha and set creature as idle
-				Attackers.back()->setState(IDLE);
-				Attackers.back()->incrementCount();
+				//check to make sure the currency is available
+				if (currencyAmount - Attackers.back()->getCurrentCost() >= 0)
+				{
+					//subtract the cost of the attacker
+					currencyAmount -= Attackers.back()->getCurrentCost();
+					//reset selected to Null
+					//Selected = (Creature) NULL;
+					//remove isExample flag
+					Attackers.back()->isExample = false;
+					//Remove all Alpha and set creature as idle
+					Attackers.back()->setState(IDLE);
+					Attackers.back()->incrementCount();
+
+					addCreatureType(Selected, MouseLoc);
+					Attackers.back()->setState(SELECTED);
+				}
 			}
 		}
 		
@@ -656,7 +663,7 @@ void Level::selectCreature(unsigned short grid)
 		{
 			if (Selected != NO_CREATURE)
 			{
-				if (Selected == Attackers.back()->getCreatureType())
+				if (Selected == Attackers[grid]->getCreatureType())
 				{
 					Attackers.back()->destroy();
 					Selected = NO_CREATURE;
@@ -670,6 +677,7 @@ void Level::selectCreature(unsigned short grid)
 			addCreatureType(Selected, Point(agk::GetPointerX(), agk::GetPointerY()));
 			Attackers.back()->isExample = true;
 			Attackers.back()->setState(SELECTED);
+			MenuHex[grid].setColor(RGBA(96, 251, 140));
 		}
 	}
 }
@@ -923,12 +931,27 @@ void Level::updateAttackers(float currentTime)
 						Attackers[i]->setState(MENU_TOOMUCH);
 						CreatureCosts[i].setColor(RGBA(255, 151, 151));
 						MenuHex[i].setColor(RGBA(128, 128, 128, 128));
+
+						if (Attackers.back()->isExample)
+						{
+							if (Attackers.back()->getCreatureType() == Selected)
+							{
+								if (Attackers.back()->getState() == SELECTED)
+									Attackers.back()->destroy();
+							}
+						}
 					}
-					else
+					else if (Attackers[i]->getCreatureType() != Selected)
 					{
 						Attackers[i]->setState(MENU_AVAILABLE);
 						CreatureCosts[i].setColor(RGBA(151, 255, 255));
 						MenuHex[i].setColor(RGBA(255, 255, 255, 255));
+					}
+					else //this is the selected creature in the menu
+					{
+						Attackers[i]->setState(MENU_AVAILABLE);
+						CreatureCosts[i].setColor(RGBA(151, 255, 255));
+						MenuHex[i].setColor(RGBA(96, 251, 140, 255));
 					}
 
 					//update cost
